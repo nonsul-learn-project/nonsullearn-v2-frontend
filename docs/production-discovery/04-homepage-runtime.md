@@ -17,7 +17,7 @@ The banner renderer, when used elsewhere, selects `g5_shop_banner_table` by exac
 
 The canonical current page directly references a public legacy teacher asset under `data/teacher/<opaque-id>`. Prior read-only inventory confirms `data/teacher` is present. Current existence and deployment-version parity are **BLOCKING** until a successfully authenticated, read-only file stat and index hash comparison are completed.
 
-## Difference from Gate 1.5
+## Difference from prior homepage migration audit (Gate 6)
 
 The original audit used `html/index.php` for the homepage slot analysis. The canonical-root correction invalidates that homepage-specific banner dependency; it does not change other route findings.
 

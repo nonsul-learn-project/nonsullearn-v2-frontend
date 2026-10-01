@@ -1,4 +1,4 @@
-# Gate 1.5 verdict
+# Gate 6 verdict
 
 **Q1. Can Git alone reproduce the frontend exactly?** No. It can reconstruct source-driven layout and flows, but not live runtime-driven content/state exactly.
 
