@@ -168,7 +168,7 @@ Week 5~ ▶ P6 Course Detail (강좌별 점진)
 **Day 5: Base Layout + Design System 최소 단위**
 - [ ] 토큰(색, 타이포, 간격, breakpoint), Container, Button, Link primitive
 - [ ] Header(mock viewer), Footer, 모바일 내비게이션
-- [ ] 샘플 페이지 `/lp/sample`, `/courses/sample` (mock)
+- [ ] 샘플 페이지 `/_v2/check`, `/courses/sample` (mock)
 - [ ] Playwright L3 골격: 3개 페이지 200, 콘솔 에러 0, canonical 확인
 
 **Sprint 1 종료 조건:** Vercel Preview URL에서 mock 데이터로 샘플 페이지 동작, CI 전부 통과
@@ -196,7 +196,7 @@ Week 5~ ▶ P6 Course Detail (강좌별 점진)
 - [ ] kill switch 시연, 결과를 `docs/runbook.md`에 기록
 - [ ] 프록시 전후 EC2 메모리/CPU 비교
 
-**Sprint 2 종료 조건:** 메인 도메인 `/lp/sample`이 Vercel에서 서빙되고, L4 스모크 전부 통과, Legacy 경로 무영향
+**Sprint 2 종료 조건:** 메인 도메인 `/_v2/check`이 Vercel에서 서빙되고, L4 스모크 전부 통과, Legacy 경로 무영향
 
 ---
 
@@ -205,7 +205,7 @@ Week 5~ ▶ P6 Course Detail (강좌별 점진)
 - [ ] `src/analytics/`: `track(event, props)` → GTM dataLayer / GA4 / Meta / Naver / Kakao 어댑터
 - [ ] canonical event: `page_view`, `cta_click`, `course_view`, `begin_checkout`
 - [ ] UTM/Referrer 저장 (메인 도메인 first-party 쿠키), Legacy 결제 페이지에서 읽히는지 확인
-- [ ] 실제 캠페인 랜딩 `/lp/<slug>` 제작 (Header auth 영역 없음 또는 지연 호출)
+- [ ] PHP 마케팅 랜딩 → V2 홈/강좌 → PHP 결제 attribution 연속성 확인
 - [ ] CTA → Legacy 상담/결제 URL, `begin_checkout` 발생 확인
 - [ ] 광고 소량 집행, 48시간 L6 관찰 (bridge_error, 5xx, Web Vitals, EC2)
 

@@ -27,8 +27,8 @@ Step 2      Gate 2 Design System                 Bridge PHP 작성 (Legacy 레�
                └──────────── 합류 ────────────┘
 Step 3      Gate 3 Legacy Integration   ← viewer, courses 실제 연결
 Step 4      Gate 4 Production Routing   ← Apache 프록시 (preview 전용, kill switch)
-Step 5      Gate 5 추적 parity + 홈 내부 soak (preview 쿠키)
-Step 6      Gate 6 홈 컷오버 (canary → 100%)
+Step 5      Gate 5 Tracking Parity & Homepage Internal Soak (preview 쿠키)
+Step 6      Gate 6 Homepage Cutover (canary → 100%)
 Step 7      Gate 7 Analytics 완성
 Step 8      Gate 8 강좌 상세 (강좌별 반복)
 Step 9~     Gate 9 Growth / Gate 10 Optional
@@ -40,15 +40,15 @@ Step 9~     Gate 9 Growth / Gate 10 Optional
 
 | Step | Gate | 할 일 | 주로 맡을 쪽 | 완료 기준 |
 |---|---|---|---|---|
-| **0** | - | Gate 문서 통합 (`GATES.md` + `GATES&DOD.md`) | Codex → 사람 리뷰 | 완료 확인 grep 5개 통과, `docs/harness/GATES.md` 하나만 남음 |
+| **0** | - | Gate 문서 통합 | Codex → 사람 리뷰 | 완료 확인 grep 6개 통과, `docs/harness/GATES.md` 하나만 남음 |
 | **1-A** | Gate 1 | Next 프로젝트, env 검증, ESLint 경계, `src/legacy/` 골격, L1/L2 테스트, Vercel 연결 | 에이전트 | Preview URL에서 mock 페이지 동작, CI 통과 |
 | **1-B** | Gate 0.9 | Header 필드, Apache/MPM/모듈, 추적 코드, Legacy URL 지도, 인스턴스 기준선 수집 | **사람** (SSH) | Gate 0.9 필수 항목 12개 채움 |
 | **2-A** | Gate 2 | 디자인 토큰, Header/Footer, 모바일 내비게이션 | 에이전트 | 샘플 페이지가 Design System만으로 조립됨 |
 | **2-B** | Gate 3 준비 | `_bootstrap.php`, `viewer.php`, `courses.php`, 배포 스크립트 | 에이전트 작성, **배포는 사람** | Legacy 레포에 커밋, `php -l` 통과 |
 | **3** | Gate 3 | Bridge 운영 배포, V2 adapter를 `http`로 전환 | 사람 (배포) + 에이전트 (연결) | 스모크 S1~S4 통과 |
 | **4** | Gate 4 | Apache 프록시 설정, kill switch 시연 | **사람** (sudo) | S5~S9 통과, 특히 `cookieForwarded:false` |
-| **5** | Gate 5 | 홈 V2 완성, Legacy와 동일한 추적 태그, preview 쿠키로 내부 사용(soak), PHP 랜딩 → V2 홈 UTM 연속성 확인 | 에이전트 + 사람 (soak, 추적 확인) | P1~P12 통과, soak 기간 오류 없음, PHP 랜딩 → V2 홈 → 결제 흐름이 GA4에서 이어짐 |
-| **6** | Gate 6 | canary 공개(신규 방문자 일부) → 비율 확대 → 100% | 사람 (Apache 설정) + 에이전트 (지표 해석) | 단계마다 L6 경보 없음, 전환율 -20% 이내, 100% 후 7일간 롤백 없음 |
+| **5** | Gate 5 | Tracking Parity & Homepage Internal Soak: 홈 V2, 동일 추적 태그, preview 쿠키 내부 soak, PHP 랜딩 → V2 홈 UTM 연속성 | 에이전트 + 사람 (soak, 추적 확인) | P1~P12 통과, soak 기간 오류 없음, PHP 랜딩 → V2 홈 → 결제 흐름이 GA4에서 이어짐 |
+| **6** | Gate 6 | Homepage Cutover: canary 공개(신규 방문자 일부) → 비율 확대 → 100% | 사람 (Apache 설정) + 에이전트 (지표 해석) | 단계마다 L6 경보 없음, 전환율 -20% 이내, 100% 후 7일간 롤백 없음 |
 | **7** | Gate 7 | 전체 canonical event, provider 매핑, 채널별 전환 리포트 | 에이전트 | Gate 7 DoD |
 | **8** | Gate 8 | 강좌 상세 ISR, 강좌별 parity와 301 | 에이전트 + 사람 (301, parity) | 강좌마다 Slice DoD |
 

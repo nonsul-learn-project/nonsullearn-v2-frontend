@@ -7,11 +7,11 @@
 
 ## 1. 목표와 범위
 
-**목표:** 결제, 로그인, 강의실 경로를 건드리지 않고 **마케팅 랜딩 → 홈 → 강좌 상세** 순서로 V2(Next.js on Vercel)를 메인 도메인에 올린다.
+**목표:** 결제, 로그인, 강의실 및 마케팅 랜딩을 건드리지 않고 **홈 → 강좌 상세** 순서로 V2(Next.js on Vercel)를 메인 도메인에 올린다.
 
 | 포함 | 제외 (PHP Handoff 유지) |
 |---|---|
-| 마케팅 랜딩 `/lp/*` | 로그인, 회원가입, 세션 |
+| 홈 `/`, 강좌 상세 `/courses/*` | 마케팅 랜딩, 로그인, 회원가입, 세션 |
 | 홈 `/` | 장바구니, 결제, PG callback |
 | 강좌 상세 `/courses/*` (ISR) | 강의 재생, 내 강의실, LMS |
 | Header 로그인 상태 (viewer) | 첨삭, 관리자 |
@@ -46,8 +46,8 @@ RewriteRule ^ - [S=3]
 # ── V2 정적 자산 (항상)
 RewriteRule ^/_next/(.*)$ https://v2-origin.<도메인>/_next/$1 [P,L,E=V2PROXY:1]
 
-# ── 랜딩, 강좌 (단계별로 RewriteCond 추가/제거)
-RewriteRule ^/(lp/.*|courses/.*|api/v2-health)$ https://v2-origin.<도메인>/$1 [P,L,E=V2PROXY:1]
+# ── 내부 확인, 강좌 (마케팅 랜딩은 PHP 유지)
+RewriteRule ^/(_v2/check|courses/.*|api/v2-health)$ https://v2-origin.<도메인>/$1 [P,L,E=V2PROXY:1]
 
 # ── 홈: 컷오버 전에는 preview 쿠키가 있을 때만
 RewriteCond %{HTTP_COOKIE} (^|;\s*)v2_preview=1
@@ -191,7 +191,7 @@ Bridge가 죽어 있을 때 ISR은 **마지막으로 성공한 페이지를 계�
 - [ ] `src/legacy/` 골격: contracts + fixtures + mock adapter + handoff routes
 - [ ] L1, L2 테스트 CI 연결 (GitHub Actions 또는 Vercel 빌드 단계)
 
-**종료 조건:** Vercel Preview에서 mock 데이터로 `/lp/sample`, `/courses/sample` 렌더링, CI 통과
+**종료 조건:** Vercel Preview에서 mock 데이터로 `/_v2/check`, `/courses/sample` 렌더링, CI 통과
 
 ### Phase 2. Bridge (SSH 필요)
 
@@ -207,17 +207,17 @@ Bridge가 죽어 있을 때 ISR은 **마지막으로 성공한 페이지를 계�
 - [ ] vhost 백업 → §2.1 설정 추가 (홈 규칙은 preview 쿠키 조건 유지)
 - [ ] `apachectl configtest` → reload
 - [ ] L4 전체 스모크 (특히 `cookieForwarded:false`)
-- [ ] **kill switch 시연:** `touch v2.off` → `/lp/sample`이 Legacy 404로 바뀌는지 → `rm` 후 복귀
+- [ ] **kill switch 시연:** `touch v2.off` → `/_v2/check`이 Legacy로 복귀하는지 → `rm` 후 복귀
 
 **종료 조건:** L4 전체 통과, kill switch 동작 확인
 
-### Phase 4. 첫 마케팅 랜딩 운영
+### Phase 4. 홈 내부 soak (preview 쿠키)
 
-- [ ] 실제 캠페인용 `/lp/<slug>` 제작 (Header auth 없음 또는 지연 호출)
-- [ ] 추적 태그 + UTM 저장 확인, CTA → Legacy 결제/상담 URL
-- [ ] 광고 소량 집행 → L6 지표, EC2 리소스 관찰 (24~48시간)
+- [ ] 홈 V2, 추적 태그 + UTM 저장, CTA → Legacy 결제 URL 확인
+- [ ] PHP 마케팅 랜딩 → V2 홈/강좌 → PHP 결제 attribution 연속성 확인
+- [ ] preview 쿠키로 L5 P1~P12 및 내부 soak
 
-**종료 조건:** 경보 없음, 전환 이벤트 GA4/Meta에서 확인
+**종료 조건:** L5 P1~P12 통과, 추적 parity와 attribution 연속성 확인
 
 ### Phase 5. Homepage 컷오버
 

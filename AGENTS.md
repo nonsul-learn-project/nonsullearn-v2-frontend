@@ -2,13 +2,13 @@
 
 > 이 문서는 이 레포에서 일하는 모든 AI 코딩 에이전트와 사람을 위한 **작업 계약서**다.
 > 도구별 추가 규칙은 `CLAUDE.md` 등에 있지만, 충돌하면 이 문서가 우선한다.
-> 검증 기준은 `docs/HARNESS.md`, 단계별 통과 기준은 `docs/GATES.md`.
+> 검증 기준은 `docs/harness/HARNESS.md`, 단계별 통과 기준은 `docs/harness/GATES.md`.
 
 ---
 
 ## 1. 프로젝트 한 줄 요약
 
-**논술런(온라인 논술 인강 플랫폼)의 Legacy PHP/MariaDB Production을 그대로 유지하면서, 사용자 경험과 마케팅 영역(랜딩, 홈, 강좌 상세)만 Next.js + TypeScript로 옮기는 레포.**
+**논술런(온라인 논술 인강 플랫폼)의 Legacy PHP/MariaDB Production을 그대로 유지하면서, 사용자 경험 영역(홈, 강좌 상세 등)만 Next.js + TypeScript로 옮기는 레포. 마케팅 랜딩은 PHP에 남긴다.**
 
 > Preserve the Core. Replace the Experience.
 
@@ -22,7 +22,7 @@ PHP 제거는 목표가 아니다. 결제, 로그인, 강의실은 계속 PHP가
 Browser ── 메인 도메인 (DNS → EC2)
              │
           Apache (정문)
-             ├─ /lp/*, /courses/*, /_next/*, /api/v2-health, (컷오버 후) /
+             ├─ /_v2/check, /courses/*, /_next/*, /api/v2-health, (컷오버 후) /
              │        └─ [P] 프록시 (Cookie 제거, X-V2-Proxy-Secret 추가) ─▶ Vercel (이 레포)
              ├─ /v2-api/*.php  ─ Thin PHP Bridge (nonsul-learn-html1 레포)
              └─ 그 외 전부      ─ Legacy PHP (로그인, 결제, PG, 강의실, 첨삭, 업로드)
@@ -48,7 +48,7 @@ Browser ── 메인 도메인 (DNS → EC2)
 
 | V2 (이 레포) 소유 | Legacy PHP 소유 (건드리지 않음) |
 |---|---|
-| 마케팅 랜딩, 홈, 강좌 상세 UI | 로그인, 세션, 회원가입 |
+| 홈, 강좌 상세 등 Public Frontend UI | 마케팅 랜딩, 로그인, 세션, 회원가입 |
 | Design System, 반응형 | 장바구니, 주문, 결제, PG callback, 환불 |
 | SEO, 메타데이터, sitemap | 강의 재생, 내 강의실, LMS |
 | Analytics, UTM/Attribution, 실험 | 첨삭, 관리자 |
@@ -64,17 +64,19 @@ Browser ── 메인 도메인 (DNS → EC2)
 src/
 ├── app/                        # 라우트. 데이터 로딩 + 화면 조립만
 │   ├── page.tsx                # 홈
-│   ├── lp/[slug]/page.tsx      # 마케팅 랜딩
 │   ├── courses/[id]/page.tsx   # 강좌 상세 (ISR)
+│   ├── _v2/check/page.tsx      # 외부 비노출 routing 확인 (noindex)
 │   ├── api/v2-health/route.ts  # 프록시 진단
 │   ├── robots.ts, sitemap.ts
 │   └── layout.tsx
 ├── features/                   # 사용자 기능 단위 (header, course-detail, landing ...)
-├── components/                 # Design System primitive. Legacy/도메인을 모름
+├── design-system/              # Design Token + primitive. Legacy/도메인을 모름
+├── components/                 # 여러 feature가 공유하는 조합 component만
 ├── legacy/                     # ★ Legacy Integration Boundary (유일한 Legacy 접점)
 │   ├── contracts/              # zod schema + 타입
 │   │   └── fixtures/           # Contract 예시 JSON (하네스의 단일 진실)
-│   ├── client/                 # bridge-fetch.ts (브라우저), bridge-server.ts (서버)
+│   ├── bridge-fetch.ts         # 브라우저
+│   ├── bridge-server.ts        # 서버
 │   ├── adapters/               # <contract>/{http,mock,index}.ts
 │   ├── handoff/routes.ts       # Legacy URL 단일 출처
 │   └── index.ts                # 외부 공개 API (여기 export된 것만 사용 가능)
@@ -87,7 +89,8 @@ tests/
 scripts/
 └── smoke-prod.sh
 docs/
-├── HARNESS.md   GATES.md   runbook.md
+├── harness/                    # HARNESS.md, GATES.md, EXECUTION-PLAN.md
+├── runbook.md
 ├── gates/      # Gate별 통과 기록 (증거)
 ├── parity/     # 페이지별 parity 체크 기록
 └── decisions/  # ADR (중요한 설계 결정)
@@ -139,7 +142,7 @@ mock 시나리오 전환(로컬): URL에 `?viewer=anonymous|member|corrector|una
 - Legacy 의존 상태는 **4가지를 모두 처리**: `loading`, 정상, 빈 값/없음, `unavailable`.
 - Bridge 실패는 예외가 아니라 상태다. 페이지가 깨지거나 에러 화면이 뜨면 안 된다.
 - viewer `unavailable` → 비로그인처럼 보이게(로그인 버튼) + `bridge_error` 이벤트.
-- 권한 판단은 `viewer.can.*`만 사용. `level` 숫자 비교를 UI에서 하지 않는다.
+- 권한 판단은 `viewer.capabilities.*`만 사용. `level` 숫자 비교를 UI에서 하지 않는다.
 
 ### 6.5 스타일 / 접근성
 - Design System 토큰 사용, 임의 색상/간격 하드코딩 금지.
@@ -196,6 +199,7 @@ mock 시나리오 전환(로컬): URL에 `?viewer=anonymous|member|corrector|una
 - `process.env` 직접 접근, `NEXT_PUBLIC_*`에 비밀값
 - `.env*`, `*.pem`, 세션값, 비밀값 커밋
 - 운영 서버 대상 명령(SSH, Apache 설정 변경, 스모크 제외 운영 요청) **실행**. 제안은 가능하나 실행은 사람이 한다
+- DB schema 변경, 데이터 수정/삭제, Payment 호출, SMTP/SMS 발송, credential 변경, `chmod`/`chown`, service restart, OS upgrade, PHP 제거, PG callback 변경
 - 테스트를 통과시키기 위해 fixture/schema를 실제 Legacy 응답과 다르게 바꾸기
 - 하네스 테스트 삭제, `skip`, 기준 완화 (사람 승인 없이)
 - 기존 Legacy URL 구조 변경을 전제로 한 코드 (301은 Apache 소관)
@@ -204,13 +208,13 @@ mock 시나리오 전환(로컬): URL에 `?viewer=anonymous|member|corrector|una
 
 ## 10. 작업 완료 기준 (Task DoD)
 
-모든 작업은 아래를 만족해야 "완료"다. 상세 기준은 `docs/GATES.md` §3.
+모든 작업은 아래를 만족해야 "완료"다. 상세 기준은 `docs/harness/GATES.md`의 “Global Definition of Done 및 DoD 3단계”.
 
 - [ ] `pnpm check` 통과
 - [ ] 변경한 Contract/Adapter에 대응하는 L1/L2 테스트 존재
 - [ ] Legacy 의존 UI는 4가지 상태 처리
 - [ ] 새 페이지: 메타데이터, canonical, 모바일 레이아웃, L3 e2e 1개 이상
-- [ ] 새 env: `.env.example`, `env.*.ts` 스키마, Vercel 환경별 값 표(`docs/HARNESS.md`) 갱신
+- [ ] 새 env: `.env.example`, `env.*.ts` 스키마, Vercel 환경별 값 표(`docs/harness/HARNESS.md`) 갱신
 - [ ] 설계 결정이 있었다면 `docs/decisions/`에 ADR
 - [ ] PR 설명에: 무엇을, 왜, 어떻게 검증했는지, 관련 Gate
 

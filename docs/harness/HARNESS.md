@@ -1,20 +1,20 @@
 # HARNESS.md — Integration Harness 기준
 
 > 하네스 = **V2와 Legacy 사이 연결이 깨졌을 때, 운영 전에 또는 운영 직후 즉시 알 수 있게 하는 검증 장치의 묶음.**
-> 이 문서는 각 층의 위치, 실행 방법, Pass/Fail 기준을 정의한다. Gate 통과 조건은 `GATES.md`.
+> 이 문서는 각 층의 위치, 실행 방법, Pass/Fail 기준을 정의한다. Gate 통과 조건은 [`GATES.md`](./GATES.md)다.
 
 ---
 
 ## 1. 층 구조
 
-| 층 | 이름 | 언제 | 누가 | 대상 | 실패 시 |
-|---|---|---|---|---|---|
-| **L1** | Contract | 매 커밋 (CI) | 자동 | fixture ⇄ zod schema | merge 차단 |
-| **L2** | Component | 매 커밋 (CI) | 자동 | mock 시나리오별 UI | merge 차단 |
-| **L3** | Preview E2E | PR (Vercel Preview) | 자동 | 페이지 렌더, SEO, 모바일 | merge 차단 |
-| **L4** | Smoke | 배포 직후 | 사람 실행 (스크립트) | 운영 Bridge + Proxy + Legacy 무영향 | 즉시 롤백 / kill switch |
-| **L5** | Parity | 컷오버 전 | 사람 (체크리스트) | Legacy 화면 vs V2 화면 | 컷오버 금지 |
-| **L6** | Monitor | 운영 상시 | 경보 | 오류율, 성능, EC2 리소스 | 조사 → 필요 시 kill switch |
+| 층 | 이름 | 언제 | 누가 | 대상 | Gate 통과 조건에서의 사용 | 실패 시 |
+|---|---|---|---|---|---|---|
+| **L1** | Contract | 매 커밋 (CI) | 자동 | fixture ⇄ zod schema | Gate 1, Gate 3, 적용 Slice | merge 차단 |
+| **L2** | Component | 매 커밋 (CI) | 자동 | mock 시나리오별 UI | Gate 1~3, 적용 Slice | merge 차단 |
+| **L3** | Preview E2E | PR (Vercel Preview) | 자동 | 페이지 렌더, SEO, 모바일 | Gate 1~2, 적용 Slice | merge 차단 |
+| **L4** | Smoke | 배포 직후 | 사람 실행 (스크립트) | 운영 Bridge + Proxy + Legacy 무영향 | Gate 3~6 | 즉시 롤백 / kill switch |
+| **L5** | Parity | 컷오버 전 | 사람 (체크리스트) | Legacy 화면 vs V2 화면 | Gate 5 홈 P1~P12, Gate 6, Gate 8 | 컷오버 금지 |
+| **L6** | Monitor | 운영 상시 | 경보 | 오류율, 성능, EC2 리소스 | Gate 5 soak, Gate 6 canary, Gate 9 | 조사 → 필요 시 kill switch |
 
 원칙:
 - **아래 층이 깨진 상태로 위 층을 진행하지 않는다.**
@@ -114,7 +114,7 @@ for (const f of files) {
 
 | 검사 | 대상 | Pass 조건 |
 |---|---|---|
-| 렌더 | `/`, `/lp/<sample>`, `/courses/<sample>` | HTTP 200, 콘솔 error 0 |
+| 렌더 | `/`, `/_v2/check`, `/courses/<sample>` | HTTP 200, 콘솔 error 0 |
 | SEO | 위 페이지 | `<title>`, description, OG, **canonical이 `NEXT_PUBLIC_SITE_URL` 기준** |
 | robots | `/robots.txt` | Production만 allow, Preview는 disallow |
 | 모바일 | 375×812 | `document.scrollingElement.scrollWidth <= 375` |
@@ -140,7 +140,7 @@ for (const f of files) {
 | S7 | `GET /bbs/login.php` | 200 (Legacy 무영향) |
 | S8 | `GET /shop/` | 200 또는 30x |
 | S9 | `GET <origin>/` 직접 | 메인 도메인으로 308 또는 `X-Robots-Tag: noindex` |
-| S10 | `/lp/<sample>` TTFB | 600ms 이하 (3회 중 중앙값) |
+| S10 | `/_v2/check` TTFB | 600ms 이하 (3회 중 중앙값) |
 | S11 | (선택) 테스트 계정 viewer | `authenticated==true`, `mb_id` 키 없음 |
 
 - **S1~S9 중 하나라도 실패 → 배포 실패.** Bridge 문제면 Bridge 롤백, Proxy 문제면 kill switch 또는 vhost 롤백.
@@ -175,7 +175,7 @@ for (const f of files) {
 | P14 | 콘텐츠 차이 (의도된 변경 목록과 일치) | | | ☐ | |
 ```
 
-- 페이지 유형별 필수 항목: 랜딩 = P6, P7, P9~P12 / 홈 = P1~P12 / 강좌 = 전 항목.
+- 페이지 유형별 필수 항목: 홈 = P1~P12 / 강좌 = 전 항목. 마케팅 랜딩은 PHP 유지로 V2 parity 대상이 아니다.
 - **필수 항목 전부 ☑ 전 컷오버 금지.**
 
 ---
@@ -205,7 +205,7 @@ for (const f of files) {
 | L1, L2 | ○ | ○ (CI) | - |
 | L3 | ○ (mock) | ○ | - |
 | L4 | - | - | ○ |
-| L5 | - | - | ○ (preview 쿠키) |
+| L5 | - | - | ○ (Gate 5 내부 soak 및 Gate 6 canary 전 preview 쿠키) |
 | L6 | - | - | ○ |
 
 ---

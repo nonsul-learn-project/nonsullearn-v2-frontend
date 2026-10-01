@@ -13,7 +13,7 @@
 Browser ── nonsulrun 도메인 (DNS 그대로 EC2)
              │
           Apache (정문)
-             ├─ /lp/*, /courses/*, /_next/*, (컷오버 후) /    ── [P] 프록시 ──▶ Vercel (Next.js, ISR)
+             ├─ /_v2/check, /courses/*, /_next/*, (컷오버 후) / ── [P] 프록시 ──▶ Vercel (Next.js, ISR)
              │                                                                  │
              │                                                     서버→서버: 공개 Read Bridge
              │                                                                  ▼
@@ -96,7 +96,7 @@ grep -n "gtag\|googletagmanager\|fbq\|wcs_do\|wcs_add\|kakaoPixel" head.php _hea
 
 | 결정 | 제안 기본값 |
 |---|---|
-| V2 URL 체계 | 랜딩 `/lp/[slug]`, 강좌 `/courses/[id]` |
+| V2 URL 체계 | 마케팅 랜딩은 PHP 유지, 강좌 `/courses/[id]` |
 | 기존 강좌 URL 처리 | 강좌별 컷오버 시 `shop/item.php?it_id=X` → `/courses/X` 301 |
 | Vercel origin 도메인 | `v2-origin.<도메인>` (Vercel production에 연결) |
 | preview 쿠키 이름 | `v2_preview=1` |
@@ -176,7 +176,7 @@ nonsul-learn-html1/
 
 | 기준 | Pass 조건 |
 |---|---|
-| 주요 페이지 렌더 | `/`, `/lp/<샘플>`, `/courses/<샘플>` 200, 콘솔 에러 0 |
+| 주요 페이지 렌더 | `/`, `/_v2/check`, `/courses/<샘플>` 200, 콘솔 에러 0 |
 | 메타데이터 | `<title>`, description, OG, **canonical이 메인 도메인** |
 | 모바일 | 375px 폭에서 가로 스크롤 없음 |
 | 추적 | `track()` 호출 시 dataLayer에 canonical event push |
@@ -250,8 +250,8 @@ curl -sI https://v2-origin.<도메인>/ | grep -qiE '^location: https://<메인 
 |---|---|
 | **P0 사전 준비** | §1 체크리스트 전부 ☑, 결정 사항 확정 |
 | **G1 Foundation** | Vercel 배포 성공, lint/typecheck/build CI 통과, L1/L2 골격 동작 |
-| **G1.3 Bridge** | `viewer.php`, `courses.php` 운영 반영, L4 Bridge 항목 통과 |
-| **G1.4 Proxy** | preview 쿠키 전용 프록시 동작, L4 전체 통과, kill switch 시연 완료 |
-| **첫 랜딩 운영** | `/lp/<slug>` 공개, L3/L4 통과, 추적 이벤트 확인 |
+| **Gate 3 Bridge** | `viewer.php`, `courses.php` 운영 반영, L4 Bridge 항목 통과 |
+| **Gate 4 Proxy** | preview 쿠키 전용 프록시 동작, L4 전체 통과, kill switch 시연 완료 |
+| **Gate 5 내부 soak** | preview 쿠키의 홈 L5 P1~P12, 추적 parity와 attribution 연속성 확인 |
 | **Homepage 컷오버** | L5 전 항목 ☑, 24시간 L6 경보 없음 |
 | **Course Detail 컷오버 (강좌별)** | L5 + 결제 완료 시나리오 + 301 확인 |

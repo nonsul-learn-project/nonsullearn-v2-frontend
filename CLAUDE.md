@@ -8,7 +8,7 @@
 
 ## 작업 시작 전
 
-- 요청이 어느 Gate에 속하는지 `docs/GATES.md`에서 확인하고, 그 Gate의 DoD를 기준으로 작업한다.
+- 요청이 어느 Gate에 속하는지 `docs/harness/GATES.md`에서 확인하고, 그 Gate의 DoD를 기준으로 작업한다.
 - 다음에 해당하면 **코드를 쓰기 전에 계획을 먼저 제시**하고 확인을 받는다.
   - `src/legacy/contracts/` 변경 (Contract 추가/수정)
   - `middleware.ts`, `env.*.ts`, `next.config.*` 변경
