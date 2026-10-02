@@ -21,7 +21,7 @@ import { legacyRoutes, useViewer } from '@/legacy';
  *
  * `displayName` 은 쓰지 않는다 — Contract v1 에 없다 (ADR 0003).
  */
-export function AuthArea() {
+export function AuthArea({ mobile = false }: { mobile?: boolean }) {
   const viewer = useViewer();
   const pathname = usePathname();
   const returnTo = pathname ?? '/';
@@ -52,28 +52,62 @@ export function AuthArea() {
   // Bridge 가 죽어도 에러 화면을 띄우지 않는다. 비로그인처럼 보이게 한다 (AGENTS.md §6.4).
   if (viewer.status === 'unavailable') {
     return (
-      <div data-testid="auth-area" data-status="unavailable">
-        <a href={legacyRoutes.login(returnTo)}>로그인</a>
+      <div
+        data-testid="auth-area"
+        data-status="unavailable"
+        className={mobile ? 'd-flex align-items-center gap-3' : undefined}
+      >
+        <a href={legacyRoutes.login(returnTo)} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
+          로그인
+        </a>
       </div>
     );
   }
 
   if (viewer.status === 'anonymous') {
     return (
-      <div data-testid="auth-area" data-status="anonymous">
-        <a href={legacyRoutes.register()}>회원가입</a>
-        <a href={legacyRoutes.login(returnTo)}>로그인</a>
+      <div
+        data-testid="auth-area"
+        data-status="anonymous"
+        className={mobile ? 'd-flex align-items-center gap-3' : undefined}
+      >
+        <a href={legacyRoutes.register()} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
+          회원가입
+        </a>
+        <span className="text-black-50 fs-7">|</span>
+        <a href={legacyRoutes.login(returnTo)} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
+          로그인
+        </a>
       </div>
     );
   }
 
   return (
-    <div data-testid="auth-area" data-status="member">
-      <a href={legacyRoutes.memberEdit()}>정보수정</a>
-      <a href={legacyRoutes.logout()}>로그아웃</a>
+    <div
+      data-testid="auth-area"
+      data-status="member"
+      className={mobile ? 'd-flex align-items-center gap-3' : undefined}
+    >
+      {viewer.can.admin ? (
+        <>
+          <a
+            href={legacyRoutes.admin()}
+            className={`nav-auth-link text-danger fw-bold${mobile ? ' fs-6' : ' me-1'}`}
+          >
+            관리자
+          </a>
+          <span className="text-black-50 fs-7">|</span>
+        </>
+      ) : null}
+      <a href={legacyRoutes.memberEdit()} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
+        정보수정
+      </a>
+      <span className="text-black-50 fs-7">|</span>
+      <a href={legacyRoutes.logout()} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
+        로그아웃
+      </a>
       {/* 권한 판단은 can.* 만 쓴다. level 숫자를 UI 에서 비교하지 않는다 (AGENTS.md §6.4). */}
       {viewer.can.correction ? <a href={legacyRoutes.correctionStatus()}>첨삭제출현황</a> : null}
-      {viewer.can.admin ? <a href={legacyRoutes.admin()}>관리자</a> : null}
     </div>
   );
 }

@@ -132,7 +132,7 @@ describe('member', () => {
   it('회원 이름을 렌더하지 않는다 (Contract v1 에 displayName 이 없다 — ADR 0003)', async () => {
     renderWithViewer('member');
     await waitForStatus('member');
-    expect(area().textContent).toBe('정보수정로그아웃');
+    expect(area().textContent).toBe('정보수정|로그아웃');
   });
 });
 

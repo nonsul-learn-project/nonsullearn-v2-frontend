@@ -70,7 +70,9 @@ export function assertProductionGuards(env: ServerEnv, viewerSource: 'mock' | 'h
 
   if (env.VERCEL_ENV !== 'production' || env.V2_RELEASE_GUARD !== 'on') {
     if (violations.length > 0) {
-      throw new Error(`server env 금지 조합:\n${violations.map((line) => `  - ${line}`).join('\n')}`);
+      throw new Error(
+        `server env 금지 조합:\n${violations.map((line) => `  - ${line}`).join('\n')}`,
+      );
     }
     return;
   }
