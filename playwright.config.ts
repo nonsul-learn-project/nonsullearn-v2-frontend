@@ -40,7 +40,10 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
 
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    { name: 'chromium', testIgnore: /shell\.spec\.ts/, use: { ...devices['Desktop Chrome'] } },
+    { name: 'visual', testMatch: /shell\.spec\.ts/, use: { ...devices['Desktop Chrome'] } },
+  ],
 
   webServer: {
     command: `pnpm build && pnpm start --port ${PORT}`,
