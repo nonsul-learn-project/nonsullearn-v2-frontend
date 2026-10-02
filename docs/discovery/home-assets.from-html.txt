@@ -1,0 +1,15 @@
+seo/img/android-icon-192x192.png
+seo/img/apple-icon-114x114.png
+seo/img/apple-icon-120x120.png
+seo/img/apple-icon-144x144.png
+seo/img/apple-icon-152x152.png
+seo/img/apple-icon-180x180.png
+seo/img/apple-icon-57x57.png
+seo/img/apple-icon-60x60.png
+seo/img/apple-icon-72x72.png
+seo/img/apple-icon-76x76.png
+seo/img/favicon-16x16.png
+seo/img/favicon-32x32.png
+seo/img/favicon-96x96.png
+src/nonsul-learn/img/logo.png
+src/nonsul-learn/img/logo2.png

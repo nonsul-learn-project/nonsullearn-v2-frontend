@@ -1,0 +1,490 @@
+Gate 0.5 / 0.9 Production Runtime Discovery
+Generated: 2026-10-02T10:33:46+09:00
+Host: ip-172-31-1-160
+WEB_ROOT: /home/nonsul-learn.com/html2
+
+=== [GUARD] Load safety check ===
+CPU_CORES=2
+LOAD1=0.00
+LOAD_GUARD=PASS
+
+=== [B1] System baseline ===
+ 10:33:46 up 162 days, 43 min,  2 users,  load average: 0.00, 0.00, 0.00
+               총계         사용        여분      공유    버퍼/캐시    가용
+메모리:          911         672         126          11         285         238
+스  왑:            0           0           0
+파일 시스템      크기  사용  가용 사용% 마운트위치
+/dev/root         29G   13G   16G   45% /
+tmpfs            456M     0  456M    0% /dev/shm
+tmpfs            183M  908K  182M    1% /run
+tmpfs            5.0M     0  5.0M    0% /run/lock
+efivarfs         128K  3.8K  120K    4% /sys/firmware/efi/efivars
+/dev/nvme0n1p16  881M  209M  611M   26% /boot
+/dev/nvme0n1p15  105M  6.2M   99M    6% /boot/efi
+tmpfs             92M   12K   92M    1% /run/user/1003
+-- inodes (session files can exhaust inodes) --
+파일 시스템      Inodes  IUsed   IFree IUse% 마운트위치
+/dev/root       3801088 253412 3547676    7% /
+tmpfs            116659      2  116657    1% /dev/shm
+tmpfs            819200    708  818492    1% /run
+tmpfs            116659      4  116655    1% /run/lock
+efivarfs              0      0       0     - /sys/firmware/efi/efivars
+/dev/nvme0n1p16   58496    608   57888    2% /boot
+/dev/nvme0n1p15       0      0       0     - /boot/efi
+tmpfs             23331     32   23299    1% /run/user/1003
+-- OS --
+NAME="Ubuntu"
+VERSION="24.04.4 LTS (Noble Numbat)"
+ID=ubuntu
+-- EC2 metadata (IMDSv2) --
+instance-type=t3.micro
+placement/availability-zone=ap-northeast-2a
+
+=== [B2] Apache runtime ===
+APACHECTL=/usr/sbin/apachectl
+APACHE_ETC=/etc/apache2
+Server version: Apache/2.4.58 (Ubuntu)
+Server built:   2026-07-06T16:27:55
+-- build / MPM --
+Server version: Apache/2.4.58 (Ubuntu)
+Server MPM:     prefork
+  threaded:     no
+    forked:     yes (variable process count)
+ -D HTTPD_ROOT="/etc/apache2"
+ -D SERVER_CONFIG_FILE="apache2.conf"
+-- relevant loaded modules --
+ headers_module (shared)
+ mpm_itk_module (shared)
+ mpm_prefork_module (shared)
+ php_module (shared)
+ rewrite_module (shared)
+ ssl_module (shared)
+Loaded Modules:
+ core_module (static)
+ so_module (static)
+ watchdog_module (static)
+ http_module (static)
+-- PHP SAPI inference --
+PHP_SAPI=apache2handler (mod_php)
+-- vhost map (apachectl -S) --
+VirtualHost configuration:
+*:80                   is a NameVirtualHost
+         default server ip-172-31-1-160.ap-northeast-2.compute.internal (/etc/apache2/sites-enabled/000-default.conf:1)
+         port 80 namevhost ip-172-31-1-160.ap-northeast-2.compute.internal (/etc/apache2/sites-enabled/000-default.conf:1)
+         port 80 namevhost nonsul-learn.com (/etc/apache2/sites-enabled/sites.conf:1)
+                 alias www.nonsul-learn.com
+         port 80 namevhost gsw2026.com (/etc/apache2/sites-enabled/sites.conf:54)
+                 alias www.gsw2026.com
+         port 80 namevhost kairos-susi.com (/etc/apache2/sites-enabled/sites.conf:109)
+                 alias www.kairos-susi.com
+         port 80 namevhost kyh-consulting.com (/etc/apache2/sites-enabled/sites.conf:179)
+                 alias www.kyh-consulting.com
+         port 80 namevhost kairosnonsul.com (/etc/apache2/sites-enabled/sites.conf:226)
+                 alias www.kairosnonsul.com
+         port 80 namevhost munsayu.com (/etc/apache2/sites-enabled/sites.conf:273)
+                 alias www.munsayu.com
+*:443                  is a NameVirtualHost
+         default server ip-172-31-1-160.ap-northeast-2.compute.internal (/etc/apache2/sites-enabled/default-ssl.conf:1)
+         port 443 namevhost ip-172-31-1-160.ap-northeast-2.compute.internal (/etc/apache2/sites-enabled/default-ssl.conf:1)
+         port 443 namevhost nonsul-learn.com (/etc/apache2/sites-enabled/sites.conf:23)
+                 alias www.nonsul-learn.com
+         port 443 namevhost gsw2026.com (/etc/apache2/sites-enabled/sites.conf:76)
+                 alias www.gsw2026.com
+         port 443 namevhost kairos-susi.com (/etc/apache2/sites-enabled/sites.conf:134)
+                 alias www.kairos-susi.com
+         port 443 namevhost kyh-consulting.com (/etc/apache2/sites-enabled/sites.conf:196)
+                 alias www.kyh-consulting.com
+         port 443 namevhost kairosnonsul.com (/etc/apache2/sites-enabled/sites.conf:243)
+                 alias www.kairosnonsul.com
+         port 443 namevhost munsayu.com (/etc/apache2/sites-enabled/sites.conf:291)
+                 alias www.munsayu.com
+ServerRoot: "/etc/apache2"
+Main DocumentRoot: "/var/www/html"
+Main ErrorLog: "/var/log/apache2/error.log"
+Mutex ssl-stapling: using_defaults
+Mutex ssl-cache: using_defaults
+Mutex default: dir="/var/run/apache2/" mechanism=default 
+Mutex mpm-accept: using_defaults
+Mutex watchdog-callback: using_defaults
+Mutex rewrite-map: using_defaults
+Mutex ssl-stapling-refresh: using_defaults
+PidFile: "/var/run/apache2/apache2.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=33 not_used
+Group: name="www-data" id=33 not_used
+
+=== [B3] VirtualHost, Directory, Rewrite, Proxy directives ===
+--- /etc/apache2/apache2.conf ---
+146:IncludeOptional mods-enabled/*.load
+147:IncludeOptional mods-enabled/*.conf
+150:Include ports.conf
+159:<Directory />
+160:	Options FollowSymLinks
+161:	AllowOverride None
+162:	Require all denied
+163:</Directory>
+165:<Directory /usr/share>
+166:	AllowOverride None
+167:	Require all granted
+168:</Directory>
+170:<Directory /var/www/>
+171:	Options Indexes FollowSymLinks
+172:	AllowOverride None
+173:	Require all granted
+174:</Directory>
+196:	Require all denied
+200:<DirectoryMatch "^\.|\/\.">
+203:</DirectoryMatch>
+227:IncludeOptional conf-enabled/*.conf
+230:IncludeOptional sites-enabled/*.conf
+--- /etc/apache2/sites-enabled/000-default.conf ---
+1:<VirtualHost *:80>
+12:	DocumentRoot /var/www/html
+29:</VirtualHost>
+--- /etc/apache2/sites-enabled/default-ssl.conf ---
+1:<VirtualHost *:443>
+4:	DocumentRoot /var/www/html
+24:	SSLEngine on
+31:	SSLCertificateFile      /etc/ssl/certs/ssl-cert-snakeoil.pem
+98:	<Directory /usr/lib/cgi-bin>
+100:	</Directory>
+101:</VirtualHost>
+--- /etc/apache2/sites-enabled/sites.conf ---
+1:<VirtualHost *:80>
+3:	ServerName	nonsul-learn.com
+4:	ServerAlias	www.nonsul-learn.com
+6:        DocumentRoot /home/nonsul-learn.com/html2
+8:         <Directory /home/nonsul-learn.com/html2/>
+10:                Options FollowSymLinks MultiViews
+11:                AllowOverride All
+15:        </Directory>
+17:RewriteEngine on
+18:RewriteCond %{SERVER_NAME} =nonsul-learn.com [OR]
+19:RewriteCond %{SERVER_NAME} =www.nonsul-learn.com
+20:RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+21:</VirtualHost>
+23:<VirtualHost _default_:443>
+25:       	ServerName       nonsul-learn.com
+26:	ServerAlias	www.nonsul-learn.com
+28:       DocumentRoot     /home/nonsul-learn.com/html2
+30:         <Directory /home/nonsul-learn.com/html2/>
+32:                Options FollowSymLinks MultiViews
+33:                AllowOverride All
+37:        </Directory>
+39:         SSLEngine on
+45:         <Directory /usr/lib/cgi-bin>
+47:         </Directory>
+48:                  SSLCertificateFile      /etc/letsencrypt/live/nonsul-learn.com/fullchain.pem
+50:Include /etc/letsencrypt/options-ssl-apache.conf
+51:</VirtualHost>
+54:<VirtualHost *:80>
+56:        ServerName      gsw2026.com
+57:        ServerAlias     www.gsw2026.com
+59:        DocumentRoot /home/gsw2026.com/html
+61:         <Directory /home/gsw2026.com/html/>
+63:                Options FollowSymLinks MultiViews
+64:                AllowOverride All
+68:        </Directory>
+70:RewriteEngine on
+71:RewriteCond %{SERVER_NAME} =gsw2026.com [OR]
+72:RewriteCond %{SERVER_NAME} =www.gsw2026.com
+73:RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+74:</VirtualHost>
+76:<VirtualHost _default_:443>
+78:        ServerName      gsw2026.com
+79:        ServerAlias     www.gsw2026.com
+81:       DocumentRoot     /home/gsw2026.com/html
+83:         <Directory /home/gsw2026.com/html/>
+85:                Options FollowSymLinks MultiViews
+86:                AllowOverride All
+90:        </Directory>
+92:         SSLEngine on
+101:         <Directory /usr/lib/cgi-bin>
+103:         </Directory>
+104:                  SSLCertificateFile      /etc/letsencrypt/live/gsw2026.com/fullchain.pem
+106:Include /etc/letsencrypt/options-ssl-apache.conf
+107:</VirtualHost>
+109:<VirtualHost *:80>
+110:        ServerName      kairos-susi.com
+111:        ServerAlias     www.kairos-susi.com
+113:        DocumentRoot /home/kairos-susi.com/html
+115:         <Directory /home/kairos-susi.com/html/>
+117:                Options FollowSymLinks MultiViews
+118:                AllowOverride All
+122:        </Directory>
+126:RewriteEngine on
+127:RewriteCond %{SERVER_NAME} =kairos-susi.com [OR]
+128:RewriteCond %{SERVER_NAME} =www.kairos-susi.com
+129:RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+130:</VirtualHost>
+134:        <VirtualHost _default_:443>
+135:                ServerName      kairos-susi.com
+136:                ServerAlias     www.kairos-susi.com
+138:                DocumentRoot /home/kairos-susi.com/html
+143:         <Directory /home/kairos-susi.com/html/>
+145:                Options FollowSymLinks MultiViews
+146:                AllowOverride All
+150:        </Directory>
+154:                SSLEngine on
+169:                <Directory /usr/lib/cgi-bin>
+171:                </Directory>
+173:                                        SSLCertificateFile      /etc/letsencrypt/live/kairos-susi.com/fullchain.pem
+175:Include /etc/letsencrypt/options-ssl-apache.conf
+176:</VirtualHost>
+179:<VirtualHost *:80>
+180:        ServerName     kyh-consulting.com
+181:        ServerAlias      www.kyh-consulting.com
+182:        DocumentRoot    /home/kyh-consulting.com/html
+184:            <Directory /home/kyh-consulting.com/html/>
+185:              Options FollowSymLinks MultiViews
+186:              AllowOverride All
+190:            </Directory>
+191:RewriteEngine on
+192:RewriteCond %{SERVER_NAME} =kyh-consulting.com [OR]
+193:RewriteCond %{SERVER_NAME} =www.kyh-consulting.com
+194:RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+195:</VirtualHost>
+196:<VirtualHost _default_:443>
+197:       ServerName       kyh-consulting.com
+198:       ServerAlias        www.kyh-consulting.com
+200:       DocumentRoot     /home/kyh-consulting.com/html
+202:         <Directory /home/kyh-consulting.com/html/>
+204:                Options FollowSymLinks MultiViews
+205:                AllowOverride All
+209:        </Directory>
+211:         SSLEngine on
+217:         <Directory /usr/lib/cgi-bin>
+219:         </Directory>
+220:                  SSLCertificateFile      /etc/letsencrypt/live/kyh-consulting.com/fullchain.pem
+222:Include /etc/letsencrypt/options-ssl-apache.conf
+223:</VirtualHost>
+226:<VirtualHost *:80>
+227:        ServerName     kairosnonsul.com
+228:        ServerAlias      www.kairosnonsul.com
+229:        DocumentRoot    /home/kairosnonsul.com/html
+231:            <Directory /home/kairosnonsul.com/html/>
+232:              Options FollowSymLinks MultiViews
+233:              AllowOverride All
+237:            </Directory>
+238:RewriteEngine on
+239:RewriteCond %{SERVER_NAME} =www.kairosnonsul.com [OR]
+240:RewriteCond %{SERVER_NAME} =kairosnonsul.com
+241:RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+242:</VirtualHost>
+243:<VirtualHost _default_:443>
+244:       ServerName       kairosnonsul.com
+245:       ServerAlias        www.kairosnonsul.com
+247:       DocumentRoot     /home/kairosnonsul.com/html
+249:         <Directory /home/kairosnonsul.com/html/>
+251:                Options FollowSymLinks MultiViews
+252:                AllowOverride All
+256:        </Directory>
+258:         SSLEngine on
+264:         <Directory /usr/lib/cgi-bin>
+266:         </Directory>
+267:                  SSLCertificateFile      /etc/letsencrypt/live/kairosnonsul.com/fullchain.pem
+269:Include /etc/letsencrypt/options-ssl-apache.conf
+270:</VirtualHost>
+273:<VirtualHost *:80>
+274:        ServerName     munsayu.com
+275:        ServerAlias      www.munsayu.com
+276:        DocumentRoot    /home/unsayu.com/html
+278:            <Directory /home/unsayu.com/html/>
+280:              Options FollowSymLinks MultiViews
+281:              AllowOverride All
+285:            </Directory>
+286:RewriteEngine on
+287:RewriteCond %{SERVER_NAME} =munsayu.com [OR]
+288:RewriteCond %{SERVER_NAME} =www.munsayu.com
+289:RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+290:</VirtualHost>
+291:<VirtualHost _default_:443>
+292:       ServerName       munsayu.com
+293:       ServerAlias        www.munsayu.com
+295:       DocumentRoot     /home/unsayu.com/html
+297:         <Directory /home/unsayu.com/html/>
+299:                Options FollowSymLinks MultiViews
+300:                AllowOverride All
+304:        </Directory>
+306:         SSLEngine on
+312:         <Directory /usr/lib/cgi-bin>
+314:         </Directory>
+316:                  SSLCertificateFile      /etc/letsencrypt/live/munsayu.com/fullchain.pem
+318:Include /etc/letsencrypt/options-ssl-apache.conf
+319:</VirtualHost>
+-- runtime .htaccess in WEB_ROOT (maxdepth 2, excluding data/) --
+--- /home/nonsul-learn.com/html2/.htaccess ---
+1:Header set Access-Control-Allow-Origin "*"
+2:php_flag allow_url_fopen 1
+3:RewriteEngine On
+11:RewriteCond %{REQUEST_URI}	!^/uAdmin$
+14:ErrorDocument 404 /index.php
+--- /home/nonsul-learn.com/html2/extend/.htaccess ---
+NO_MATCH
+-- /v2-api path conflict --
+NOT_PRESENT
+
+=== [B4] MPM / request limits ===
+/etc/apache2/apache2.conf:92:Timeout 300
+/etc/apache2/apache2.conf:98:KeepAlive On
+/etc/apache2/apache2.conf:105:MaxKeepAliveRequests 100
+/etc/apache2/apache2.conf:111:KeepAliveTimeout 5
+/etc/apache2/mods-enabled/mpm_prefork.conf:8:StartServers            5
+/etc/apache2/mods-enabled/mpm_prefork.conf:9:MinSpareServers         5
+/etc/apache2/mods-enabled/mpm_prefork.conf:10:MaxSpareServers         10
+/etc/apache2/mods-enabled/mpm_prefork.conf:11:MaxRequestWorkers       150
+/etc/apache2/mods-enabled/mpm_prefork.conf:12:MaxConnectionsPerChild  0
+-- live apache process count / RSS (MB) --
+APACHE_PROCS=11 TOTAL_RSS_MB=253 AVG_RSS_MB=23.0
+-- php-fpm process count / RSS (MB) --
+FPM_PROCS=0
+-- mysqld RSS (MB) --
+DB_RSS_MB=235
+
+=== [B5] PHP session runtime ===
+-- CLI (reference only; may differ from web SAPI) --
+PHP 8.3.6 (cli) (built: Jul 16 2026 18:30:41) (NTS)
+Loaded Configuration File => /etc/php/8.3/cli/php.ini
+session.cookie_domain => no value => no value
+session.cookie_httponly => Off => Off
+session.cookie_lifetime => 0 => 0
+session.cookie_path => / => /
+session.cookie_samesite => no value => no value
+session.cookie_secure => Off => Off
+session.gc_divisor => 1000 => 1000
+session.gc_maxlifetime => 1440 => 1440
+session.gc_probability => 0 => 0
+session.name => PHPSESSID => PHPSESSID
+session.save_handler => files => files
+session.save_path => /var/lib/php/sessions => /var/lib/php/sessions
+session.use_strict_mode => Off => Off
+-- web SAPI php.ini candidates (apache2 / fpm) --
+--- /etc/php/8.3/apache2/php.ini ---
+1355:session.save_handler = files
+1363:;     session.save_path = "N;/path"
+1379:;     session.save_path = "N;MODE;/path"
+1384:;session.save_path = "/var/lib/php/sessions"
+1393:session.use_strict_mode = 0
+1400:;session.cookie_secure =
+1411:session.name = PHPSESSID
+1419:session.cookie_lifetime = 0
+1423:session.cookie_path = /
+1427:session.cookie_domain =
+1432:session.cookie_httponly =
+1438:session.cookie_samesite =
+1456:session.gc_probability = 0
+1466:session.gc_divisor = 1000
+1471:session.gc_maxlifetime = 1440
+-- application-level overrides (gnuboard sets its own session path) --
+config.php:66:define('G5_SESSION_DIR',    'session');
+config.php:114:define('G5_SESSION_PATH',   G5_DATA_PATH.'/'.G5_SESSION_DIR);
+common.php:213:@ini_set("session.use_trans_sid", 0);    // PHPSESSID를 자동으로 넘기지 않음
+common.php:217:// session_save_path(G5_SESSION_PATH);
+common.php:224:ini_set("session.cache_expire", 180); // 세션 캐쉬 보관시간 (분)
+common.php:225:ini_set("session.gc_maxlifetime", 10800); // session data의 garbage collection 존재 기간을 지정 (초)
+common.php:226:ini_set("session.gc_probability", 1); // session.gc_probability는 session.gc_divisor와 연계하여 gc(쓰레기 수거) 루틴의 시작 확률을 관리합니다. 기본값은 1입니다. 자세한 내용은 session.gc_divisor를 참고하십시오.
+common.php:227:ini_set("session.gc_divisor", 100); // session.gc_divisor는 session.gc_probability와 결합하여 각 세션 초기화 시에 gc(쓰레기 수거) 프로세스를 시작할 확률을 정의합니다. 확률은 gc_probability/gc_divisor를 사용하여 계산합니다. 즉, 1/100은 각 요청시에 GC 프로세스를 시작할 확률이 1%입니다. session.gc_divisor의 기본값은 100입니다.
+common.php:230:    session_set_cookie_params(0, '/', null, true, true);
+common.php:232:    session_set_cookie_params(0, '/', null, false, true);
+common.php:235:ini_set("session.cookie_domain", G5_COOKIE_DOMAIN);
+common.php:237:function chrome_domain_session_name(){
+common.php:255:        @session_name(G5_SESSION_NAME);
+common.php:259:chrome_domain_session_name();
+common.php:264:        public static function g5_session_name(){
+common.php:269:            $cookie_session_name = self::g5_session_name();
+common.php:270:            if (isset($_REQUEST[$cookie_session_name]) && $_REQUEST[$cookie_session_name] != session_id())
+common.php:275:            $cookie_session_name = self::g5_session_name(); 
+common.php:277:            return !isset($_COOKIE[$cookie_session_name]) && count($_POST) && ((isset($_SERVER['HTTP_REFERER']) && !preg_match('~^https://'.preg_quote($_SERVER['HTTP_HOST'], '~').'/~', $_SERVER['HTTP_REFERER']) || ! isset($_SERVER['HTTP_REFERER']) ));
+common.php:386:            $cookie_session_name = method_exists('XenoPostToForm', 'g5_session_name') ? XenoPostToForm::g5_session_name() : 'PHPSESSID'; 
+common.php:388:                if (!preg_match('~^Set-Cookie: '.$cookie_session_name.'=~', $header)) continue;
+
+=== [B6] Session storage aggregate ===
+APP_SESSION_DIR: PATH=/home/nonsul-learn.com/html2/data/session FILES=0 SIZE=4.0K
+INI_SESSION_DIR: PATH=/var/lib/php/sessions FILES=0 SIZE=188K
+SYSTEM_SESSION_DIR: PATH=/var/lib/php/sessions FILES=0 SIZE=188K
+
+=== [B7] Production source SHA256 (relative to WEB_ROOT) ===
+2722e9877a89bcae65ce45a640333bb6b156921fd7a6854bd7ddaba0a6145b4e  index.php
+6d99715a4735193ad0478dbc38d4cdfe1885067683d61b99ca1b619ac8e0c41d  common.php
+9fae3209a6be445ceabd6aa61976b299d61e4f420d80ca82038291ffbb01e487  config.php
+99579df182e23e815c781be430add6c8db48a20d6c8e9163d65a763bc3fc2d8b  head.php
+e27b198bf00324bd410e16909e8d45daa5548b6517944caf76b4eabf4f65ef20  _head.php
+fae62148df8299fe1162e379f8fbd6b64e851abe936c5ce6612cc45ea433c01a  head.sub.php
+c4306c2084930d7f7c0aef95b87df16a933f9f60a4e8b97795a6b94b8f3899a4  tail.php
+a818c3fb96c6419ef4f9b0476529cb1e96c98cfef5c9130cbf983687e985703b  _tail.php
+7a89876e1caf0a7e14c1321ea06bf237e512d34de4064590e2e10283bf6d0a4c  shop/item.php
+8e25f031d4704668ef7d1e76845ec53a3128649ccdeb751e4de8a39ff8b5fd8b  shop/ajax.list.php
+dc86bfe0d09cf37c6bd929c4304c2e74eb316230973c1729dbc7031fca60da81  bbs/login.php
+-- mtime of key files (detect recent direct edits) --
+2026-09-15 20:41  index.php
+2026-09-08 18:36  common.php
+2026-09-16 14:27  head.php
+2026-09-15 23:35  tail.php
+
+=== [B8] Homepage asset presence ===
+PRESENT  seo/img/android-icon-192x192.png
+PRESENT  seo/img/apple-icon-114x114.png
+PRESENT  seo/img/apple-icon-120x120.png
+PRESENT  seo/img/apple-icon-144x144.png
+PRESENT  seo/img/apple-icon-152x152.png
+PRESENT  seo/img/apple-icon-180x180.png
+PRESENT  seo/img/apple-icon-57x57.png
+PRESENT  seo/img/apple-icon-60x60.png
+PRESENT  seo/img/apple-icon-72x72.png
+PRESENT  seo/img/apple-icon-76x76.png
+PRESENT  seo/img/favicon-16x16.png
+PRESENT  seo/img/favicon-32x32.png
+PRESENT  seo/img/favicon-96x96.png
+PRESENT  src/nonsul-learn/img/logo.png
+PRESENT  src/nonsul-learn/img/logo2.png
+
+=== [B9] Cookie / domain constants ===
+19:define('G5_DOMAIN', '');
+20:define('G5_HTTPS_DOMAIN', '');
+41:define('G5_COOKIE_DOMAIN',  '');
+66:define('G5_SESSION_DIR',    'session');
+
+=== [B10] sudo capability ===
+sudo: 암호가 필요합니다
+
+=== [B11] Recent resource incidents ===
+DMESG_NO_OOM_LINES
+JOURNAL_NO_OOM_LINES
+-- swap --
+
+=== [B12] cron ===
+-- current user crontab --
+no crontab for nonsul-learn
+-- /etc/cron.d file names only --
+certbot
+e2scrub_all
+php
+sendmail
+sysstat
+-- systemd timers (names only) --
+update-notifier-download.service
+phpsessionclean.service
+sysstat-collect.service
+systemd-tmpfiles-clean.service
+fwupd-refresh.service
+motd-news.service
+certbot.service
+apt-daily.service
+dpkg-db-backup.service
+logrotate.service
+sysstat-summary.service
+update-notifier-motd.service
+apt-daily-upgrade.service
+man-db.service
+e2scrub_all.service
+fstrim.service
+apport-autoreport.service
+snapd.snap-repair.service
+ua-timer.service
+listed.
+
+=== [END] Collector completion ===
+COMPLETED_AT=2026-10-02T10:33:47+09:00
+No DB queries. No service restart/reload. No application files modified.
+No application HTTP requests (EC2 metadata only).

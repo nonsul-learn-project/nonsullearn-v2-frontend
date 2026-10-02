@@ -1,0 +1,1388 @@
+Gate 0.5 / 0.9 Local Audit
+Generated: 2026-10-02T10:33:07+0900
+Repository: /Users/gimdohyeon/nonsul-learn-html1
+Canonical baseline: html2
+V2 repository: ../nonsullearn-v2-frontend
+MAX_MATCHES: 300
+
+IMPORTANT
+- This report proves LOCAL BASELINE facts only.
+- Production parity requires collect-runtime.sh (B7 hashes) and collect-http.sh.
+- Lines ending with "!!! TRUNCATED" are partial. Re-run with a larger MAX_MATCHES if needed.
+
+=== [L0] Repository baseline ===
+BRANCH=gate-1.5-frontend-migration
+HEAD=d2f2215a139436cc6633b596832ce042d5cec725
+-- STATUS (short) --
+ M docs/production-discovery/08-environment-configuration-inventory.md
+ M docs/production-discovery/09-secret-and-credential-map.md
+ M docs/production-discovery/10-v2-environment-mapping.md
+ M docs/production-discovery/11-v2-runtime-config-contract.md
+ M docs/production-discovery/12-complete-production-config-map.md
+ M docs/production-discovery/14-production-config-gaps.md
+ M docs/production-discovery/16-runtime-dependency-map.md
+?? docs/discovery/
+?? scripts/discovery/
+-- RECENT COMMITS --
+d2f2215 (HEAD -> gate-1.5-frontend-migration, origin/gate-1.5-frontend-migration) docs:git frontend 조건 추가
+2762886 (origin/chore/gitignore-normalization, chore/gitignore-normalization) feat:frontend-migration-audit
+3dd312e docs:production config 추가
+54cf71d docs: add Gate 0.5 production discovery 1-3
+97255c4 Migration Data 추적
+856757d feat:Migration DB 추가
+ac81696 chore: restore safe legacy runtime artifacts
+5ad8cad Gate 0 하네스 & gitignore 추가
+57c7e83 Merge remote initial commit
+dd346ad chore: preserve legacy production baseline
+45093e2 Initial commit
+
+=== [L1] Existing discovery documents (excluding html2/) ===
+./README.md
+./docs/discovery/local-audit-20261002-1033.txt
+./docs/frontend-migration-audit/00-executive-summary.md
+./docs/frontend-migration-audit/01-frontend-surface-inventory.md
+./docs/frontend-migration-audit/02-route-entrypoint-map.md
+./docs/frontend-migration-audit/03-php-dependency-map.md
+./docs/frontend-migration-audit/04-data-and-config-dependencies.md
+./docs/frontend-migration-audit/05-auth-session-cookie.md
+./docs/frontend-migration-audit/06-forms-actions-ajax-redirects.md
+./docs/frontend-migration-audit/07-frontend-js-css-assets.md
+./docs/frontend-migration-audit/08-seo-metadata-analytics.md
+./docs/frontend-migration-audit/09-repository-completeness-audit.md
+./docs/frontend-migration-audit/10-missing-and-unknown.md
+./docs/frontend-migration-audit/11-v2-architecture.md
+./docs/frontend-migration-audit/12-typescript-ownership-map.md
+./docs/frontend-migration-audit/13-legacy-adapter-design.md
+./docs/frontend-migration-audit/14-data-contracts.md
+./docs/frontend-migration-audit/15-route-migration-map.md
+./docs/frontend-migration-audit/16-behavioral-parity-spec.md
+./docs/frontend-migration-audit/17-testing-strategy.md
+./docs/frontend-migration-audit/18-migration-sequence.md
+./docs/frontend-migration-audit/19-risks-and-open-questions.md
+./docs/frontend-migration-audit/20-gate-1-5-verdict.md
+./docs/legacy-audit/16-gitignore-normalization.md
+./docs/migration/00-migration-readiness.md
+./docs/migration/01-data-inventory.md
+./docs/migration/02-must-migrate-data.md
+./docs/migration/03-business-rules.md
+./docs/migration/04-legacy-target-mapping.md
+./docs/migration/05-production-verification.md
+./docs/migration/06-auth-migration.md
+./docs/migration/07-file-migration.md
+./docs/migration/08-reconciliation-contract.md
+./docs/migration/09-github-migration-gates.md
+./docs/migration/10-open-questions.md
+./docs/migration/17-production-migration-readiness-audit.md
+./docs/production-discovery/01-production-schema-verification.md
+./docs/production-discovery/02-auth-hash-profile.md
+./docs/production-discovery/03-upload-storage-inventory.md
+./docs/production-discovery/04-homepage-runtime.md
+./docs/production-discovery/05-session-cookie-runtime.md
+./docs/production-discovery/06-production-routing.md
+./docs/production-discovery/07-homepage-v2-contract.md
+./docs/production-discovery/08-environment-configuration-inventory.md
+./docs/production-discovery/08-gate-1.5-final-verdict.md
+./docs/production-discovery/09-secret-and-credential-map.md
+./docs/production-discovery/10-v2-environment-mapping.md
+./docs/production-discovery/11-v2-runtime-config-contract.md
+./docs/production-discovery/12-complete-production-config-map.md
+./docs/production-discovery/13-provider-runtime-contract.md
+./docs/production-discovery/14-production-config-gaps.md
+./docs/production-discovery/15-production-config-verification.md
+./docs/production-discovery/16-runtime-dependency-map.md
+./docs/production-discovery/production-data-baseline-2026-09-28.md
+./docs/production-discovery/production-schema-2026-09-28.md
+./html/plugin/PHPMailer/README.md
+./html/plugin/PHPMailer/changelog.md
+./html/plugin/PHPMailer/extras/README.md
+./html/plugin/sns/twitter/README.md
+./html/src/vendor/aws/aws-crt-php/CODE_OF_CONDUCT.md
+./html/src/vendor/aws/aws-crt-php/README.md
+./html/src/vendor/aws/aws-sdk-php/CODE_OF_CONDUCT.md
+./html/src/vendor/aws/aws-sdk-php/CRT_INSTRUCTIONS.md
+./html/src/vendor/guzzlehttp/guzzle/CHANGELOG.md
+./html/src/vendor/guzzlehttp/guzzle/README.md
+./html/src/vendor/guzzlehttp/guzzle/UPGRADING.md
+./html/src/vendor/guzzlehttp/promises/CHANGELOG.md
+./html/src/vendor/guzzlehttp/promises/README.md
+./html/src/vendor/guzzlehttp/psr7/CHANGELOG.md
+./html/src/vendor/guzzlehttp/psr7/README.md
+./html/src/vendor/mtdowling/jmespath.php/CHANGELOG.md
+./html/src/vendor/psr/http-client/CHANGELOG.md
+./html/src/vendor/psr/http-client/README.md
+./html/src/vendor/psr/http-factory/README.md
+./html/src/vendor/psr/http-message/CHANGELOG.md
+./html/src/vendor/psr/http-message/README.md
+./html/src/vendor/ralouphie/getallheaders/README.md
+./html/src/vendor/symfony/deprecation-contracts/CHANGELOG.md
+./html/src/vendor/symfony/deprecation-contracts/README.md
+./html/src/vendor/symfony/filesystem/CHANGELOG.md
+./html/src/vendor/symfony/filesystem/README.md
+./html/src/vendor/symfony/polyfill-ctype/README.md
+./html/src/vendor/symfony/polyfill-mbstring/README.md
+./migration/README.md
+./migration/contracts/business-rules.md
+./migration/contracts/legacy-schema.md
+./migration/contracts/preservation-policy.md
+./migration/contracts/target-schema.md
+./migration/extract/README.md
+./migration/fixtures/README.md
+./migration/load/README.md
+./migration/reconciliation/README.md
+./migration/transform/README.md
+./migration/validators/README.md
+-- V2 repo docs --
+../nonsullearn-v2-frontend/AGENTS.md
+../nonsullearn-v2-frontend/CLAUDE.md
+../nonsullearn-v2-frontend/README.md
+../nonsullearn-v2-frontend/docs/architecture/README.md
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md
+../nonsullearn-v2-frontend/docs/exec-plans/README.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/00-executive-summary.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/01-frontend-surface-inventory.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/02-route-entrypoint-map.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/03-php-dependency-map.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/04-data-and-config-dependencies.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/05-auth-session-cookie.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/06-forms-actions-ajax-redirects.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/07-frontend-js-css-assets.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/08-seo-metadata-analytics.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/09-repository-completeness-audit.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/10-missing-and-unknown.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/11-v2-architecture.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/12-typescript-ownership-map.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/13-legacy-adapter-design.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/14-data-contracts.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/15-route-migration-map.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/16-behavioral-parity-spec.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/17-testing-strategy.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/18-migration-sequence.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/19-risks-and-open-questions.md
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/20-gate-1-5-verdict.md
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md
+../nonsullearn-v2-frontend/docs/harness/GATES.md
+../nonsullearn-v2-frontend/docs/harness/HARNESS.md
+../nonsullearn-v2-frontend/docs/php homepage/01 php bridge design.md
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md
+../nonsullearn-v2-frontend/docs/php homepage/03 prerequisites and harness.md
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md
+../nonsullearn-v2-frontend/docs/php homepage/05 dev plan.md
+../nonsullearn-v2-frontend/docs/production-discovery/04-homepage-runtime.md
+../nonsullearn-v2-frontend/docs/production-discovery/05-session-cookie-runtime.md
+../nonsullearn-v2-frontend/docs/production-discovery/06-production-routing.md
+../nonsullearn-v2-frontend/docs/production-discovery/07-homepage-v2-contract.md
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md
+
+=== [L2] Known production/discovery claims (documents only) ===
+docs/production-discovery/16-runtime-dependency-map.md:7:| MariaDB | `data/dbconfig.php:G5_MYSQL_*` → `common.php:160-168` → Legacy PHP app | retain under Legacy PHP; V2 uses existing read endpoint or Thin PHP Bridge canonical contract | host/port/user/password definition presence + `$config/$default` schema |
+docs/production-discovery/16-runtime-dependency-map.md:32:PHP library/session behavior, PHP SDK wrappers, MariaDB business settings, `DATA_ROOT`, and binary wrapper code remain Legacy PHP dependencies. V2 does not directly access them. V2 reads use typed canonical contracts through verified existing endpoints or narrowly scoped Thin PHP Bridges; transaction and provider traffic remain with PHP. No provider/binary is marked active solely from source presence. Direct database ownership may be considered only in a separately approved future domain migration after semantics, security, rollback, and parity verification.
+docs/production-discovery/11-v2-runtime-config-contract.md:5:Existing Production MariaDB `nonsullearndb`, member/password hashes, and `html2/data/` remain under Legacy PHP ownership. V2 does not directly connect to MariaDB, preserve PHP session state, or use `html2/data/` as runtime storage. It uses typed canonical contracts backed by existing endpoints or narrowly scoped Thin PHP Bridges. No PostgreSQL, Firebase, DB migration, or filesystem migration. Production `html2/data/dbconfig.php` presence is separately VERIFIED; it is not present in Git/checkout.
+docs/production-discovery/production-data-baseline-2026-09-28.md:4:- Database: `nonsullearndb`
+docs/production-discovery/production-data-baseline-2026-09-28.md:13:| Database | `nonsullearndb` |
+docs/production-discovery/04-homepage-runtime.md:8:- The tracked canonical entry follows `/` → `html2/index.php` → `common.php` → `_head.php` → `head.php` → page body → `_tail.php` → `tail.php`.
+docs/production-discovery/04-homepage-runtime.md:14:The former homepage-banner-slot premise applies to `html/index.php`, not the canonical tracked `html2/index.php`. Therefore **no BannerAdapter is required for the current canonical homepage source**. `lib/lms.lib.php:get_banner()` and `skin/banner/basic/type1.skin.php` remain available for non-home surfaces, but are not a homepage dependency.
+docs/production-discovery/04-homepage-runtime.md:18:The canonical current page directly references a public legacy teacher asset under `data/teacher/<opaque-id>`. Prior read-only inventory confirms `data/teacher` is present. Current existence and deployment-version parity are **BLOCKING** until a successfully authenticated, read-only file stat and index hash comparison are completed.
+docs/production-discovery/04-homepage-runtime.md:22:The original audit used `html/index.php` for the homepage slot analysis. The canonical-root correction invalidates that homepage-specific banner dependency; it does not change other route findings.
+docs/production-discovery/13-provider-runtime-contract.md:22:All V2 proposals are route contracts, not confirmed external registrations. Build paths under the canonical `APP_URL`, preserve provider request/response semantics, and register them with providers only after read-only verification of enabled DB configuration. Existing source has no single committed Production callback base; request-derived `G5_URL` evidence is `html2/common.php:45-54`.
+docs/production-discovery/07-homepage-v2-contract.md:5:For the current tracked canonical `html2/index.php`, Homepage requires **SessionAdapter only** for global header/mobile navigation state. It does **not** require BannerAdapter: the canonical page has no runtime banner call. The hero/content itself is source-owned UI and one public legacy teacher asset path.
+docs/production-discovery/production-schema-2026-09-28.md:4:- Database: `nonsullearndb`
+docs/production-discovery/production-schema-2026-09-28.md:681:| 9 | `mb_level` | `tinyint(4)` | NO | - | `0` | - |
+docs/production-discovery/05-session-cookie-runtime.md:5:`html2/common.php` starts the PHP session before resolving the member. Default cookie name is `PHPSESSID`; it becomes `G5…PHPSESSID` only under the source-defined special document-root/domain conditions. Cookie path is `/`; `HttpOnly` is true; `Secure` is true when PHP observes HTTPS. `G5_COOKIE_DOMAIN` is configured at runtime (tracked default is empty). Session lifetime configuration is 10,800 seconds. `session_save_path()` is commented out, so the actual save handler/path is PHP runtime configuration and is **STILL_UNKNOWN**.
+docs/production-discovery/05-session-cookie-runtime.md:9:Member resolution is: session `ss_mb_id` → `get_member()` → intercept/leave/token checks → `$member`; `$is_member` is true iff `$member['mb_id']` is set. A guest gets `mb_level = 1`. `head.php` exposes login/logout based on `mb_id` and conditionally shows correction navigation for `mb_level > 7`. Login writes `ss_mb_id`; auto-login uses `ck_mb_id` and `ck_auto`; logout clears those cookies and session state. URLs are `/bbs/login.php` and `/bbs/logout.php`.
+docs/production-discovery/10-v2-environment-mapping.md:5:Existing Production MariaDB `nonsullearndb`, legacy password hashes, and `html2/data/` remain Legacy PHP concerns. V2 does not directly connect to MariaDB, retain PHP session state, or use Legacy runtime storage. No PostgreSQL, Firebase, DB migration or filesystem migration. Production `html2/data/dbconfig.php` exists separately VERIFIED, though absent from checkout. **VERIFIED_CODE**: `html2/common.php:154-168`; `html2/config.php:281,346,352`.
+docs/production-discovery/10-v2-environment-mapping.md:7:V2 receives Legacy data through typed canonical contracts backed by verified existing endpoints or narrowly scoped Thin PHP Bridges. `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `SESSION_SECRET`, and `DATA_ROOT` are not V2 environment variables. Payment/SMS/social/identity remain PHP/MariaDB-backed; vault migration is optional post-cutover hardening.
+docs/production-discovery/10-v2-environment-mapping.md:29:4. Define each V2 read through an existing endpoint or Thin PHP Bridge canonical contract.
+docs/production-discovery/12-complete-production-config-map.md:3:Scope: canonical legacy tree `html2/`; values are never recorded and all secrets are `[REDACTED]`. Existing MariaDB `nonsullearndb` and `html2/data/` remain Legacy PHP resources; V2 reaches approved read data through existing endpoints or Thin PHP Bridges, never direct DB/runtime access. Evidence class is **VERIFIED_CODE** unless explicitly marked UNKNOWN.
+docs/production-discovery/12-complete-production-config-map.md:41:| request URL/HTTPS/host | ENV_DEPLOYMENT `APP_URL` | `common.php:45-54`; `config.php:312-317` | explicit canonical origin |
+docs/production-discovery/01-production-schema-verification.md:4:- Database: `nonsullearndb`
+docs/production-discovery/01-production-schema-verification.md:11:Database: nonsullearndb
+docs/production-discovery/01-production-schema-verification.md:386:| `mb_level` | tinyint(4) | NO | 0 |  |  |
+docs/production-discovery/02-auth-hash-profile.md:4:- Database: `nonsullearndb`
+docs/production-discovery/08-gate-1.5-final-verdict.md:5:3. **Remaining UNKNOWNs:** former banner rows are non-blocking for the current tracked canonical homepage because it does not call `get_banner()`. DB dumps, runtime session files, PG credentials/certificates, cache/logs, and cron are **NON_BLOCKING** for Homepage.
+docs/production-discovery/08-gate-1.5-final-verdict.md:7:5. **Is BannerAdapter information sufficient?** It is not required for the current canonical Homepage. For a future banner surface, source contract is sufficient but live row verification remains unknown.
+docs/production-discovery/08-gate-1.5-final-verdict.md:16:| canonical `html2` root | RESOLVED | stipulated and historical Apache evidence |
+docs/production-discovery/08-gate-1.5-final-verdict.md:17:| homepage banner data/files | NON_BLOCKING | current canonical source has no homepage banner renderer |
+docs/production-discovery/03-upload-storage-inventory.md:99:/etc/apache2/sites-enabled/000-default.conf:12:	DocumentRoot /var/www/html
+docs/production-discovery/03-upload-storage-inventory.md:100:/etc/apache2/sites-enabled/default-ssl.conf:4:	DocumentRoot /var/www/html
+docs/production-discovery/03-upload-storage-inventory.md:103:/etc/apache2/sites-enabled/sites.conf:6:        DocumentRoot /home/nonsul-learn.com/html2
+docs/production-discovery/03-upload-storage-inventory.md:106:/etc/apache2/sites-enabled/sites.conf:28:       DocumentRoot     /home/nonsul-learn.com/html2
+docs/production-discovery/03-upload-storage-inventory.md:110:/etc/apache2/sites-enabled/sites.conf:59:        DocumentRoot /home/gsw2026.com/html
+docs/production-discovery/03-upload-storage-inventory.md:113:/etc/apache2/sites-enabled/sites.conf:81:       DocumentRoot     /home/gsw2026.com/html
+docs/production-discovery/03-upload-storage-inventory.md:117:/etc/apache2/sites-enabled/sites.conf:113:        DocumentRoot /home/kairos-susi.com/html
+docs/production-discovery/03-upload-storage-inventory.md:120:/etc/apache2/sites-enabled/sites.conf:138:                DocumentRoot /home/kairos-susi.com/html
+docs/production-discovery/03-upload-storage-inventory.md:124:/etc/apache2/sites-enabled/sites.conf:182:        DocumentRoot    /home/kyh-consulting.com/html
+docs/production-discovery/03-upload-storage-inventory.md:127:/etc/apache2/sites-enabled/sites.conf:200:       DocumentRoot     /home/kyh-consulting.com/html
+docs/production-discovery/03-upload-storage-inventory.md:131:/etc/apache2/sites-enabled/sites.conf:229:        DocumentRoot    /home/kairosnonsul.com/html
+docs/production-discovery/03-upload-storage-inventory.md:134:/etc/apache2/sites-enabled/sites.conf:247:       DocumentRoot     /home/kairosnonsul.com/html
+docs/production-discovery/03-upload-storage-inventory.md:138:/etc/apache2/sites-enabled/sites.conf:276:        DocumentRoot    /home/unsayu.com/html
+docs/production-discovery/03-upload-storage-inventory.md:141:/etc/apache2/sites-enabled/sites.conf:295:       DocumentRoot     /home/unsayu.com/html
+docs/production-discovery/03-upload-storage-inventory.md:144:/etc/apache2/sites-available/000-default.conf:12:	DocumentRoot /var/www/html
+docs/production-discovery/03-upload-storage-inventory.md:145:/etc/apache2/sites-available/default-ssl.conf:4:	DocumentRoot /var/www/html
+docs/production-discovery/03-upload-storage-inventory.md:148:/etc/apache2/sites-available/sites.conf:6:        DocumentRoot /home/nonsul-learn.com/html2
+docs/production-discovery/03-upload-storage-inventory.md:151:/etc/apache2/sites-available/sites.conf:28:       DocumentRoot     /home/nonsul-learn.com/html2
+docs/production-discovery/03-upload-storage-inventory.md:155:/etc/apache2/sites-available/sites.conf:59:        DocumentRoot /home/gsw2026.com/html
+docs/production-discovery/03-upload-storage-inventory.md:158:/etc/apache2/sites-available/sites.conf:81:       DocumentRoot     /home/gsw2026.com/html
+docs/production-discovery/03-upload-storage-inventory.md:162:/etc/apache2/sites-available/sites.conf:113:        DocumentRoot /home/kairos-susi.com/html
+docs/production-discovery/03-upload-storage-inventory.md:165:/etc/apache2/sites-available/sites.conf:138:                DocumentRoot /home/kairos-susi.com/html
+docs/production-discovery/03-upload-storage-inventory.md:169:/etc/apache2/sites-available/sites.conf:182:        DocumentRoot    /home/kyh-consulting.com/html
+docs/production-discovery/03-upload-storage-inventory.md:172:/etc/apache2/sites-available/sites.conf:200:       DocumentRoot     /home/kyh-consulting.com/html
+docs/production-discovery/03-upload-storage-inventory.md:176:/etc/apache2/sites-available/sites.conf:229:        DocumentRoot    /home/kairosnonsul.com/html
+docs/production-discovery/03-upload-storage-inventory.md:179:/etc/apache2/sites-available/sites.conf:247:       DocumentRoot     /home/kairosnonsul.com/html
+docs/production-discovery/03-upload-storage-inventory.md:183:/etc/apache2/sites-available/sites.conf:276:        DocumentRoot    /home/unsayu.com/html
+docs/production-discovery/03-upload-storage-inventory.md:186:/etc/apache2/sites-available/sites.conf:295:       DocumentRoot     /home/unsayu.com/html
+docs/production-discovery/08-environment-configuration-inventory.md:3:Audit point: `chore/gitignore-normalization` / `54cf71dc96bee20cf98d5afba48d657629cb0d96`. Static/read-only repository work; all values are `[REDACTED]`. `html2/` is canonical Production. Production `html2/data/dbconfig.php` existence is separately **VERIFIED**; it is absent from Git/this checkout.
+docs/production-discovery/08-environment-configuration-inventory.md:7:Existing MariaDB `nonsullearndb` remains the Production database and source of truth for Legacy PHP Core domains. Current V2 does not directly use MariaDB, legacy password hashes, or `html2/data/`; it obtains narrowly scoped read data through verified existing endpoints or Thin PHP Bridges using canonical contracts. No PostgreSQL, Firebase, database migration, or filesystem migration is in scope. PHP boot includes `data/dbconfig.php`. **VERIFIED_CODE**: `html2/common.php:58-60,154-168`; `html2/config.php:281,346,352`.
+docs/production-discovery/08-environment-configuration-inventory.md:50:Production html2/data/dbconfig.php:G5_MYSQL_* → Legacy PHP → MariaDB nonsullearndb
+docs/production-discovery/08-environment-configuration-inventory.md:51:V2 → verified existing endpoint or Thin PHP Bridge → Legacy PHP → MariaDB nonsullearndb
+docs/production-discovery/06-production-routing.md:5:`03-upload-storage-inventory.md` records Apache `sites.conf` entries for `nonsul-learn.com` and `www.nonsul-learn.com`, with `DocumentRoot /home/nonsul-learn.com/html2` for HTTP and HTTPS virtual hosts. It is sufficient evidence for the established canonical root, but it is not a fresh 2026-10-01 host read.
+docs/production-discovery/06-production-routing.md:7:Tracked `html2/.htaccess` has `RewriteEngine On`, no active canonical HTTPS/host rewrite, no active pretty-route rewrite, and `ErrorDocument 404 /index.php`. PHP files and static paths are consequently served by the normal Apache/PHP mapping unless unseen vhost rules alter them.
+docs/production-discovery/06-production-routing.md:15:DocumentRoot history is **RESOLVED**. Current VirtualHost directives, TLS termination, host aliases, proxy module availability, and any vhost-level rewrites are **BLOCKING** because the current Production inspection could not authenticate after host-key verification succeeded. No Apache configuration was changed, reloaded, or restarted.
+docs/frontend-migration-audit/03-php-dependency-map.md:3:`html/common.php` initializes configuration, database connection, session and `$member`; then loads `lib/common.lib.php`, `lib/lms.lib.php`, and GnuBoard settings. `html/config.php` supplies path constants. `head.php` injects shared navigation and checks `$member['mb_level'] > 7` for correction submission visibility.
+docs/frontend-migration-audit/10-missing-and-unknown.md:13:| MISSING | Production web-server config | canonical/rewrite/robots/domain behavior | vhost/rewrite/robots read-only inspection |
+docs/frontend-migration-audit/01-frontend-surface-inventory.md:6:| Global header/nav/footer | every branded page | `_head.php` → `head.php`; `_tail.php` → `tail.php` | `$member`, GnuBoard URLs | auth and `mb_level > 7` correction link; responsive menu | navigate/login/logout/menu | TS layout + session adapter | HIGH |
+docs/frontend-migration-audit/04-data-and-config-dependencies.md:5:Key columns observed in source: member `mb_id`, `mb_level`, `mb_name`, point/contact fields; item `it_id`, `it_name`, `it_price`, `it_use`, stock fields; LMS `od_status`, `start_date`, `end_date`, `progress`, `correc_cnt`, `lol_no`; board `bo_*`; post `wr_*`.
+docs/frontend-migration-audit/08-seo-metadata-analytics.md:3:`head.sub.php` emits dynamic title from `$g5_head_title`, fixed Korean description/keywords, viewport, Naver and Google verification meta tags, favicons and mobile icons under `seo/img`. `/sitemap.php` emits home and public posts for `briefing`/`notice` (up to 1500 each), excluding secret posts. No canonical, robots.txt, Open Graph/Twitter metadata, structured data, or analytics tag was found in the audited public sources. Their production/vhost presence is **UNKNOWN**.
+docs/frontend-migration-audit/05-auth-session-cookie.md:5:Parity requirements: header swaps login/logout; `mb_level > 7` exposes correction link; unauthenticated `/lecture/mypage.php` redirects to login with URL; lecture module displays login alert/redirect behavior; membership forms retain legacy validation/error/return URL semantics. V2 should read session identity through a same-site PHP bridge; PHP retains cookies and auth source of truth.
+docs/frontend-migration-audit/18-migration-sequence.md:4:2. Freeze and sanitize route/state fixtures; choose canonical URLs and proxy topology.
+docs/migration/17-production-migration-readiness-audit.md:11:**MIGRATION READINESS: FAIL.** The source tree is a useful discovery input, but it is not an authoritative production snapshot. The production document root/canonical tree, MariaDB schema and data profile, critical file storage, runtime/cron/backup, and external-provider configuration are all unverified. These are critical cutover inputs. In addition, source inspection found runtime DDL in checkout flow, a hard-coded `lectest` learning bypass, and an LMS administrative endpoint that writes a fixed MD5 password; their production state is unknown.
+docs/migration/17-production-migration-readiness-audit.md:24:Browser ?→ Webserver ?→ DocumentRoot (html ? / html2 ?) ?→ PHP/GnuBoard source
+docs/migration/17-production-migration-readiness-audit.md:54:**UNVERIFIED — webserver configuration required.** Do not select either tree as canonical from timestamps or Git position.
+docs/migration/17-production-migration-readiness-audit.md:261:| U01 | Production document root/canonical tree | no vhost/server access | vhost/alias/rewrite/PHP-FPM/cron paths | critical |
+docs/migration/17-production-migration-readiness-audit.md:303:  production: {document_root_verified: false, canonical_tree_verified: false, schema_verified: false, filesystem_verified: false, cron_verified: false, backup_verified: false}
+docs/migration/05-production-verification.md:3:PRODUCTION VERIFICATION REQUIRED: DocumentRoot and html/html2 roles; schema/table/row counts; columns/PKs/indexes/FKs; views/triggers/routines/events; DB version/charset/collation/timezone; board/correcting settings; admin/lectest accounts; active courses/enrollments/orders/refunds/corrections; cron/backups; payment/mail/SMS providers; storage paths and ACLs.
+docs/migration/06-auth-migration.md:3:Audit evidence: current authentication uses `ss_mb_id`; modern passwords use PBKDF2-SHA256, 12,000 iterations and 24-byte salt. Legacy MySQL `PASSWORD()`-style hashes may exist; `mb_password2` is a transitional retained legacy hash created by lazy upgrade. Actual population and formats require read-only sampling with values withheld.
+../nonsullearn-v2-frontend/docs/php homepage/01 php bridge design.md:89:$level = (int)$member['mb_level'];
+../nonsullearn-v2-frontend/docs/php homepage/01 php bridge design.md:206:grep -n '\$member\[\|\$is_member\|\$is_admin\|mb_level' head.php _head.php tail.php mobile/head.php 2>/dev/null
+../nonsullearn-v2-frontend/docs/php homepage/05 dev plan.md:172:- [ ] Playwright L3 골격: 3개 페이지 200, 콘솔 에러 0, canonical 확인
+../nonsullearn-v2-frontend/docs/php homepage/05 dev plan.md:206:- [ ] canonical event: `page_view`, `cta_click`, `course_view`, `begin_checkout`
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:44:RewriteRule ^ - [S=3]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:47:RewriteRule ^/_next/(.*)$ https://v2-origin.<도메인>/_next/$1 [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:50:RewriteRule ^/(_v2/check|courses/.*|api/v2-health)$ https://v2-origin.<도메인>/$1 [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:54:RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:60:ProxyPassReverse / https://v2-origin.<도메인>/
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:105:**메타데이터:** `metadataBase = NEXT_PUBLIC_SITE_URL`. canonical, OG URL, sitemap 모두 메인 도메인 기준.
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:170:3. 최소 canonical event: `page_view`, `cta_click`, `course_view`, `begin_checkout`(Legacy 결제로 넘어가는 순간)
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:235:  RewriteRule ^/shop/item\.php$ /courses/%2? [R=301,L]
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:20:             ├─ /v2-api/*.php    → Thin PHP Bridge          (PHPSESSID 자동 첨부)
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:78:├── analytics/                    # Gate 2 (track() → canonical event)
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:227:if [ -n "${SMOKE_PHPSESSID:-}" ]; then
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:228:  curl -fsS -b "PHPSESSID=$SMOKE_PHPSESSID" "$BASE/v2-api/viewer.php" \
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:299:RewriteRule ^/?$ /_v2/index.html [PT,L]
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:307:- 롤백: `RewriteRule` 한 줄 주석 처리 → reload
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:341:4. 세션 쿠키 이름(PHPSESSID 기본인지)과 `G5_COOKIE_DOMAIN`
+../nonsullearn-v2-frontend/docs/php homepage/03 prerequisites and harness.md:66:grep -n '\$member\[\|\$is_member\|\$is_admin\|mb_level' head.php _head.php mobile/head.php 2>/dev/null
+../nonsullearn-v2-frontend/docs/php homepage/03 prerequisites and harness.md:180:| 메타데이터 | `<title>`, description, OG, **canonical이 메인 도메인** |
+../nonsullearn-v2-frontend/docs/php homepage/03 prerequisites and harness.md:182:| 추적 | `track()` 호출 시 dataLayer에 canonical event push |
+../nonsullearn-v2-frontend/docs/php homepage/03 prerequisites and harness.md:198:curl -fsS -b 'v2_preview=1;PHPSESSID=dummy' $BASE/api/v2-health | jq -e '.cookieForwarded==false'
+../nonsullearn-v2-frontend/docs/production-discovery/04-homepage-runtime.md:8:- The tracked canonical entry follows `/` → `html2/index.php` → `common.php` → `_head.php` → `head.php` → page body → `_tail.php` → `tail.php`.
+../nonsullearn-v2-frontend/docs/production-discovery/04-homepage-runtime.md:14:The former homepage-banner-slot premise applies to `html/index.php`, not the canonical tracked `html2/index.php`. Therefore **no BannerAdapter is required for the current canonical homepage source**. `lib/lms.lib.php:get_banner()` and `skin/banner/basic/type1.skin.php` remain available for non-home surfaces, but are not a homepage dependency.
+../nonsullearn-v2-frontend/docs/production-discovery/04-homepage-runtime.md:18:The canonical current page directly references a public legacy teacher asset under `data/teacher/<opaque-id>`. Prior read-only inventory confirms `data/teacher` is present. Current existence and deployment-version parity are **BLOCKING** until a successfully authenticated, read-only file stat and index hash comparison are completed.
+../nonsullearn-v2-frontend/docs/production-discovery/04-homepage-runtime.md:22:The original audit used `html/index.php` for the homepage slot analysis. The canonical-root correction invalidates that homepage-specific banner dependency; it does not change other route findings.
+../nonsullearn-v2-frontend/docs/production-discovery/07-homepage-v2-contract.md:5:For the current tracked canonical `html2/index.php`, Homepage requires **ViewerAdapter only** for global header/mobile navigation state. It does **not** require BannerAdapter: the canonical page has no runtime banner call. The hero/content itself is source-owned UI and one public legacy teacher asset path.
+../nonsullearn-v2-frontend/docs/production-discovery/05-session-cookie-runtime.md:5:`html2/common.php` starts the PHP session before resolving the member. Default cookie name is `PHPSESSID`; it becomes `G5…PHPSESSID` only under the source-defined special document-root/domain conditions. Cookie path is `/`; `HttpOnly` is true; `Secure` is true when PHP observes HTTPS. `G5_COOKIE_DOMAIN` is configured at runtime (tracked default is empty). Session lifetime configuration is 10,800 seconds. `session_save_path()` is commented out, so the actual save handler/path is PHP runtime configuration and is **STILL_UNKNOWN**.
+../nonsullearn-v2-frontend/docs/production-discovery/05-session-cookie-runtime.md:9:Member resolution is: session `ss_mb_id` → `get_member()` → intercept/leave/token checks → `$member`; `$is_member` is true iff `$member['mb_id']` is set. A guest gets `mb_level = 1`. `head.php` exposes login/logout based on `mb_id` and conditionally shows correction navigation for `mb_level > 7`. Login writes `ss_mb_id`; auto-login uses `ck_mb_id` and `ck_auto`; logout clears those cookies and session state. URLs are `/bbs/login.php` and `/bbs/logout.php`.
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:5:3. **Remaining UNKNOWNs:** former banner rows are non-blocking for the current tracked canonical homepage because it does not call `get_banner()`. DB dumps, runtime session files, PG credentials/certificates, cache/logs, and cron are **NON_BLOCKING** for Homepage.
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:7:5. **Is BannerAdapter information sufficient?** It is not required for the current canonical Homepage. For a future banner surface, source contract is sufficient but live row verification remains unknown.
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:16:| canonical `html2` root | RESOLVED | stipulated and historical Apache evidence |
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:17:| homepage banner data/files | NON_BLOCKING | current canonical source has no homepage banner renderer |
+../nonsullearn-v2-frontend/docs/production-discovery/06-production-routing.md:5:`03-upload-storage-inventory.md` records Apache `sites.conf` entries for `nonsul-learn.com` and `www.nonsul-learn.com`, with `DocumentRoot /home/nonsul-learn.com/html2` for HTTP and HTTPS virtual hosts. It is sufficient evidence for the established canonical root, but it is not a fresh 2026-10-01 host read.
+../nonsullearn-v2-frontend/docs/production-discovery/06-production-routing.md:7:Tracked `html2/.htaccess` has `RewriteEngine On`, no active canonical HTTPS/host rewrite, no active pretty-route rewrite, and `ErrorDocument 404 /index.php`. PHP files and static paths are consequently served by the normal Apache/PHP mapping unless unseen vhost rules alter them.
+../nonsullearn-v2-frontend/docs/production-discovery/06-production-routing.md:15:DocumentRoot history is **RESOLVED**. Current VirtualHost directives, TLS termination, host aliases, proxy module availability, and any vhost-level rewrites are **BLOCKING** because the current Production inspection could not authenticate after host-key verification succeeded. No Apache configuration was changed, reloaded, or restarted.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:50:| Important PHP source and canonical `html2` retained | PASS | auth, PG, LMS/correction, entrypoints, assets under `html2/` | Low for snapshot; Production drift UNKNOWN |
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:81:| Database | outside Git; baseline remains `nonsullearndb`, 66 tables; not accessed |
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:85:stated canonical root, but Production revision/root drift is UNKNOWN. Do not
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:129:The known baseline is MariaDB `nonsullearndb` with 66 tables. No connection,
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:139:`PHPSESSID` or migrate passwords.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:180:- Production-to-Git drift and live canonical-root revision.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:183:- Apache VirtualHost/rewrite/proxy, kill switch, direct-origin behavior.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:205:- Record canonical `html2` release references and a repeatable drift comparison.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:220:2. **PASS basis:** remote-backed Legacy source, retained canonical `html2` core,
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:52:| **7** | Gate 7 | 전체 canonical event, provider 매핑, 채널별 전환 리포트 | 에이전트 | Gate 7 DoD |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:107:RewriteRule ^/?$ - [CO=v2_home:${homebucket:b}:.<메인도메인>:10080:/:secure:httponly,E=V2HOME:${homebucket:b}]
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:112:RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/harness/HARNESS.md:105:| canonical 이름 | `events.ts`에 없는 이벤트명으로 `track()` 호출 시 타입 에러 |
+../nonsullearn-v2-frontend/docs/harness/HARNESS.md:118:| SEO | 위 페이지 | `<title>`, description, OG, **canonical이 `NEXT_PUBLIC_SITE_URL` 기준** |
+../nonsullearn-v2-frontend/docs/harness/HARNESS.md:130:**대상 env:** `SMOKE_BASE_URL`, `SMOKE_ORIGIN_URL`, (선택) `SMOKE_PHPSESSID`
+../nonsullearn-v2-frontend/docs/harness/HARNESS.md:139:| S6 | `GET /api/v2-health` + `PHPSESSID=dummy` 쿠키 | **`cookieForwarded==false`** |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:61:| SEO | Public page면 title, description, canonical, crawl/index behavior, Open Graph, semantic headings |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:62:| Analytics | canonical event, Attribution Context, provider 분리, dedupe, Debug Harness |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:67:| Task DoD | Global DoD 적용 항목, `pnpm check`, Contract/Adapter의 L1/L2, Legacy UI 4상태, 새 페이지 metadata/canonical/375px/L3, 새 env의 `.env.example`·`env.*.ts`·Harness 갱신, ADR/PR Gate 기록을 충족한다. |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:98:| ● | canonical homepage dependency slice와 Auth/session/PG 존재 기록 |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:99:| ○ | deployed revision, teacher asset, Set-Cookie, handler/storage, VirtualHost/TLS/Rewrite/Proxy runtime 검증 |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:168:Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php → $member → canonical JSON`. Apache가 Vercel proxy 시 Cookie를 제거하므로 Next.js server는 PHP session을 볼 수 없다. Course public data는 Vercel server(ISR)가 cookie 없이 `/v2-api/courses.php`를 호출한다.
+../nonsullearn-v2-frontend/docs/harness/GATES.md:186:| ● | VirtualHost/Rewrite/Proxy runtime, route ownership matrix, `/v2-api/*` PHP 유지 |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:235:| ● | `track()` canonical event와 GA4/GTM, Meta, Naver, Internal adapter |
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/03-php-dependency-map.md:3:`html/common.php` initializes configuration, database connection, session and `$member`; then loads `lib/common.lib.php`, `lib/lms.lib.php`, and GnuBoard settings. `html/config.php` supplies path constants. `head.php` injects shared navigation and checks `$member['mb_level'] > 7` for correction submission visibility.
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/10-missing-and-unknown.md:13:| MISSING | Production web-server config | canonical/rewrite/robots/domain behavior | vhost/rewrite/robots read-only inspection |
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/01-frontend-surface-inventory.md:6:| Global header/nav/footer | every branded page | `_head.php` → `head.php`; `_tail.php` → `tail.php` | `$member`, GnuBoard URLs | auth and `mb_level > 7` correction link; responsive menu | navigate/login/logout/menu | TS layout + session adapter | HIGH |
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/04-data-and-config-dependencies.md:5:Key columns observed in source: member `mb_id`, `mb_level`, `mb_name`, point/contact fields; item `it_id`, `it_name`, `it_price`, `it_use`, stock fields; LMS `od_status`, `start_date`, `end_date`, `progress`, `correc_cnt`, `lol_no`; board `bo_*`; post `wr_*`.
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/08-seo-metadata-analytics.md:3:`head.sub.php` emits dynamic title from `$g5_head_title`, fixed Korean description/keywords, viewport, Naver and Google verification meta tags, favicons and mobile icons under `seo/img`. `/sitemap.php` emits home and public posts for `briefing`/`notice` (up to 1500 each), excluding secret posts. No canonical, robots.txt, Open Graph/Twitter metadata, structured data, or analytics tag was found in the audited public sources. Their production/vhost presence is **UNKNOWN**.
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/05-auth-session-cookie.md:5:Parity requirements: header swaps login/logout; `mb_level > 7` exposes correction link; unauthenticated `/lecture/mypage.php` redirects to login with URL; lecture module displays login alert/redirect behavior; membership forms retain legacy validation/error/return URL semantics. V2 should read session identity through a same-site PHP bridge; PHP retains cookies and auth source of truth.
+../nonsullearn-v2-frontend/docs/frontend-migration-audit/18-migration-sequence.md:4:2. Freeze and sanitize route/state fixtures; choose canonical URLs and proxy topology.
+../nonsullearn-v2-frontend/AGENTS.md:40:2. **이 레포는 PHP 세션 쿠키를 읽거나 전달하지 않는다.** 서버 코드에서 `cookies()`로 `PHPSESSID`를 다루지 않는다.
+../nonsullearn-v2-frontend/AGENTS.md:83:├── analytics/                  # track(), canonical events, provider adapters, attribution
+../nonsullearn-v2-frontend/AGENTS.md:139:- 메타데이터: 모든 페이지 `generateMetadata` 또는 `metadata`. canonical은 `NEXT_PUBLIC_SITE_URL` 기준.
+../nonsullearn-v2-frontend/AGENTS.md:186:- 이벤트 이름은 `src/analytics/events.ts`의 canonical 목록만 (`page_view`, `cta_click`, `course_view`, `begin_checkout`, `bridge_error` ...). 새 이벤트는 목록에 먼저 추가.
+../nonsullearn-v2-frontend/AGENTS.md:216:- [ ] 새 페이지: 메타데이터, canonical, 모바일 레이아웃, L3 e2e 1개 이상
+
+=== [A1] Header member information ===
+-- header files present --
+html2/head.php
+html2/_head.php
+html2/head.sub.php
+html2/mobile/head.php
+html2/mobile/_head.php
+-- member/auth usage --
+html2/head.php:85:                        <?php  if($member['mb_level'] > 7) {  ?>
+html2/head.php:96:                <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/head.php:97:                    <?php if ($is_admin) { ?>
+html2/head.php:211:                        <?php  if($member['mb_level'] > 7) {  ?>
+html2/head.php:224:            <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/head.php:225:                <?php if ($is_admin) { ?>
+html2/head.sub.php:25:if (strstr($g5['lo_url'], '/'.G5_ADMIN_DIR.'/') || $is_admin == 'super') $g5['lo_url'] = '';
+html2/head.sub.php:89:var g5_url       = "<?php echo G5_URL ?>";  var g5_bbs_url   = "<?php echo G5_BBS_URL ?>";  var g5_is_member = "<?php echo isset($is_member)?$is_member:''; ?>";    var g5_is_admin  = "<?php echo isset($is_admin)?$is_admin:''; ?>";  var g5_is_mobile = "<?php echo G5_IS_MOBILE ?>";    var g5_bo_table  = "<?php echo isset($bo_table)?$bo_table:''; ?>";  var g5_sca       = "<?php echo isset($sca)?$sca:''; ?>";    var g5_editor    = "<?php echo ($config['cf_editor'] && $board['bo_use_dhtml_editor'])?$config['cf_editor']:''; ?>";    var g5_cookie_domain = "<?php echo G5_COOKIE_DOMAIN ?>";    <?php if(defined('G5_USE_SHOP') && G5_USE_SHOP) { ?>    var g5_shop_url = "<?php echo G5_SHOP_URL; ?>"; <?php } ?>  <?php if(defined('G5_IS_ADMIN')) { ?>   var g5_admin_url = "<?php echo G5_ADMIN_URL; ?>";
+html2/mobile/head.php:88:                <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/mobile/head.php:89:                    <?php if ($is_admin) { ?>
+html2/mobile/head.php:213:            <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/mobile/head.php:214:                <?php if ($is_admin) { ?>
+
+=== [A2] Level / capability branches ===
+html2/head.php:97:                    <?php if ($is_admin) { ?>
+html2/head.php:225:                <?php if ($is_admin) { ?>
+html2/head.sub.php:25:if (strstr($g5['lo_url'], '/'.G5_ADMIN_DIR.'/') || $is_admin == 'super') $g5['lo_url'] = '';
+html2/head.sub.php:89:var g5_url       = "<?php echo G5_URL ?>";  var g5_bbs_url   = "<?php echo G5_BBS_URL ?>";  var g5_is_member = "<?php echo isset($is_member)?$is_member:''; ?>";    var g5_is_admin  = "<?php echo isset($is_admin)?$is_admin:''; ?>";  var g5_is_mobile = "<?php echo G5_IS_MOBILE ?>";    var g5_bo_table  = "<?php echo isset($bo_table)?$bo_table:''; ?>";  var g5_sca       = "<?php echo isset($sca)?$sca:''; ?>";    var g5_editor    = "<?php echo ($config['cf_editor'] && $board['bo_use_dhtml_editor'])?$config['cf_editor']:''; ?>";    var g5_cookie_domain = "<?php echo G5_COOKIE_DOMAIN ?>";    <?php if(defined('G5_USE_SHOP') && G5_USE_SHOP) { ?>    var g5_shop_url = "<?php echo G5_SHOP_URL; ?>"; <?php } ?>  <?php if(defined('G5_IS_ADMIN')) { ?>   var g5_admin_url = "<?php echo G5_ADMIN_URL; ?>";
+html2/mobile/head.php:89:                    <?php if ($is_admin) { ?>
+html2/mobile/head.php:214:                <?php if ($is_admin) { ?>
+-- lecture/ uAdmin/ --
+html2/uAdmin/admin.tail.php:7:$print_version = ($is_admin == 'super') ? 'Version ' . G5_GNUBOARD_VER : '';
+html2/uAdmin/auth_update.php:11:if ($is_admin != 'super') {
+html2/uAdmin/captcha_file_delete.php:5:if ($is_admin != 'super') {
+html2/uAdmin/admin.head.php:37:    global $menu, $auth_menu, $is_admin, $auth, $g5, $sub_menu;
+html2/uAdmin/admin.head.php:45:        if ($is_admin != 'super' && (!array_key_exists($menu[$key][$i][0], $auth) || !strstr($auth[$menu[$key][$i][0]], 'r'))) {
+html2/uAdmin/boardgroup_form.php:7:if ($is_admin != 'super' && $w == '') {
+html2/uAdmin/boardgroup_form.php:101:                        if ($is_admin == 'super') {
+html2/uAdmin/boardgroup_form.php:110:                        if ($is_admin == 'super') {
+html2/uAdmin/config_form_update.php:9:if ($is_admin != 'super') {
+html2/uAdmin/boardgroupmember_form.php:38:            if ($is_admin != 'super') {
+html2/uAdmin/boardgroupmember_form.php:81:                if ($is_admin != 'super') {
+html2/uAdmin/theme_update.php:5:if ($is_admin != 'super')
+html2/uAdmin/index.php:21:$addtional_content_before = run_replace('adm_index_addtional_content_before', '', $is_admin, $auth, $member);
+html2/uAdmin/index.php:31:    if ($is_admin != 'super') {
+html2/uAdmin/index.php:96:                        if ($is_admin == 'group') {
+html2/uAdmin/index.php:336:$addtional_content_after = run_replace('adm_index_addtional_content_after', '', $is_admin, $auth, $member);
+html2/uAdmin/boardgroup_list_update.php:38:        if ($is_admin != 'super') {
+html2/uAdmin/session_file_delete.php:5:if ($is_admin != "super")
+html2/uAdmin/menu_list_update.php:7:if ($is_admin != 'super') {
+html2/uAdmin/member_form.php:67:    if ($is_admin != 'super' && $mb['mb_level'] >= $member['mb_level']) {
+html2/uAdmin/member_list_update.php:58:        } elseif ($is_admin != 'super' && $mb['mb_level'] >= $member['mb_level']) {
+html2/uAdmin/member_list_update.php:97:        } elseif ($is_admin != 'super' && $mb['mb_level'] >= $member['mb_level']) {
+html2/uAdmin/LMS/lectureformupdate.php:277:    if ($is_admin != 'super')
+html2/uAdmin/LMS/teacherlistupdate.php:13:    if ($is_admin != 'super')
+html2/uAdmin/LMS/lecture.examlistupdate.php:13:    if ($is_admin != 'super')
+html2/uAdmin/LMS/lecturedelete.inc.php:11:        global $g5, $is_admin;
+html2/uAdmin/LMS/lecture.examformupdate.php:234:    if ($is_admin != 'super')
+html2/uAdmin/LMS/lecture.examdelete.inc.php:11:        global $g5, $is_admin;
+html2/uAdmin/LMS/lecturelistupdate.php:13:    if ($is_admin != 'super')
+html2/uAdmin/LMS/teacherdelete.inc.php:11:        global $g5, $is_admin;
+html2/uAdmin/menu_list.php:5:if ($is_admin != 'super') {
+html2/uAdmin/admin.lib.php:267:    global $is_admin;
+html2/uAdmin/admin.lib.php:269:    if ($is_admin == 'super') {
+html2/uAdmin/admin.lib.php:616:} else if ($is_admin != 'super') {
+html2/uAdmin/theme.php:5:if ($is_admin != 'super')
+html2/uAdmin/thumbnail_file_delete.php:5:if ($is_admin != 'super')
+html2/uAdmin/browscap_converter.php:12:if ($is_admin != 'super') {
+html2/uAdmin/board_list_update.php:38:        if ($is_admin != 'super') {
+html2/uAdmin/board_list_update.php:69:    if ($is_admin != 'super') {
+html2/uAdmin/board_list.php:10:if ($is_admin != "super") {
+html2/uAdmin/board_list.php:124:                            <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/board_list.php:199:        <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/popular_list.php:142:    <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/browscap_update.php:14:if ($is_admin != 'super') {
+html2/uAdmin/auth_list.php:5:if ($is_admin != 'super') {
+html2/uAdmin/auth_list_delete.php:7:if ($is_admin != 'super') {
+html2/uAdmin/visit_delete_update.php:9:if ($is_admin != 'super')
+html2/uAdmin/member_list.php:30:if ($is_admin != 'super') {
+html2/uAdmin/member_list.php:160:                    if ($is_admin == 'group') {
+html2/uAdmin/member_list.php:321:        <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/browscap.php:9:if ($is_admin != 'super') {
+html2/uAdmin/cache_file_delete.php:5:if ($is_admin != 'super') {
+html2/uAdmin/browscap_convert.php:9:if ($is_admin != 'super') {
+html2/uAdmin/config_form.php:7:if ($is_admin != 'super') {
+html2/uAdmin/visit_search.php:103:        if ($is_admin == 'super')
+html2/uAdmin/view.php:11:if( ! $is_admin ){
+html2/uAdmin/boardgroup_form_update.php:11:if ($is_admin != 'super' && $w == '') {
+html2/uAdmin/shop_admin/itemformupdate.php:25:if ($is_admin != 'super') {     // 최고관리자가 아니면 체크
+html2/uAdmin/shop_admin/itemformupdate.php:483:    if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemstocksms.php:156:    <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/shop_admin/index.php:430:<?php if ($is_admin === 'super') { ?>
+html2/uAdmin/shop_admin/categorylist.php:25:if ($is_admin != 'super')
+html2/uAdmin/shop_admin/categorylist.php:137:        if ($is_admin == 'super')
+html2/uAdmin/shop_admin/categorylist.php:209:            <?php if ($is_admin == 'super') {?>
+html2/uAdmin/shop_admin/categorylist.php:257:    <?php if ($is_admin == 'super') {?>
+html2/uAdmin/shop_admin/itemform.php:101:    if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemform.php:139:if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemform.php:1399:                        if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemeventform.php:58:if ($is_admin != 'super')
+html2/uAdmin/shop_admin/categoryformupdate.php:116:if ($w == 'd' && $is_admin != 'super')
+html2/uAdmin/shop_admin/categoryformupdate.php:212:        if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemdelete.inc.php:13:        global $g5, $is_admin;
+html2/uAdmin/shop_admin/itemstocksmsupdate.php:103:    if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemlist.php:17:if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemlist.php:57:if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemlist.php:266:    <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/shop_admin/categoryform.php:33:if ($is_admin != 'super')
+html2/uAdmin/shop_admin/categoryform.php:38:    if ($is_admin != 'super' && !$ca_id)
+html2/uAdmin/shop_admin/categoryform.php:206:            <th scope="row"><?php if ($is_admin == 'super') { ?><label for="ca_mb_id"><?php } ?>관리 회원아이디<?php if ($is_admin == 'super') { ?></label><?php } ?></th>
+html2/uAdmin/shop_admin/categoryform.php:208:                <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/shop_admin/itemlistupdate.php:43:        if ($is_admin != 'super') {     // 최고관리자가 아니면 체크
+html2/uAdmin/shop_admin/itemlistupdate.php:74:    if ($is_admin != 'super')
+html2/uAdmin/shop_admin/itemcopyupdate.php:12:if ($is_admin != "super")
+html2/uAdmin/member_list_file_delete.php:5:if ($is_admin != 'super')
+html2/uAdmin/boardgroup_list.php:19:if ($is_admin != 'super') {
+html2/uAdmin/boardgroup_list.php:139:                            <?php if ($is_admin == 'super') { ?>
+html2/uAdmin/board_form.php:193:    if ($is_admin == 'group') {
+html2/uAdmin/board_form.php:202:if ($is_admin != 'super') {
+html2/uAdmin/board_form.php:204:    $is_admin = is_admin($member['mb_id']);
+html2/uAdmin/board_form.php:913:        <?php if ($is_admin === 'super') {   // 슈퍼관리자인 경우에만 수정 가능 ?>
+html2/uAdmin/board_form.php:1002:        <?php }     //end if $is_admin === 'super' ?>
+html2/uAdmin/menu_form_search.php:4:if ($is_admin != 'super') {
+html2/uAdmin/member_form_update.php:187:    if ($is_admin != 'super' && $mb['mb_level'] >= $member['mb_level']) {
+html2/uAdmin/member_form_update.php:191:    if ($is_admin !== 'super' && is_admin($mb['mb_id']) === 'super') {
+html2/uAdmin/menu_form.php:5:if ($is_admin != 'super') {
+html2/uAdmin/member_list_delete.php:24:    } elseif ($is_admin != "super" && $mb['mb_level'] >= $member['mb_level']) {
+html2/uAdmin/theme_detail.php:5:if ($is_admin != 'super')
+html2/uAdmin/visit_list.php:84:        if ($is_admin == 'super')
+html2/uAdmin/board_form_update.php:43:if ($is_admin === 'super') {
+html2/uAdmin/board_form_update.php:245:if ($is_admin === 'super') {
+html2/uAdmin/board_form_update.php:441:if ($is_admin === 'super') {
+html2/uAdmin/board_form_update.php:531:if ($is_admin === 'super') {
+
+=== [A3] common.php side effects (bridge include risk) ===
+html2/common.php:8:header('P3P: CP="ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC OTC"');
+html2/common.php:14:    die(sprintf('PHP 5.2.17 or higher required. Your PHP version is %s', PHP_VERSION));
+html2/common.php:32:// Cloudflare 사용시 REMOTE_ADDR 에 사용자 IP 적용과 https 사용 여부
+html2/common.php:34:    include_once('cloudflare.check.php');    // cloudflare 의 ip 대역인지 체크
+html2/common.php:60:include_once($g5_path['path'].'/config.php');   // 설정 파일
+html2/common.php:144:include_once(G5_LIB_PATH.'/hook.lib.php');    // hook 함수 파일
+html2/common.php:145:include_once(G5_LIB_PATH.'/get_data.lib.php');    // 데이타 가져오는 함수 모음
+html2/common.php:146:include_once(G5_LIB_PATH.'/cache.lib.php');     // cache 함수 및 object cache class 모음
+html2/common.php:147:include_once(G5_LIB_PATH.'/uri.lib.php');    // URL 함수 파일
+html2/common.php:156:    include_once($dbconfig_file);
+html2/common.php:157:    include_once(G5_LIB_PATH.'/common.lib.php');    // 공통 라이브러리
+html2/common.php:158:    include_once(G5_LIB_PATH.'/lms.lib.php');    // 추가 라이브러리
+html2/common.php:217:// session_save_path(G5_SESSION_PATH);
+html2/common.php:271:                goto_url(G5_BBS_URL.'/logout.php');
+html2/common.php:281:            echo '<html><head><meta charset="UTF-8"></head><body>';
+html2/common.php:282:            echo '<form id="f" name="f" method="post">';
+html2/common.php:283:            echo self::makeInputArray($posts);
+html2/common.php:284:            echo '</form>';
+html2/common.php:285:            echo '<script>';
+html2/common.php:286:            echo 'document.f.submit();';
+html2/common.php:287:            echo '</script></body></html>';
+html2/common.php:351:        XenoPostToForm::submit($_POST); // session_start(); 하기 전에
+html2/common.php:366:    if(!function_exists('session_start_samesite')) {
+html2/common.php:367:        function session_start_samesite($options = array())
+html2/common.php:371:            $res = @session_start($options);
+html2/common.php:390:                header($header, false);
+html2/common.php:398:    session_start_samesite();
+html2/common.php:400:    @session_start();
+html2/common.php:556:            $sql = " update {$g5['member_table']} set mb_today_login = '".G5_TIME_YMDHIS."', mb_login_ip = '{$_SERVER['REMOTE_ADDR']}' where mb_id = '{$member['mb_id']}' ";
+html2/common.php:584:                        echo "<script type='text/javascript'> window.location.reload(); </script>";
+html2/common.php:599:    $cf_possible_ip = trim($config['cf_possible_ip']);
+html2/common.php:600:    if ($cf_possible_ip) {
+html2/common.php:602:        $pattern = explode("\n", $cf_possible_ip);
+html2/common.php:611:            $is_possible_ip = preg_match($pat, $_SERVER['REMOTE_ADDR']);
+html2/common.php:621:    $pattern = explode("\n", trim($config['cf_intercept_ip']));
+html2/common.php:630:        $is_intercept_ip = preg_match($pat, $_SERVER['REMOTE_ADDR']);
+html2/common.php:708:    include_once(G5_THEME_PATH.'/theme.config.php');
+html2/common.php:713:    include_once(G5_PATH.'/shop.config.php');
+html2/common.php:723:$is_mobile = false;
+html2/common.php:729://            $is_mobile  = false;
+html2/common.php:733://            $is_mobile  = true;
+html2/common.php:750://        $is_mobile = false;
+html2/common.php:752://        $is_mobile = true;
+html2/common.php:753://    else if (isset($_SESSION['ss_is_mobile']))
+html2/common.php:754://        $is_mobile = $_SESSION['ss_is_mobile'];
+html2/common.php:755://    else if (is_mobile())
+html2/common.php:756://        $is_mobile = true;
+html2/common.php:761://if (is_mobile()){
+html2/common.php:762://    $is_mobile = true;
+html2/common.php:764://    $is_mobile = false;
+html2/common.php:767://$_SESSION['ss_is_mobile'] = $is_mobile;
+html2/common.php:768:define('G5_IS_MOBILE', is_mobile());
+html2/common.php:770://if (G5_IS_MOBILE) {
+html2/common.php:792:include_once(G5_BBS_PATH.'/visit_insert.inc.php');
+html2/common.php:796:include_once(G5_BBS_PATH.'/db_table.optimize.php');
+html2/common.php:802:    // php 파일만 include 함
+html2/common.php:811:        include_once(G5_EXTEND_PATH.'/'.$file);
+html2/common.php:819:        goto_url(G5_BBS_URL."/member_cert_refresh.php");
+html2/common.php:823:ob_start();
+html2/common.php:827:header('Content-Type: text/html; charset=utf-8');
+html2/common.php:829:header('Expires: 0'); // rfc2616 - Section 14.21
+html2/common.php:830:header('Last-Modified: ' . $gmnow);
+html2/common.php:831:header('Cache-Control: no-store, no-cache, must-revalidate'); // HTTP/1.1
+html2/common.php:832:header('Cache-Control: pre-check=0, post-check=0, max-age=0'); // HTTP/1.1
+html2/common.php:833:header('Pragma: no-cache'); // HTTP/1.0
+html2/config.php:10:include_once($g5_path['path'].'/version.php');   // 설정 파일
+html2/config.php:202:define('G5_IS_MOBILE_DHTML_USE', false);
+-- where visit_insert is included --
+html2/common.php:792:include_once(G5_BBS_PATH.'/visit_insert.inc.php');
+
+=== [A4] Session / cookie source configuration ===
+html2/config.php:19:define('G5_DOMAIN', '');
+html2/config.php:20:define('G5_HTTPS_DOMAIN', '');
+html2/config.php:41:define('G5_COOKIE_DOMAIN',  '');
+html2/config.php:66:define('G5_SESSION_DIR',    'session');
+html2/config.php:73:if (G5_DOMAIN) {
+html2/config.php:74:    define('G5_URL', G5_DOMAIN);
+html2/config.php:114:define('G5_SESSION_PATH',   G5_DATA_PATH.'/'.G5_SESSION_DIR);
+html2/common.php:213:@ini_set("session.use_trans_sid", 0);    // PHPSESSID를 자동으로 넘기지 않음
+html2/common.php:214:@ini_set("url_rewriter.tags",""); // 링크에 PHPSESSID가 따라다니는것을 무력화함 (해뜰녘님께서 알려주셨습니다.)
+html2/common.php:217:// session_save_path(G5_SESSION_PATH);
+html2/common.php:224:ini_set("session.cache_expire", 180); // 세션 캐쉬 보관시간 (분)
+html2/common.php:225:ini_set("session.gc_maxlifetime", 10800); // session data의 garbage collection 존재 기간을 지정 (초)
+html2/common.php:226:ini_set("session.gc_probability", 1); // session.gc_probability는 session.gc_divisor와 연계하여 gc(쓰레기 수거) 루틴의 시작 확률을 관리합니다. 기본값은 1입니다. 자세한 내용은 session.gc_divisor를 참고하십시오.
+html2/common.php:227:ini_set("session.gc_divisor", 100); // session.gc_divisor는 session.gc_probability와 결합하여 각 세션 초기화 시에 gc(쓰레기 수거) 프로세스를 시작할 확률을 정의합니다. 확률은 gc_probability/gc_divisor를 사용하여 계산합니다. 즉, 1/100은 각 요청시에 GC 프로세스를 시작할 확률이 1%입니다. session.gc_divisor의 기본값은 100입니다.
+html2/common.php:230:    session_set_cookie_params(0, '/', null, true, true);
+html2/common.php:232:    session_set_cookie_params(0, '/', null, false, true);
+html2/common.php:235:ini_set("session.cookie_domain", G5_COOKIE_DOMAIN);
+html2/common.php:237:function chrome_domain_session_name(){
+html2/common.php:254:        if(! defined('G5_SESSION_NAME')) define('G5_SESSION_NAME', 'G5'.$add_str.'PHPSESSID');
+html2/common.php:255:        @session_name(G5_SESSION_NAME);
+html2/common.php:259:chrome_domain_session_name();
+html2/common.php:264:        public static function g5_session_name(){
+html2/common.php:265:            return (defined('G5_SESSION_NAME') && G5_SESSION_NAME) ? G5_SESSION_NAME : 'PHPSESSID';
+html2/common.php:269:            $cookie_session_name = self::g5_session_name();
+html2/common.php:270:            if (isset($_REQUEST[$cookie_session_name]) && $_REQUEST[$cookie_session_name] != session_id())
+html2/common.php:275:            $cookie_session_name = self::g5_session_name(); 
+html2/common.php:277:            return !isset($_COOKIE[$cookie_session_name]) && count($_POST) && ((isset($_SERVER['HTTP_REFERER']) && !preg_match('~^https://'.preg_quote($_SERVER['HTTP_HOST'], '~').'/~', $_SERVER['HTTP_REFERER']) || ! isset($_SERVER['HTTP_REFERER']) ));
+html2/common.php:347:// PG 결제시에 세션이 없으면 내 호출페이지를 다시 호출하여 쿠키 PHPSESSID를 살려내어 세션값을 정상적으로 불러오게 합니다.
+html2/common.php:351:        XenoPostToForm::submit($_POST); // session_start(); 하기 전에
+html2/common.php:362:// 본인인증 또는 쇼핑몰 사용시에만 secure; SameSite=None 로 설정합니다.
+html2/common.php:366:    if(!function_exists('session_start_samesite')) {
+html2/common.php:367:        function session_start_samesite($options = array())
+html2/common.php:371:            $res = @session_start($options);
+html2/common.php:373:            // IE 브라우저 또는 엣지브라우저 또는 IOS 모바일과 http환경에서는 secure; SameSite=None을 설정하지 않습니다.
+html2/common.php:386:            $cookie_session_name = method_exists('XenoPostToForm', 'g5_session_name') ? XenoPostToForm::g5_session_name() : 'PHPSESSID'; 
+html2/common.php:388:                if (!preg_match('~^Set-Cookie: '.$cookie_session_name.'=~', $header)) continue;
+html2/common.php:389:                $header = preg_replace('~(; secure; HttpOnly)?$~', '; secure; HttpOnly; SameSite=None', $header);
+html2/common.php:398:    session_start_samesite();
+html2/common.php:400:    @session_start();
+html2/common.php:411:// 4.00.03 : [보안관련] PHPSESSID 가 틀리면 로그아웃한다. php5.2 버전 이하에서만 해당되는 코드이며, 오히려 무한리다이렉트 오류가 일어날수 있으므로 주석처리합니다.
+html2/common.php:521:    if (G5_DOMAIN) {
+html2/common.php:522:        $p = @parse_url(G5_DOMAIN);
+html2/common.php:524:        $urlencode = rtrim(G5_DOMAIN, '%2F').'%2F'.ltrim(urldecode(preg_replace("/^".urlencode($p['path'])."/", "", $urlencode)), '%2F');
+
+=== [A5] Legacy URL map evidence ===
+html2/head.php:5:include_once(G5_LIB_PATH.'/outlogin.lib.php');
+html2/head.php:17:<nav class="navbar navbar-expand-lg sticky-top bg-white border-bottom">
+html2/head.php:19:        <a class="navbar-brand d-flex align-items-center" href="<?php echo G5_URL?>">
+html2/head.php:20:            <img src="<?php echo G5_URL?>/src/nonsul-learn/img/logo2.png" alt="논술런 - 논술을 배우다" class="navbar-logo">
+html2/head.php:32:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_URL?>/ceo_message" role="button">
+html2/head.php:36:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/ceo_message">논술런 소개</a></li>
+html2/head.php:37:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/teacher">강사 소개</a></li>
+html2/head.php:38:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/correction.php">첨삭 시스템 소개</a></li>
+html2/head.php:39:                        <li><a class="dropdown-item" href="<?php echo G5_BBS_URL?>/board.php?bo_table=briefing">현장강의설명회</a></li>
+html2/head.php:45:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=10" role="button">
+html2/head.php:49:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1010">김윤환 선생님</a></li>
+html2/head.php:50:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1020">임찬우 선생님</a></li>
+html2/head.php:51:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1030">하태진 선생님</a></li>
+html2/head.php:57:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=30" role="button">
+html2/head.php:61:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3020">김태훈 선생님</a></li>
+html2/head.php:62:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3040">이현진 선생님</a></li>
+html2/head.php:63:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3050">민준호 선생님</a></li>
+html2/head.php:69:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=40" role="button">
+html2/head.php:73:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4010">구제범 선생님</a></li>
+html2/head.php:74:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4020">배제형 선생님</a></li>
+html2/head.php:75:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4030">이현진 선생님</a></li>
+html2/head.php:85:                        <?php  if($member['mb_level'] > 7) {  ?>
+html2/head.php:86:                            <li><a class="dropdown-item"  href="<?php echo G5_BBS_URL?>/board.php?bo_table=correcting">첨삭제출현황</a></li>
+html2/head.php:88:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/lecture/mypage.php">나의강의실</a></li>
+html2/head.php:89:                        <li><a class="dropdown-item" href="<?php echo G5_BBS_URL?>/faq.php?fm_id=1">학습 FAQ</a></li>
+html2/head.php:90:                        <li><a class="dropdown-item" href="<?php echo G5_BBS_URL?>/board.php?bo_table=notice">공지사항</a></li>
+html2/head.php:96:                <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/head.php:103:                    <a href="<?php echo G5_BBS_URL ?>/member_confirm.php?url=register_form.php" class="nav-auth-link">
+html2/head.php:107:                    <a href="<?php echo G5_BBS_URL ?>/logout.php" class="nav-auth-link">
+html2/head.php:112:                    <a href="<?php echo G5_BBS_URL ?>/register.php" class="nav-auth-link">
+html2/head.php:116:                    <a href="<?php echo G5_BBS_URL ?>/login.php" class="nav-auth-link">
+html2/head.php:128:    <div class="offcanvas-header border-bottom">
+html2/head.php:129:        <a href="<?php echo G5_URL?>" class="d-flex align-items-center">
+html2/head.php:130:            <img src="<?php echo G5_URL?>/src/nonsul-learn/img/logo2.png" alt="논술런 - 논술을 배우다" class="offcanvas-logo">
+html2/head.php:138:            <div class="accordion-item border-0">
+html2/head.php:146:                        <a href="<?php echo G5_URL?>/ceo_message" class="d-block py-2 text-secondary text-decoration-none">논술런 소개</a>
+html2/head.php:147:                        <a href="<?php echo G5_URL?>/teacher" class="d-block py-2 text-secondary text-decoration-none">강사 소개</a>
+html2/head.php:148:                        <a href="<?php echo G5_URL?>/correction.php" class="d-block py-2 text-secondary text-decoration-none">첨삭 시스템 소개</a>
+html2/head.php:149:                        <a href="<?php echo G5_BBS_URL?>/board.php?bo_table=briefing" class="d-block py-2 text-secondary text-decoration-none">현장강의설명회</a>
+html2/head.php:155:            <div class="accordion-item border-0">
+html2/head.php:163:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1010" class="d-block py-2 text-secondary text-decoration-none">김윤환 선생님</a>
+html2/head.php:164:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1020" class="d-block py-2 text-secondary text-decoration-none">임찬우 선생님</a>
+html2/head.php:165:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1030" class="d-block py-2 text-secondary text-decoration-none">하태진 선생님</a>
+html2/head.php:171:            <div class="accordion-item border-0">
+html2/head.php:179:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3020" class="d-block py-2 text-secondary text-decoration-none">김태훈 선생님</a>
+html2/head.php:180:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3040" class="d-block py-2 text-secondary text-decoration-none">이현진 선생님</a>
+html2/head.php:181:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3050" class="d-block py-2 text-secondary text-decoration-none">민준호 선생님</a>
+html2/head.php:187:            <div class="accordion-item border-0">
+html2/head.php:195:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4010" class="d-block py-2 text-secondary text-decoration-none">구제범 선생님</a>
+html2/head.php:196:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4020" class="d-block py-2 text-secondary text-decoration-none">배제형 선생님</a>
+html2/head.php:197:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4030" class="d-block py-2 text-secondary text-decoration-none">이현진 선생님</a>
+html2/head.php:203:            <div class="accordion-item border-0">
+html2/head.php:211:                        <?php  if($member['mb_level'] > 7) {  ?>
+html2/head.php:212:                            <a href="<?php echo G5_BBS_URL?>/board.php?bo_table=correcting" class="d-block py-2 text-secondary text-decoration-none">첨삭제출현황</a>
+html2/head.php:214:                        <a href="<?php echo G5_URL?>/lecture/mypage.php" class="d-block py-2 text-secondary text-decoration-none">나의강의실</a>
+html2/head.php:215:                        <a href="<?php echo G5_BBS_URL?>/faq.php?fm_id=1" class="d-block py-2 text-secondary text-decoration-none">학습 FAQ</a>
+html2/head.php:216:                        <a href="<?php echo G5_BBS_URL?>/board.php?bo_table=notice" class="d-block py-2 text-secondary text-decoration-none">공지사항</a>
+html2/head.php:223:        <div class="pt-4 mt-auto border-top d-flex justify-content-center align-items-center gap-3">
+html2/head.php:224:            <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/head.php:232:                <a href="<?php echo G5_BBS_URL ?>/member_confirm.php?url=register_form.php" class="nav-auth-link fs-6">
+html2/head.php:236:                <a href="<?php echo G5_BBS_URL ?>/logout.php" class="nav-auth-link fs-6">
+html2/head.php:242:                <a href="<?php echo G5_BBS_URL?>/register.php" class="nav-auth-link fs-6">
+html2/head.php:246:                <a href="<?php echo G5_BBS_URL?>/login.php" class="nav-auth-link fs-6">
+html2/tail.php:14:                        논술런 | 시작과 끝을 한 곳에서.<br>대치동 1타 강사진의 라이브 강의 & 24시간 광속 첨삭 시스템
+html2/tail.php:20:                        <li class="mb-2"><a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=10" class="text-decoration-none text-secondary">인문논술</a></li>
+html2/tail.php:21:                        <li class="mb-2"><a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=30" class="text-decoration-none text-secondary">수리논술</a></li>
+html2/tail.php:22:                        <li class="mb-2"><a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=40" class="text-decoration-none text-secondary">약술논술</a></li>
+html2/tail.php:28:                        <li class="mb-2"><a href="<?php echo G5_BBS_URL?>/board.php?bo_table=notice" class="text-decoration-none text-secondary">공지사항</a></li>
+html2/tail.php:29:                        <li class="mb-2"><a href="<?php echo G5_BBS_URL?>/faq.php?fm_id=1" class="text-decoration-none text-secondary">FAQ</a></li>
+html2/tail.php:34:                    <p class="fs-5 fw-bold text-white mb-1">24시간 첨삭 센터</p>
+html2/tail.php:39:            <hr class="border-secondary my-4">
+html2/tail.php:46:                            <span class="me-3"><strong>상호 :</strong> 김윤환입시연구소 <a href="javascript:;" onclick="popup_window('<?php echo G5_URL?>/kyhinfo.php','kyhinfo','scrollbars=no,width=600,height=802,top=10,left=20')" class="text-warning text-decoration-none">[정보조회]</a></span>
+html2/tail.php:75:                        <select id="familySite" class="form-select form-select-sm bg-dark text-white border-secondary" onchange="if(this.value) window.open(this.value, '_blank');">
+html2/tail.php:86:            <hr class="border-secondary my-3">
+html2/tail.php:92:                    <a href="<?php echo G5_BBS_URL?>/content.php?co_id=provision" class="text-secondary text-decoration-none me-3">이용약관</a>
+html2/tail.php:93:                    <a href="<?php echo G5_BBS_URL?>/content.php?co_id=privacy" class="fw-bold text-white text-decoration-none">개인정보처리방침</a>
+html2/mobile/head.php:5:include_once(G5_LIB_PATH.'/outlogin.lib.php');
+html2/mobile/head.php:12:<nav class="navbar navbar-expand-lg sticky-top bg-white border-bottom">
+html2/mobile/head.php:14:        <a class="navbar-brand d-flex align-items-center" href="<?php echo G5_URL?>">
+html2/mobile/head.php:15:            <img src="<?php echo G5_URL?>/src/nonsul-learn/img/logo2.png" alt="논술런 - 논술을 배우다" class="navbar-logo">
+html2/mobile/head.php:27:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_URL?>/ceo_message" role="button">
+html2/mobile/head.php:31:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/ceo_message">논술런 소개</a></li>
+html2/mobile/head.php:32:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/teacher">강사 소개</a></li>
+html2/mobile/head.php:33:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/correction.php">첨삭 시스템 소개</a></li>
+html2/mobile/head.php:34:                        <li><a class="dropdown-item" href="<?php echo G5_BBS_URL?>/board.php?bo_table=briefing">현장강의설명회</a></li>
+html2/mobile/head.php:40:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=10" role="button">
+html2/mobile/head.php:44:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1010">김윤환 선생님</a></li>
+html2/mobile/head.php:45:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1020">임찬우 선생님</a></li>
+html2/mobile/head.php:46:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1030">하태진 선생님</a></li>
+html2/mobile/head.php:52:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=30" role="button">
+html2/mobile/head.php:56:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3020">김태훈 선생님</a></li>
+html2/mobile/head.php:57:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3040">이현진 선생님</a></li>
+html2/mobile/head.php:58:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3050">민준호 선생님</a></li>
+html2/mobile/head.php:64:                    <a class="nav-link dropdown-toggle fw-bold" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=40" role="button">
+html2/mobile/head.php:68:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4010">구제범 선생님</a></li>
+html2/mobile/head.php:69:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4020">배제형 선생님</a></li>
+html2/mobile/head.php:70:                        <li><a class="dropdown-item" href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4030">이현진 선생님</a></li>
+html2/mobile/head.php:80:                        <li><a class="dropdown-item" href="<?php echo G5_URL?>/lecture/mypage.php">나의강의실</a></li>
+html2/mobile/head.php:81:                        <li><a class="dropdown-item" href="<?php echo G5_BBS_URL?>/faq.php?fm_id=1">학습 FAQ</a></li>
+html2/mobile/head.php:82:                        <li><a class="dropdown-item" href="<?php echo G5_BBS_URL?>/board.php?bo_table=notice">공지사항</a></li>
+html2/mobile/head.php:88:                <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/mobile/head.php:95:                    <a href="<?php echo G5_BBS_URL ?>/member_confirm.php?url=register_form.php" class="nav-auth-link">
+html2/mobile/head.php:99:                    <a href="<?php echo G5_BBS_URL ?>/logout.php" class="nav-auth-link">
+html2/mobile/head.php:104:                    <a href="<?php echo G5_BBS_URL ?>/register.php" class="nav-auth-link">
+html2/mobile/head.php:108:                    <a href="<?php echo G5_BBS_URL ?>/login.php" class="nav-auth-link">
+html2/mobile/head.php:120:    <div class="offcanvas-header border-bottom">
+html2/mobile/head.php:121:        <a href="<?php echo G5_URL?>" class="d-flex align-items-center">
+html2/mobile/head.php:122:            <img src="<?php echo G5_URL?>/src/nonsul-learn/img/logo2.png" alt="논술런 - 논술을 배우다" class="offcanvas-logo">
+html2/mobile/head.php:130:            <div class="accordion-item border-0">
+html2/mobile/head.php:138:                        <a href="<?php echo G5_URL?>/ceo_message" class="d-block py-2 text-secondary text-decoration-none">논술런 소개</a>
+html2/mobile/head.php:139:                        <a href="<?php echo G5_URL?>/teacher" class="d-block py-2 text-secondary text-decoration-none">강사 소개</a>
+html2/mobile/head.php:140:                        <a href="<?php echo G5_URL?>/correction.php" class="d-block py-2 text-secondary text-decoration-none">첨삭 시스템 소개</a>
+html2/mobile/head.php:141:                        <a href="<?php echo G5_BBS_URL?>/board.php?bo_table=briefing" class="d-block py-2 text-secondary text-decoration-none">현장강의설명회</a>
+html2/mobile/head.php:147:            <div class="accordion-item border-0">
+html2/mobile/head.php:155:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1010" class="d-block py-2 text-secondary text-decoration-none">김윤환 선생님</a>
+html2/mobile/head.php:156:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1020" class="d-block py-2 text-secondary text-decoration-none">임찬우 선생님</a>
+html2/mobile/head.php:157:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1030" class="d-block py-2 text-secondary text-decoration-none">하태진 선생님</a>
+html2/mobile/head.php:163:            <div class="accordion-item border-0">
+html2/mobile/head.php:171:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3020" class="d-block py-2 text-secondary text-decoration-none">김태훈 선생님</a>
+html2/mobile/head.php:172:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3040" class="d-block py-2 text-secondary text-decoration-none">이현진 선생님</a>
+html2/mobile/head.php:173:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=3050" class="d-block py-2 text-secondary text-decoration-none">민준호 선생님</a>
+html2/mobile/head.php:179:            <div class="accordion-item border-0">
+html2/mobile/head.php:187:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4010" class="d-block py-2 text-secondary text-decoration-none">구제범 선생님</a>
+html2/mobile/head.php:188:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4020" class="d-block py-2 text-secondary text-decoration-none">배제형 선생님</a>
+html2/mobile/head.php:189:                        <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=4030" class="d-block py-2 text-secondary text-decoration-none">이현진 선생님</a>
+html2/mobile/head.php:195:            <div class="accordion-item border-0">
+html2/mobile/head.php:203:                        <a href="<?php echo G5_URL?>/lecture/mypage.php" class="d-block py-2 text-secondary text-decoration-none">나의강의실</a>
+html2/mobile/head.php:204:                        <a href="<?php echo G5_BBS_URL?>/faq.php?fm_id=1" class="d-block py-2 text-secondary text-decoration-none">학습 FAQ</a>
+html2/mobile/head.php:205:                        <a href="<?php echo G5_BBS_URL?>/board.php?bo_table=notice" class="d-block py-2 text-secondary text-decoration-none">공지사항</a>
+html2/mobile/head.php:212:        <div class="pt-4 mt-auto border-top d-flex justify-content-center align-items-center gap-3">
+html2/mobile/head.php:213:            <?php if ($member['mb_id']) { // 로그인 상태인 경우 ?>
+html2/mobile/head.php:221:                <a href="<?php echo G5_BBS_URL ?>/member_confirm.php?url=register_form.php" class="nav-auth-link fs-6">
+html2/mobile/head.php:225:                <a href="<?php echo G5_BBS_URL ?>/logout.php" class="nav-auth-link fs-6">
+html2/mobile/head.php:231:                <a href="<?php echo G5_BBS_URL?>/register.php" class="nav-auth-link fs-6">
+html2/mobile/head.php:235:                <a href="<?php echo G5_BBS_URL?>/login.php" class="nav-auth-link fs-6">
+html2/mobile/tail.php:12:                    <p class="text-secondary small">논술런 | 시작과 끝을 한 곳에서.<br>대치동 1타 강사진의 라이브 강의 & 24시간 광속 첨삭 시스템</p>
+html2/mobile/tail.php:17:                        <li class="mb-2"><a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=10">인문논술</a></li>
+html2/mobile/tail.php:18:                        <li class="mb-2"><a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=30">수리논술</a></li>
+html2/mobile/tail.php:19:                        <li class="mb-2"><a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=40">약술논술</a></li>
+html2/mobile/tail.php:25:                        <li class="mb-2"><a href="<?php echo G5_BBS_URL?>/board.php?bo_table=notice">공지사항</a></li>
+html2/mobile/tail.php:26:                        <li class="mb-2"><a href="<?php echo G5_BBS_URL?>/faq.php?fm_id=1">FAQ</a></li>
+html2/mobile/tail.php:31:                    <p class="fs-5 fw-bold text-white mb-1">24시간 첨삭 센터</p>
+html2/mobile/tail.php:35:            <hr class="border-secondary">
+html2/mobile/tail.php:39:                    <a href="<?php echo G5_BBS_URL?>/content.php?co_id=provision" class="me-3">이용약관</a>
+html2/mobile/tail.php:40:                    <a href="<?php echo G5_BBS_URL?>/content.php?co_id=privacy" class="fw-bold text-white">개인정보처리방침</a>
+-- login return parameter --
+html2/bbs/login.php:14:check_url_host($url);
+html2/bbs/login.php:18:    if ($url)
+html2/bbs/login.php:19:        goto_url($url);
+html2/bbs/login.php:24:$login_url        = login_url($url);
+html2/bbs/login.php:34:run_event('member_login_tail', $login_url, $login_action_url, $member_skin_path, $url);
+html2/bbs/login_check.php:103:if ($url) {
+html2/bbs/login_check.php:105:    check_url_host($url, '', G5_URL, true);
+html2/bbs/login_check.php:107:    $link = urldecode($url);
+html2/bbs/logout.php:18:if ($url) {
+html2/bbs/logout.php:19:    if ( substr($url, 0, 2) == '//' )
+html2/bbs/logout.php:20:        $url = 'http:' . $url;
+html2/bbs/logout.php:22:    if (preg_match('#\\\0#', $url) || preg_match('/^\/{1,}\\\/', $url)) {
+html2/bbs/logout.php:26:    $p = @parse_url(urldecode(str_replace('\\', '', $url)));
+html2/bbs/logout.php:31:    if (preg_match('/^https?:\/\//i', $url) || $p['scheme'] || $p['host']) {
+html2/bbs/logout.php:35:    if($url == 'shop')
+html2/bbs/logout.php:38:        $link = $url;
+
+=== [A6] Course detail / price / availability ===
+-- entry files --
+PRESENT html2/shop/item.php
+PRESENT html2/shop/list.php
+PRESENT html2/mobile/shop/item.php
+PRESENT html2/shop/ajax.list.php
+-- item.php parameters & price/status references --
+html2/shop/item.php:4:$it_id = isset($_GET['it_id']) ? get_search_string(trim($_GET['it_id'])) : '';
+html2/shop/item.php:7:$it = get_shop_item_with_category($it_id, $it_seo_title);
+html2/shop/item.php:9:if (! (isset($it['it_id']) && $it['it_id']))
+html2/shop/item.php:12:$it_id = $_REQUEST['it_id'] = $it['it_id'];
+html2/shop/item.php:15:    shop_seo_title_update($row['it_id']);
+html2/shop/item.php:20:if (!($it['ca_use'] && $it['it_use'])) {
+html2/shop/item.php:22:        alert('현재 판매가능한 상품이 아닙니다.');
+html2/shop/item.php:28:$sql = " select ca_skin_dir, ca_include_head, ca_include_tail, ca_cert_use, ca_adult_use from {$g5['g5_shop_category_table']} where ca_id = '{$it['ca_id']}' ";
+html2/shop/item.php:33:    $msg = shop_member_cert_check($it_id, 'item');
+html2/shop/item.php:44:        if (get_session("ss_tv[$i]") == $it_id) {
+html2/shop/item.php:54:    set_session("ss_tv[$tv_idx]", $it_id);
+html2/shop/item.php:59:if (get_cookie('ck_it_id') != $it_id) {
+html2/shop/item.php:60:    sql_query(" update {$g5['g5_shop_item_table']} set it_hit = it_hit + 1 where it_id = '$it_id' "); // 1증가
+html2/shop/item.php:61:    set_cookie("ck_it_id", $it_id, 3600); // 1시간동안 저장
+html2/shop/item.php:112:$ca_id = $it['ca_id'];
+html2/shop/item.php:140:$sql = " select it_id, it_name from {$g5['g5_shop_item_table']} where it_id > '$it_id' and SUBSTRING(ca_id,1,4) = '".substr($it['ca_id'],0,4)."' and it_use = '1' order by it_id asc limit 1 ";
+html2/shop/item.php:142:if (isset($row['it_id']) && $row['it_id']) {
+html2/shop/item.php:144:    $prev_href = '<a href="'.get_pretty_url('shop', $row['it_id']).'" id="siblings_prev" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; color: #334155; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.2s;">';
+html2/shop/item.php:153:$sql = " select it_id, it_name from {$g5['g5_shop_item_table']} where it_id < '$it_id' and SUBSTRING(ca_id,1,4) = '".substr($it['ca_id'],0,4)."' and it_use = '1' order by it_id desc limit 1 ";
+html2/shop/item.php:155:if (isset($row['it_id']) && $row['it_id']) {
+html2/shop/item.php:157:    $next_href = '<a href="'.get_pretty_url('shop', $row['it_id']).'" id="siblings_next" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; color: #334155; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.2s;">';
+html2/shop/item.php:166:$star_score = get_star_image($it['it_id']);
+html2/shop/item.php:169:$sql = " select count(*) as cnt from `{$g5['g5_shop_item_use_table']}` where it_id = '{$it_id}' and is_confirm = '1' ";
+html2/shop/item.php:174:$sql = " select count(*) as cnt from `{$g5['g5_shop_item_qa_table']}` where it_id = '{$it_id}' ";
+html2/shop/item.php:180:    $sql = " select count(*) as cnt from {$g5['g5_shop_item_relation_table']} a left join {$g5['g5_shop_item_table']} b on (a.it_id2=b.it_id) where a.it_id = '{$it['it_id']}' and  b.it_use='1' ";
+html2/shop/item.php:187:$sns_url  = shop_item_url($it['it_id']);
+html2/shop/item.php:192:// 상품품절체크
+html2/shop/item.php:194:    $is_soldout = is_soldout($it['it_id']);
+html2/shop/item.php:198:if(!$it['it_use'] || $it['it_tel_inq'] || $is_soldout)
+html2/shop/item.php:205:        $option_item = get_item_options($it['it_id'], $it['it_option_subject'], '');
+html2/shop/item.php:206:        $supply_item = get_item_supply($it['it_id'], $it['it_supply_subject'], '');
+html2/shop/item.php:209:        $option_item = get_item_options($it['it_id'], $it['it_option_subject'], 'div', 1);
+html2/shop/item.php:212:        $supply_item = get_item_supply($it['it_id'], $it['it_supply_subject'], 'div', 1);
+html2/shop/item.php:236:        <li><a href="#sit_use" <?php if ($anc_id == 'use') echo 'class="sanchor_on"'; ?>>강의후기 <span class="item_use_count"><?php echo $item_use_count; ?></span></a></li>
+html2/mobile/shop/item.php:5:$it_id = isset($_GET['it_id']) ? get_search_string(trim($_GET['it_id'])) : '';
+html2/mobile/shop/item.php:8:$it = get_shop_item_with_category($it_id, $it_seo_title);
+html2/mobile/shop/item.php:9:$it_id = $_REQUEST['it_id'] = $it['it_id'];
+html2/mobile/shop/item.php:11:if (! (isset($it['it_id']) && $it['it_id'])) {
+html2/mobile/shop/item.php:16:    shop_seo_title_update($row['it_id']);
+html2/mobile/shop/item.php:21:if (!($it['ca_use'] && $it['it_use'])) {
+html2/mobile/shop/item.php:23:        alert('판매가능한 상품이 아닙니다.');
+html2/mobile/shop/item.php:29:          where ca_id = '{$it['ca_id']}' ";
+html2/mobile/shop/item.php:34:    $msg = shop_member_cert_check($it_id, 'item');
+html2/mobile/shop/item.php:45:        if (get_session("ss_tv[$i]") == $it_id) {
+html2/mobile/shop/item.php:55:    set_session("ss_tv[$tv_idx]", $it_id);
+html2/mobile/shop/item.php:60:if (get_cookie('ck_it_id') != $it_id) {
+html2/mobile/shop/item.php:61:    sql_query(" update {$g5['g5_shop_item_table']} set it_hit = it_hit + 1 where it_id = '$it_id' "); // 1증가
+html2/mobile/shop/item.php:62:    set_cookie("ck_it_id", $it_id, 3600); // 1시간동안 저장
+html2/mobile/shop/item.php:66:$sql = " select it_id, it_name from {$g5['g5_shop_item_table']}
+html2/mobile/shop/item.php:67:          where it_id > '$it_id'
+html2/mobile/shop/item.php:68:            and SUBSTRING(ca_id,1,4) = '".substr($it['ca_id'],0,4)."'
+html2/mobile/shop/item.php:69:            and it_use = '1'
+html2/mobile/shop/item.php:70:          order by it_id asc
+html2/mobile/shop/item.php:73:if (isset($row['it_id']) && $row['it_id']) {
+html2/mobile/shop/item.php:75:    $prev_href = '<a href="'.shop_item_url($row['it_id']).'" id="siblings_prev">';
+html2/mobile/shop/item.php:84:$sql = " select it_id, it_name from {$g5['g5_shop_item_table']}
+html2/mobile/shop/item.php:85:          where it_id < '$it_id'
+html2/mobile/shop/item.php:86:            and SUBSTRING(ca_id,1,4) = '".substr($it['ca_id'],0,4)."'
+html2/mobile/shop/item.php:87:            and it_use = '1'
+html2/mobile/shop/item.php:88:          order by it_id desc
+html2/mobile/shop/item.php:91:if (isset($row['it_id']) && $row['it_id']) {
+html2/mobile/shop/item.php:93:    $next_href = '<a href="'.shop_item_url($row['it_id']).'" id="siblings_next">';
+html2/mobile/shop/item.php:102:$sql = " select count(*) as cnt from `{$g5['g5_shop_item_use_table']}` where it_id = '{$it_id}' and is_confirm = '1' ";
+html2/mobile/shop/item.php:107:$sql = " select count(*) as cnt from `{$g5['g5_shop_item_qa_table']}` where it_id = '{$it_id}' ";
+html2/mobile/shop/item.php:115:               left join {$g5['g5_shop_item_table']} b on (a.it_id2=b.it_id)
+html2/mobile/shop/item.php:116:              where a.it_id = '{$it['it_id']}' and b.it_use='1' ";
+html2/mobile/shop/item.php:121:// 상품품절체크
+html2/mobile/shop/item.php:123:    $is_soldout = is_soldout($it['it_id'], true);
+html2/mobile/shop/item.php:127:if(!$it['it_use'] || $it['it_tel_inq'] || $is_soldout)
+html2/mobile/shop/item.php:132:        $option_item = get_item_options($it['it_id'], $it['it_option_subject'], '');
+html2/mobile/shop/item.php:133:        $supply_item = get_item_supply($it['it_id'], $it['it_supply_subject'], '');
+html2/mobile/shop/item.php:136:        $option_item = get_item_options($it['it_id'], $it['it_option_subject'], 'div');
+html2/mobile/shop/item.php:139:        $supply_item = get_item_supply($it['it_id'], $it['it_supply_subject'], 'div');
+-- price/status functions (definitions only) --
+html2/lib/shop.lib.php:401:function get_it_image($it_id, $width, $height=0, $anchor=false, $img_id='', $img_alt='', $is_crop=false)
+html2/lib/shop.lib.php:462:function get_it_thumbnail($img, $width, $height=0, $id='', $is_crop=false)
+html2/lib/shop.lib.php:504:function get_it_imageurl($it_id)
+html2/lib/shop.lib.php:535:function get_it_stock_qty($it_id)
+html2/lib/shop.lib.php:617:function get_price($it)
+html2/lib/shop.lib.php:955:function get_item_options($it_id, $subject, $is_div='', $is_first_option_title='')
+html2/lib/shop.lib.php:1067:function get_item_supply($it_id, $subject, $is_div='', $is_first_option_title='')
+html2/lib/shop.lib.php:1466:function item_icon($it)
+html2/lib/shop.lib.php:1721:function get_item_point($it, $io_id='', $trunc=10)
+html2/lib/shop.lib.php:1812:function get_item_sendcost($it_id, $price, $qty, $cart_id)
+html2/lib/shop.lib.php:1852:function get_item_sendcost2($it_id, $price, $qty)
+html2/lib/shop.lib.php:1929:function is_soldout($it_id, $is_cache=false)
+html2/lib/shop.lib.php:2400:function get_itemuse_thumb($contents, $thumb_width, $thumb_height, $is_create=false, $is_crop=true, $crop_mode='center', $is_sharpen=true, $um_value='80/0.5/3'){
+html2/lib/shop.lib.php:2447:function get_itemuselist_thumbnail($it_id, $contents, $thumb_width, $thumb_height, $is_create=false, $is_crop=true, $crop_mode='center', $is_sharpen=true, $um_value='80/0.5/3')
+html2/lib/shop.lib.php:2749:function get_item_images_info($it, $size=array(), $image_width=0, $image_height=0){
+
+=== [A7] shop/ajax.list.php contract ===
+LINES=78
+-- INPUT --
+6:$ca_id = isset($_REQUEST['ca_id']) ? safe_replace_regex($_REQUEST['ca_id'], 'ca_id') : '';
+-- OUTPUT --
+16:    die(json_encode($data['error'] = '등록된 분류가 없습니다.'));
+69:echo $list->run();
+78:die(json_encode($data));
+-- AUTH --
+(no matches)
+-- INCLUDES --
+2:include_once('./_common.php');
+
+=== [A8] Tracking inventory (files) ===
+(no matches)
+-- DB-configured script hooks (tracking may live in DB, verify with collect-http H6) --
+html2/head.sub.php:8:    $g5['title'] = $config['cf_title'];
+html2/head.sub.php:13:    $g5_head_title = implode(' | ', array_filter(array($g5['title'], $config['cf_title'])));
+html2/head.sub.php:89:var g5_url       = "<?php echo G5_URL ?>";  var g5_bbs_url   = "<?php echo G5_BBS_URL ?>";  var g5_is_member = "<?php echo isset($is_member)?$is_member:''; ?>";    var g5_is_admin  = "<?php echo isset($is_admin)?$is_admin:''; ?>";  var g5_is_mobile = "<?php echo G5_IS_MOBILE ?>";    var g5_bo_table  = "<?php echo isset($bo_table)?$bo_table:''; ?>";  var g5_sca       = "<?php echo isset($sca)?$sca:''; ?>";    var g5_editor    = "<?php echo ($config['cf_editor'] && $board['bo_use_dhtml_editor'])?$config['cf_editor']:''; ?>";    var g5_cookie_domain = "<?php echo G5_COOKIE_DOMAIN ?>";    <?php if(defined('G5_USE_SHOP') && G5_USE_SHOP) { ?>    var g5_shop_url = "<?php echo G5_SHOP_URL; ?>"; <?php } ?>  <?php if(defined('G5_IS_ADMIN')) { ?>   var g5_admin_url = "<?php echo G5_ADMIN_URL; ?>";
+
+=== [A9] UTM / referrer handling ===
+html2/lecture/module/index.php:6:        alert("로그인후 이용해주십시오.", G5_BBS_URL . '/login.php?' . $qstr . '&url=' . urlencode($_SERVER['HTTP_REFERER']));
+html2/plugin/social/includes/functions.php:62:    $ref = $_SERVER['HTTP_REFERER'];
+html2/uAdmin/admin.lib.php:509:    $referer = isset($_SERVER['HTTP_REFERER']) ? trim($_SERVER['HTTP_REFERER']) : '';
+html2/uAdmin/sms_admin/num_book_move.php:36:    <input type="hidden" name="url" value="<?php echo clean_xss_tags(strip_tags($_SERVER['HTTP_REFERER'])); ?>">
+html2/uAdmin/sms_admin/sms_write_send.php:352:            window.location = document.referrer;
+html2/uAdmin/sms_admin/emoticon_move.php:31:    <input type="hidden" name="url" value="<?php echo clean_xss_tags(strip_tags($_SERVER['HTTP_REFERER'])); ?>">
+html2/lib/common.lib.php:294:    if (!$url3) $url3 = clean_xss_tags($_SERVER['HTTP_REFERER']);
+html2/lib/common.lib.php:2124:    if (!preg_match("/^http['s']?:\/\/".$_SERVER['HTTP_HOST']."/", $_SERVER['HTTP_REFERER']))
+html2/common.php:277:            return !isset($_COOKIE[$cookie_session_name]) && count($_POST) && ((isset($_SERVER['HTTP_REFERER']) && !preg_match('~^https://'.preg_quote($_SERVER['HTTP_HOST'], '~').'/~', $_SERVER['HTTP_REFERER']) || ! isset($_SERVER['HTTP_REFERER']) ));
+html2/bbs/download.php:38:    $url2 = isset($_SERVER['HTTP_REFERER']) ? clean_xss_tags($_SERVER['HTTP_REFERER']) : '';
+html2/bbs/move.php:66:    <input type="hidden" name="url" value="<?php echo get_text(clean_xss_tags($_SERVER['HTTP_REFERER'])); ?>">
+html2/bbs/alert.php:35:if (!$url) $url = isset($_SERVER['HTTP_REFERER']) ? clean_xss_tags($_SERVER['HTTP_REFERER'], 1) : '';
+html2/bbs/visit_insert.inc.php:15:    if (isset($_SERVER['HTTP_REFERER']))
+html2/bbs/visit_insert.inc.php:16:        $referer = escape_trim(clean_xss_tags(strip_tags($_SERVER['HTTP_REFERER'])));
+-- setcookie / session writes outside PG (attribution candidates) --
+html2/js/shop.list.js:78:    set_cookie("ck_itemlist"+itemlist_ca_id+"_type", type, 1, g5_cookie_domain);
+html2/js/common.js:142:function set_cookie(name, value, expirehours, domain)
+html2/js/common.js:544:		set_cookie("ck_font_resize_rmv_class", rmv_class, 1, g5_cookie_domain);
+html2/js/common.js:545:		set_cookie("ck_font_resize_add_class", add_class, 1, g5_cookie_domain);
+html2/shop/item.php:61:    set_cookie("ck_it_id", $it_id, 3600); // 1시간동안 저장
+html2/shop/bannerhit.php:18:    set_cookie("ck_bn_id", $bn_id, 60*60*24);
+html2/plugin/lgxpay/lgdacom/XPayClient.php:843:	function set_cookie($cookie)
+html2/plugin/lgxpay/lgdacom/XPayClient4DB.php:1067:	function set_cookie($cookie)
+html2/plugin/sns/twitter/callback.php:54:    set_cookie('ck_sns_name', $sns_name, 86400);
+html2/mobile/skin/shop/basic/list.10.skin.php:164:            set_cookie("ck_itemlist"+list_ca_id+"_type", type, 1, g5_cookie_domain);
+html2/mobile/newwin.inc.php:50:        set_cookie(ck_name, 1, exp_time, g5_cookie_domain);
+html2/mobile/shop/item.php:62:    set_cookie("ck_it_id", $it_id, 3600); // 1시간동안 저장
+html2/uAdmin/admin.head.php:185:                    set_cookie(menu_cookie_key, 1, 60 * 60 * 24 * 365);
+html2/uAdmin/LMS/lectureformupdate.php:218:    //@setcookie("ck_ca_id",  $ca_id,  time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/LMS/lectureformupdate.php:219:    //@setcookie("ck_maker",  stripslashes($ic_maker),  time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/LMS/lectureformupdate.php:220:    //@setcookie("ck_origin", stripslashes($ic_origin), time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/LMS/lectureformupdate.php:221:    @set_cookie("ck_ca_id", $ca_id, time() + 86400*31);
+html2/uAdmin/LMS/lecture.examformupdate.php:185:    //@setcookie("ck_ca_id",  $ca_id,  time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/LMS/lecture.examformupdate.php:186:    //@setcookie("ck_maker",  stripslashes($ie_maker),  time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/LMS/lecture.examformupdate.php:187:    //@setcookie("ck_origin", stripslashes($ie_origin), time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/LMS/lecture.examformupdate.php:188:    @set_cookie("ck_ca_id", $ca_id, time() + 86400*31);
+html2/uAdmin/sms_admin/num_book.php:47:    set_cookie('cookie_no_hp', 'yes', 60*60*24*365);
+html2/uAdmin/sms_admin/num_book.php:50:    set_cookie('cookie_no_hp', '', 0);
+html2/uAdmin/sms_admin/ajax.sms_write_person.php:41:    set_cookie('cookie_no_hp', 'yes', 60*60*24*365);
+html2/uAdmin/sms_admin/ajax.sms_write_person.php:44:    set_cookie('cookie_no_hp', '', 0);
+html2/uAdmin/shop_admin/itemformupdate.php:211:    //@setcookie("ck_ca_id",  $ca_id,  time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/shop_admin/itemformupdate.php:212:    //@setcookie("ck_maker",  stripslashes($it_maker),  time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/shop_admin/itemformupdate.php:213:    //@setcookie("ck_origin", stripslashes($it_origin), time() + 86400*31, $default[de_cookie_dir], $default[de_cookie_domain]);
+html2/uAdmin/shop_admin/itemformupdate.php:214:    @set_cookie("ck_ca_id", $ca_id, time() + 86400*31);
+html2/uAdmin/shop_admin/itemformupdate.php:215:    @set_cookie("ck_ca_id2", $ca_id2, time() + 86400*31);
+html2/uAdmin/shop_admin/itemformupdate.php:216:    @set_cookie("ck_ca_id3", $ca_id3, time() + 86400*31);
+html2/uAdmin/shop_admin/itemformupdate.php:217:    @set_cookie("ck_maker", stripslashes($it_maker), time() + 86400*31);
+html2/uAdmin/shop_admin/itemformupdate.php:218:    @set_cookie("ck_origin", stripslashes($it_origin), time() + 86400*31);
+html2/uAdmin/shop_admin/admin.shop.lib.php:242:        set_cookie('admin_visit_time', G5_SERVER_TIME, 3600);   //1시간 간격으로 체크
+html2/lib/common.lib.php:209:function set_cookie($cookie_name, $value, $expire, $path='/', $domain=G5_COOKIE_DOMAIN, $secure=false, $httponly=true)
+html2/lib/common.lib.php:219:    setcookie(md5($cookie_name), base64_encode($value), G5_SERVER_TIME + $expire, $c['path'], $c['domain'], $c['secure'], $c['httponly']);
+html2/lib/common.lib.php:2402:        set_cookie('mb_client_key', $client_key, G5_SERVER_TIME * -1);
+html2/lib/shop.lib.php:1402:                //set_cookie('ck_guest_cart_id', $tmp_cart_id, ($default['de_cart_keep_term'] * 86400));
+html2/lib/shop.lib.php:1406:                set_cookie('ck_guest_cart_id', $tmp_cart_id, ($default['de_cart_keep_term'] * 86400));
+html2/common.php:643:        set_cookie("ck_bo_table", $board['bo_table'], 86400 * 1);
+html2/bbs/newwin.inc.php:104:            set_cookie(ck_name, 1, exp_time, g5_cookie_domain);
+html2/bbs/logout.php:14:set_cookie('ck_mb_id', '', 0);
+html2/bbs/logout.php:15:set_cookie('ck_auto', '', 0);
+html2/bbs/visit_insert.inc.php:7:    set_cookie('ck_visit_ip', $_SERVER['REMOTE_ADDR'], 86400); // 하루동안 저장
+html2/bbs/write_comment_update.sns.php:6:set_cookie('ck_facebook_checked', false, 86400*31);
+html2/bbs/write_comment_update.sns.php:7:set_cookie('ck_twitter_checked' , false, 86400*31);
+html2/bbs/write_comment_update.sns.php:36:            set_cookie('ck_facebook_checked', true, 86400*31);
+html2/bbs/write_comment_update.sns.php:66:        set_cookie('ck_twitter_checked', true, 86400*31);
+html2/bbs/login_check.php:95:    set_cookie('ck_mb_id', $mb['mb_id'], 86400 * 31);
+html2/bbs/login_check.php:96:    set_cookie('ck_auto', $key, 86400 * 31);
+html2/bbs/login_check.php:99:    set_cookie('ck_mb_id', '', 0);
+html2/bbs/login_check.php:100:    set_cookie('ck_auto', '', 0);
+
+=== [A10] Homepage public assets (index.php) ===
+-- includes --
+2:include_once ('./common.php');
+4:include_once (G5_PATH.'/_head.php');
+676:include_once(G5_PATH.'/_tail.php');
+-- asset references --
+7:    <link href="<?php echo G5_URL?>/src/nonsul-learn/css/main.css" rel="stylesheet">
+27:                            <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=1010" class="btn btn-primary btn-lg rounded-pill px-4 shadow-sm" style="background:var(--accent-color); border:none;">지금 시작하기</a>
+32:                            <img src="https://nonsul-learn.com/data/teacher/HP3L51W1RDDF" alt="대치동 대표 강사" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+54:                            <a href="<?php echo G5_URL?>/correction.php" class="btn btn-light btn-lg rounded-pill px-4 text-primary fw-bold">첨삭 안내 보기</a>
+83:                            <a href="<?php echo G5_BBS_URL?>/board.php?bo_table=briefing" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold">설명회 영상 보기</a>
+162:                    <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=10" class="btn btn-outline-primary w-100 rounded-pill fw-bold">강좌 상세 보기</a>
+181:                    <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=30" class="btn btn-outline-success w-100 rounded-pill fw-bold">강좌 상세 보기</a>
+201:                    <a href="<?php echo G5_SHOP_URL?>/list.php?ca_id=40" class="btn btn-outline-danger w-100 rounded-pill fw-bold">강좌 상세 보기</a>
+402:                <a href="https://vo.la/NERFJS9" target="_blank" class="text-decoration-none color-inherit">
+414:                <a href="https://vo.la/zbillKT" target="_blank" class="text-decoration-none color-inherit">
+427:                <a href="https://vo.la/Eea5MFN" target="_blank" class="text-decoration-none color-inherit">
+-- candidate asset paths (for home-assets.txt; verify against collect-http H6) --
+(no matches)
+
+=== [A11] Protected legacy routes (must NOT be proxied) ===
+-- callback/return/result/notify candidates --
+html2/bbs/password_reset.php
+html2/bbs/password_reset_update.php
+html2/bbs/poll_result.php
+html2/bbs/register_result.php
+html2/mobile/shop/inicis/pay_approval.php
+html2/mobile/shop/inicis/pay_result.php
+html2/mobile/shop/inicis/pay_return.php
+html2/mobile/shop/kcp/order_approval.php
+html2/mobile/shop/kcp/order_approval_form.php
+html2/mobile/shop/kcp/personalpay_approval_form.php
+html2/mobile/shop/kcp/pp_ax_hub_cancel.php
+html2/mobile/shop/lg/cancel_url.php
+html2/mobile/shop/lg/returnurl.php
+html2/mobile/shop/lg/xpay_approval.php
+html2/mobile/shop/nicepay/nicepay_result.php
+html2/mobile/shop/nicepay/return_url_result.php
+html2/mobile/shop/orderformupdate.php
+html2/mobile/shop/personalpayformupdate.php
+html2/mobile/shop/personalpayresult.php
+html2/mobile/shop/toss/returnurl.php
+html2/mobile/shop/toss/toss_approval.php
+html2/mobile/skin/member/basic/password_reset.skin.php
+html2/mobile/skin/member/basic/register_result.skin.php
+html2/mobile/skin/poll/basic/poll_result.skin.php
+html2/plugin/inicert/ini_find_result.php
+html2/plugin/inicert/ini_result.php
+html2/plugin/kcaptcha/kcaptcha_result.php
+html2/plugin/kcpcert/find_kcpcert_result.php
+html2/plugin/kcpcert/kcpcert_result.php
+html2/plugin/lgxpay/returnurl.php
+html2/plugin/sns/twitter/callback-sample.php
+html2/plugin/sns/twitter/callback.php
+html2/shop/inicis/inipay_cancel.php
+html2/shop/inicis/inistdpay_result.php
+html2/shop/inicis/inistdpay_return.php
+html2/shop/inicis/orderpartcancel.inc.php
+html2/shop/inicis/taxsave_result.php
+html2/shop/kakaopay/inicis_kk_return.php
+html2/shop/kakaopay/kakaopay_cancel.php
+html2/shop/kakaopay/kakaopay_result.php
+html2/shop/kakaopay/mobile_pay_approval.php
+html2/shop/kakaopay/mobile_pay_result.php
+html2/shop/kakaopay/mobile_pay_return.php
+html2/shop/kakaopay/orderpartcancel.inc.php
+html2/shop/kakaopay/pc_pay_result.php
+html2/shop/kcp/orderpartcancel.inc.php
+html2/shop/kcp/pp_ax_hub_cancel.php
+html2/shop/kcp/pp_cli_result.php
+html2/shop/lg/orderpartcancel.inc.php
+html2/shop/lg/returnurl.php
+html2/shop/lg/taxsave_result.php
+html2/shop/lg/xpay_cancel.php
+html2/shop/lg/xpay_result.php
+html2/shop/nicepay/cancel_process.php
+html2/shop/nicepay/nicepay_result.php
+html2/shop/nicepay/orderpartcancel.inc.php
+html2/shop/nicepay/taxsave_result.php
+html2/shop/orderformupdate.php
+html2/shop/orderinquirycancel.php
+html2/shop/personalpayformupdate.php
+html2/shop/personalpayresult.php
+html2/shop/toss/orderpartcancel.inc.php
+html2/shop/toss/returnurl.php
+html2/shop/toss/taxsave_result.php
+html2/shop/toss/toss_approval.php
+html2/shop/toss/toss_cancel.php
+html2/shop/toss/toss_result.php
+html2/skin/member/basic/password_reset.skin.php
+html2/skin/member/basic/register_result.skin.php
+html2/skin/poll/basic/poll_result.skin.php
+html2/skin/poll/shop_basic/poll_result.skin.php
+html2/uAdmin/shop_admin/orderformupdate.php
+html2/uAdmin/shop_admin/orderpartcancel.php
+html2/uAdmin/shop_admin/orderpartcancelupdate.php
+html2/uAdmin/shop_admin/orderprintresult.php
+html2/uAdmin/shop_admin/personalpayformupdate.php
+-- PG directories --
+html2/mobile/shop/inicis
+html2/mobile/shop/kcp
+html2/mobile/shop/lg
+html2/mobile/shop/nicepay
+html2/mobile/shop/samsungpay
+html2/mobile/shop/toss
+html2/plugin/inicert
+html2/plugin/kcpcert
+html2/plugin/lgxpay
+html2/shop/inicis
+html2/shop/inicis/key/INIpayTest
+html2/shop/kakaopay
+html2/shop/kcp
+html2/shop/lg
+html2/shop/naverpay
+html2/shop/nicepay
+html2/shop/toss
+-- upload handlers --
+html2/bbs/formmail_send.php:25:    if ($_FILES['file'.$i]['name'])
+html2/bbs/formmail_send.php:26:        $file[] = attach_file($_FILES['file'.$i]['name'], $_FILES['file'.$i]['tmp_name']);
+html2/bbs/register_form_update.php:490:if (isset($_FILES['mb_icon']) && is_uploaded_file($_FILES['mb_icon']['tmp_name'])) {
+html2/bbs/register_form_update.php:491:    if (preg_match($image_regex, $_FILES['mb_icon']['name'])) {
+html2/bbs/register_form_update.php:493:        if ($_FILES['mb_icon']['size'] <= $config['cf_member_icon_size']) {
+html2/bbs/register_form_update.php:497:            move_uploaded_file($_FILES['mb_icon']['tmp_name'], $dest_path);
+html2/bbs/register_form_update.php:530:        $msg .= $_FILES['mb_icon']['name'].'은(는) 이미지 파일이 아닙니다.';
+html2/bbs/register_form_update.php:550:    if (isset($_FILES['mb_img']) && is_uploaded_file($_FILES['mb_img']['tmp_name'])) {
+html2/bbs/register_form_update.php:554:        if (preg_match($image_regex, $_FILES['mb_img']['name'])) {
+html2/bbs/register_form_update.php:556:            if ($_FILES['mb_img']['size'] <= $config['cf_member_img_size']) {
+html2/bbs/register_form_update.php:560:                move_uploaded_file($_FILES['mb_img']['tmp_name'], $dest_path);
+html2/bbs/register_form_update.php:588:            $msg .= $_FILES['mb_img']['name'].'은(는) gif/jpg 파일이 아닙니다.';
+html2/bbs/qawrite_update.php:135:$upload_count = isset($_FILES['bf_file']['name']) ? count($_FILES['bf_file']['name']) : 0;
+html2/bbs/qawrite_update.php:138:    if($_FILES['bf_file']['name'][$i] && is_uploaded_file($_FILES['bf_file']['tmp_name'][$i]))
+html2/bbs/qawrite_update.php:169:    $tmp_file  = $_FILES['bf_file']['tmp_name'][$i];
+html2/bbs/qawrite_update.php:170:    $filesize  = $_FILES['bf_file']['size'][$i];
+html2/bbs/qawrite_update.php:171:    $filename  = $_FILES['bf_file']['name'][$i];
+html2/bbs/qawrite_update.php:176:        if ($_FILES['bf_file']['error'][$i] == 1) {
+html2/bbs/qawrite_update.php:180:        else if ($_FILES['bf_file']['error'][$i] != 0) {
+html2/bbs/qawrite_update.php:186:    if (is_uploaded_file($tmp_file)) {
+html2/bbs/qawrite_update.php:233:        $error_code = move_uploaded_file($tmp_file, $dest_file) or die($_FILES['bf_file']['error'][$i]);
+html2/bbs/write_update.php:456:$upload_count = (isset($_FILES['bf_file']['name']) && is_array($_FILES['bf_file']['name'])) ? count($_FILES['bf_file']['name']) : 0;
+html2/bbs/write_update.php:459:    if($_FILES['bf_file']['name'][$i] && is_uploaded_file($_FILES['bf_file']['tmp_name'][$i]))
+html2/bbs/write_update.php:482:if(isset($_FILES['bf_file']['name']) && is_array($_FILES['bf_file']['name'])) {
+html2/bbs/write_update.php:483:    for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
+html2/bbs/write_update.php:513:        $tmp_file  = $_FILES['bf_file']['tmp_name'][$i];
+html2/bbs/write_update.php:514:        $filesize  = $_FILES['bf_file']['size'][$i];
+html2/bbs/write_update.php:515:        $filename  = $_FILES['bf_file']['name'][$i];
+html2/bbs/write_update.php:520:            if ($_FILES['bf_file']['error'][$i] == 1) {
+html2/bbs/write_update.php:524:            else if ($_FILES['bf_file']['error'][$i] != 0) {
+html2/bbs/write_update.php:530:        if (is_uploaded_file($tmp_file)) {
+html2/bbs/write_update.php:586:            $error_code = move_uploaded_file($tmp_file, $dest_file) or die($_FILES['bf_file']['error'][$i]);
+html2/uAdmin/contentformupdate.php:139:    if ($_FILES['co_himg']['name']) {
+html2/uAdmin/contentformupdate.php:141:        @move_uploaded_file($_FILES['co_himg']['tmp_name'], $dest_path);
+html2/uAdmin/contentformupdate.php:144:    if ($_FILES['co_timg']['name']) {
+html2/uAdmin/contentformupdate.php:146:        @move_uploaded_file($_FILES['co_timg']['tmp_name'], $dest_path);
+html2/uAdmin/LMS/lectureformupdate.php:101:if ($_FILES['ic_img1']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:107:    $ic_img1 = ic_img_upload($_FILES['ic_img1']['tmp_name'], $_FILES['ic_img1']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:109:if ($_FILES['ic_img2']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:115:    $ic_img2 = ic_img_upload($_FILES['ic_img2']['tmp_name'], $_FILES['ic_img2']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:117:if ($_FILES['ic_img3']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:123:    $ic_img3 = ic_img_upload($_FILES['ic_img3']['tmp_name'], $_FILES['ic_img3']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:125:if ($_FILES['ic_img4']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:131:    $ic_img4 = ic_img_upload($_FILES['ic_img4']['tmp_name'], $_FILES['ic_img4']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:133:if ($_FILES['ic_img5']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:139:    $ic_img5 = ic_img_upload($_FILES['ic_img5']['tmp_name'], $_FILES['ic_img5']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:141:if ($_FILES['ic_img6']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:147:    $ic_img6 = ic_img_upload($_FILES['ic_img6']['tmp_name'], $_FILES['ic_img6']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:149:if ($_FILES['ic_img7']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:155:    $ic_img7 = ic_img_upload($_FILES['ic_img7']['tmp_name'], $_FILES['ic_img7']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:157:if ($_FILES['ic_img8']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:163:    $ic_img8 = ic_img_upload($_FILES['ic_img8']['tmp_name'], $_FILES['ic_img8']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:165:if ($_FILES['ic_img9']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:171:    $ic_img9 = ic_img_upload($_FILES['ic_img9']['tmp_name'], $_FILES['ic_img9']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:173:if ($_FILES['ic_img10']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:179:    $ic_img10 = ic_img_upload($_FILES['ic_img10']['tmp_name'], $_FILES['ic_img10']['name'], $ic_img_dir.'/'.$ic_id);
+html2/uAdmin/LMS/lectureformupdate.php:186://if($_FILES['ic_content_type_file']['name']) {
+html2/uAdmin/LMS/lectureformupdate.php:187://    $name = $_FILES['ic_content_type_file']['name'];
+html2/uAdmin/LMS/lectureformupdate.php:188://    $tmp_name = $_FILES['ic_content_type_file']['tmp_name'];
+html2/uAdmin/LMS/lectureExcelUpdate.php:19:if($_FILES['excelfile']['tmp_name']) {
+html2/uAdmin/LMS/lectureExcelUpdate.php:20:    $file = $_FILES['excelfile']['tmp_name'];
+html2/uAdmin/LMS/lecture.examExcelUpdate.php:19:if($_FILES['excelfile']['tmp_name']) {
+html2/uAdmin/LMS/lecture.examExcelUpdate.php:20:    $file = $_FILES['excelfile']['tmp_name'];
+html2/uAdmin/LMS/teacherformupdate.php:15:$ir_img      = $_FILES['ir_img1']['tmp_name'];
+html2/uAdmin/LMS/teacherformupdate.php:16:$ir_img_name = $_FILES['ir_img1']['name'];
+html2/uAdmin/LMS/teacherformupdate.php:81:    if ($_FILES['ir_img1']['name']) upload_file($_FILES['ir_img1']['tmp_name'], $ir_id, G5_DATA_PATH . "/teacher");
+html2/uAdmin/LMS/lecture.examformupdate.php:101:if ($_FILES['ie_img1']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:107:    $ie_img1 = ie_img_upload($_FILES['ie_img1']['tmp_name'], $_FILES['ie_img1']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:109:if ($_FILES['ie_img2']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:115:    $ie_img2 = ie_img_upload($_FILES['ie_img2']['tmp_name'], $_FILES['ie_img2']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:117:if ($_FILES['ie_img3']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:123:    $ie_img3 = ie_img_upload($_FILES['ie_img3']['tmp_name'], $_FILES['ie_img3']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:125:if ($_FILES['ie_img4']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:131:    $ie_img4 = ie_img_upload($_FILES['ie_img4']['tmp_name'], $_FILES['ie_img4']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:133:if ($_FILES['ie_img5']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:139:    $ie_img5 = ie_img_upload($_FILES['ie_img5']['tmp_name'], $_FILES['ie_img5']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:141:if ($_FILES['ie_img6']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:147:    $ie_img6 = ie_img_upload($_FILES['ie_img6']['tmp_name'], $_FILES['ie_img6']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:149:if ($_FILES['ie_img7']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:155:    $ie_img7 = ie_img_upload($_FILES['ie_img7']['tmp_name'], $_FILES['ie_img7']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:157:if ($_FILES['ie_img8']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:163:    $ie_img8 = ie_img_upload($_FILES['ie_img8']['tmp_name'], $_FILES['ie_img8']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:165:if ($_FILES['ie_img9']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:171:    $ie_img9 = ie_img_upload($_FILES['ie_img9']['tmp_name'], $_FILES['ie_img9']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/LMS/lecture.examformupdate.php:173:if ($_FILES['ie_img10']['name']) {
+html2/uAdmin/LMS/lecture.examformupdate.php:179:    $ie_img10 = ie_img_upload($_FILES['ie_img10']['tmp_name'], $_FILES['ie_img10']['name'], $ie_img_dir.'/'.$ie_id);
+html2/uAdmin/faqmasterformupdate.php:75:    if ($_FILES['fm_himg']['name']) {
+html2/uAdmin/faqmasterformupdate.php:77:        @move_uploaded_file($_FILES['fm_himg']['tmp_name'], $dest_path);
+html2/uAdmin/faqmasterformupdate.php:80:    if ($_FILES['fm_timg']['name']) {
+html2/uAdmin/faqmasterformupdate.php:82:        @move_uploaded_file($_FILES['fm_timg']['tmp_name'], $dest_path);
+html2/uAdmin/sms_admin/num_book_file_upload.php:15:if (! (isset($_FILES['csv']['size']) && $_FILES['csv']['size'])) 
+html2/uAdmin/sms_admin/num_book_file_upload.php:18:$file = $_FILES['csv']['tmp_name'];
+html2/uAdmin/sms_admin/num_book_file_upload.php:19:$filename = $_FILES['csv']['name'];
+html2/uAdmin/sms_admin/num_book_file_upload.php:131:unlink($_FILES['csv']['tmp_name']);
+html2/uAdmin/shop_admin/configformupdate.php:23:if ($_FILES['logo_img']['name']) upload_file($_FILES['logo_img']['tmp_name'], "logo_img", G5_DATA_PATH."/common");
+html2/uAdmin/shop_admin/configformupdate.php:24:if ($_FILES['logo_img2']['name']) upload_file($_FILES['logo_img2']['tmp_name'], "logo_img2", G5_DATA_PATH."/common");
+html2/uAdmin/shop_admin/configformupdate.php:25:if ($_FILES['mobile_logo_img']['name']) upload_file($_FILES['mobile_logo_img']['tmp_name'], "mobile_logo_img", G5_DATA_PATH."/common");
+html2/uAdmin/shop_admin/configformupdate.php:26:if ($_FILES['mobile_logo_img2']['name']) upload_file($_FILES['mobile_logo_img2']['tmp_name'], "mobile_logo_img2", G5_DATA_PATH."/common");
+html2/uAdmin/shop_admin/itemformupdate.php:127:if ($_FILES['it_img1']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:133:    $it_img1 = it_img_upload($_FILES['it_img1']['tmp_name'], $_FILES['it_img1']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:135:if ($_FILES['it_img2']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:141:    $it_img2 = it_img_upload($_FILES['it_img2']['tmp_name'], $_FILES['it_img2']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:143:if ($_FILES['it_img3']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:149:    $it_img3 = it_img_upload($_FILES['it_img3']['tmp_name'], $_FILES['it_img3']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:151:if ($_FILES['it_img4']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:157:    $it_img4 = it_img_upload($_FILES['it_img4']['tmp_name'], $_FILES['it_img4']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:159:if ($_FILES['it_img5']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:165:    $it_img5 = it_img_upload($_FILES['it_img5']['tmp_name'], $_FILES['it_img5']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:167:if ($_FILES['it_img6']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:173:    $it_img6 = it_img_upload($_FILES['it_img6']['tmp_name'], $_FILES['it_img6']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:175:if ($_FILES['it_img7']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:181:    $it_img7 = it_img_upload($_FILES['it_img7']['tmp_name'], $_FILES['it_img7']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:183:if ($_FILES['it_img8']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:189:    $it_img8 = it_img_upload($_FILES['it_img8']['tmp_name'], $_FILES['it_img8']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:191:if ($_FILES['it_img9']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:197:    $it_img9 = it_img_upload($_FILES['it_img9']['tmp_name'], $_FILES['it_img9']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/itemformupdate.php:199:if ($_FILES['it_img10']['name']) {
+html2/uAdmin/shop_admin/itemformupdate.php:205:    $it_img10 = it_img_upload($_FILES['it_img10']['tmp_name'], $_FILES['it_img10']['name'], $it_img_dir.'/'.$it_id);
+html2/uAdmin/shop_admin/bannerformupdate.php:19:$bn_bimg      = isset($_FILES['bn_bimg']['tmp_name']) ? $_FILES['bn_bimg']['tmp_name'] : '';
+html2/uAdmin/shop_admin/bannerformupdate.php:20:$bn_bimg_name = isset($_FILES['bn_bimg']['name']) ? $_FILES['bn_bimg']['name'] : '';
+html2/uAdmin/shop_admin/bannerformupdate.php:97:    if ($_FILES['bn_bimg']['name']) upload_file($_FILES['bn_bimg']['tmp_name'], $bn_id, G5_DATA_PATH."/banner");
+html2/uAdmin/shop_admin/itemexcelupdate.php:16:$is_upload_file = (isset($_FILES['excelfile']['tmp_name']) && $_FILES['excelfile']['tmp_name']) ? 1 : 0;
+html2/uAdmin/shop_admin/itemexcelupdate.php:23:    $file = $_FILES['excelfile']['tmp_name'];
+html2/uAdmin/shop_admin/itemeventformupdate.php:105:    if ($_FILES['ev_mimg']['name']) upload_file($_FILES['ev_mimg']['tmp_name'], $ev_id."_m", G5_DATA_PATH."/event");
+html2/uAdmin/shop_admin/itemeventformupdate.php:106:    if ($_FILES['ev_himg']['name']) upload_file($_FILES['ev_himg']['tmp_name'], $ev_id."_h", G5_DATA_PATH."/event");
+html2/uAdmin/shop_admin/itemeventformupdate.php:107:    if ($_FILES['ev_timg']['name']) upload_file($_FILES['ev_timg']['tmp_name'], $ev_id."_t", G5_DATA_PATH."/event");
+html2/uAdmin/shop_admin/orderdeliveryupdate.php:14:if(isset($_FILES['excelfile']['tmp_name']) && $_FILES['excelfile']['tmp_name']) {
+html2/uAdmin/shop_admin/orderdeliveryupdate.php:15:    $file = $_FILES['excelfile']['tmp_name'];
+html2/uAdmin/shop_admin/couponzoneformupdate.php:52:if( isset($_FILES['cp_img']) && !empty($_FILES['cp_img']['name']) ){
+html2/uAdmin/shop_admin/couponzoneformupdate.php:53:    if( !preg_match('/\.(gif|jpe?g|bmp|png)$/i', $_FILES['cp_img']['name']) ){
+html2/uAdmin/shop_admin/couponzoneformupdate.php:57:    $timg = @getimagesize($_FILES['cp_img']['tmp_name']);
+html2/uAdmin/shop_admin/couponzoneformupdate.php:110:    if(!$_FILES['cp_img']['name'])
+html2/uAdmin/shop_admin/couponzoneformupdate.php:131:    if(!$cp['cz_file'] && !$_FILES['cp_img']['name'])
+html2/uAdmin/shop_admin/couponzoneformupdate.php:141:if($_FILES['cp_img']['tmp_name']) {
+html2/uAdmin/shop_admin/couponzoneformupdate.php:142:    preg_match('#.+\.([a-z]+)$#', $_FILES['cp_img']['name'], $m);
+html2/uAdmin/shop_admin/couponzoneformupdate.php:145:    upload_file($_FILES['cp_img']['tmp_name'], $filename, G5_DATA_PATH."/coupon");
+html2/uAdmin/member_form_update.php:297:    if (isset($_FILES['mb_icon']) && is_uploaded_file($_FILES['mb_icon']['tmp_name'])) {
+html2/uAdmin/member_form_update.php:298:        if (!preg_match($image_regex, $_FILES['mb_icon']['name'])) {
+html2/uAdmin/member_form_update.php:299:            alert($_FILES['mb_icon']['name'] . '은(는) 이미지 파일이 아닙니다.');
+html2/uAdmin/member_form_update.php:302:        if (preg_match($image_regex, $_FILES['mb_icon']['name'])) {
+html2/uAdmin/member_form_update.php:309:            move_uploaded_file($_FILES['mb_icon']['tmp_name'], $dest_path);
+html2/uAdmin/member_form_update.php:348:    if (isset($_FILES['mb_img']) && is_uploaded_file($_FILES['mb_img']['tmp_name'])) {
+html2/uAdmin/member_form_update.php:349:        if (!preg_match($image_regex, $_FILES['mb_img']['name'])) {
+html2/uAdmin/member_form_update.php:350:            alert($_FILES['mb_img']['name'] . '은(는) 이미지 파일이 아닙니다.');
+html2/uAdmin/member_form_update.php:353:        if (preg_match($image_regex, $_FILES['mb_img']['name'])) {
+html2/uAdmin/member_form_update.php:359:            move_uploaded_file($_FILES['mb_img']['tmp_name'], $dest_path);
+html2/plugin/PHPMailer/examples/send_multiple_file_upload.phps:6:if (array_key_exists('userfile', $_FILES)) {
+html2/plugin/PHPMailer/examples/send_multiple_file_upload.phps:17:    for ($ct = 0; $ct < count($_FILES['userfile']['tmp_name']); $ct++) {
+html2/plugin/PHPMailer/examples/send_multiple_file_upload.phps:18:        $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['userfile']['name'][$ct]));
+html2/plugin/PHPMailer/examples/send_multiple_file_upload.phps:19:        $filename = $_FILES['userfile']['name'][$ct];
+html2/plugin/PHPMailer/examples/send_multiple_file_upload.phps:20:        if (move_uploaded_file($_FILES['userfile']['tmp_name'][$ct], $uploadfile)) {
+html2/plugin/PHPMailer/examples/send_file_upload.phps:6:if (array_key_exists('userfile', $_FILES)) {
+html2/plugin/PHPMailer/examples/send_file_upload.phps:10:    $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['userfile']['name']));
+html2/plugin/PHPMailer/examples/send_file_upload.phps:11:    if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+html2/plugin/PHPMailer/examples/scripts/shBrushPhp.js:35:						'is_string is_subclass_of is_uploaded_file is_writable is_writeable mkdir mktime nl2br '+
+html2/plugin/editor/smarteditor2/photo_uploader/popup/php/UploadHandler.php:404:        if ($uploaded_file && is_uploaded_file($uploaded_file)) {
+html2/plugin/editor/smarteditor2/photo_uploader/popup/php/UploadHandler.php:1151:            if ($uploaded_file && is_uploaded_file($uploaded_file)) {
+html2/plugin/editor/smarteditor2/photo_uploader/popup/php/UploadHandler.php:1160:                    move_uploaded_file($uploaded_file, $file_path);
+html2/plugin/editor/smarteditor2/photo_uploader/popup/php/UploadHandler.php:1409:        $upload = isset($_FILES[$this->options['param_name']]) ?
+html2/plugin/editor/smarteditor2/photo_uploader/popup/php/UploadHandler.php:1410:            $_FILES[$this->options['param_name']] : null;
+html2/plugin/editor/smarteditor2/photo_uploader/popup/php/UploadHandler.php:1426:            // $_FILES is a multi-dimensional array:
+html2/plugin/editor/smarteditor2/photo_uploader/popup/php/UploadHandler.php:1440:            // $_FILES is a one-dimensional array:
+html2/plugin/editor/cheditor5/imageUpload/upload.php:78:$tempfile = $_FILES['file']['tmp_name'];
+html2/plugin/editor/cheditor5/imageUpload/upload.php:79:$filename = $_FILES['file']['name'];
+html2/plugin/editor/cheditor5/imageUpload/upload.php:103:move_uploaded_file($tempfile, $savefile);
+-- admin roots --
+PRESENT html2/uAdmin
+-- .htaccess files in baseline (local evidence for B3 Rewrite) --
+html2/.htaccess
+html2/extend/.htaccess
+--- html2/.htaccess ---
+1:Header set Access-Control-Allow-Origin "*"
+2:php_flag allow_url_fopen 1
+3:RewriteEngine On
+11:RewriteCond %{REQUEST_URI}	!^/uAdmin$
+14:ErrorDocument 404 /index.php
+-- existing /v2-api path conflict check --
+NOT_PRESENT html2/v2-api
+
+=== [G05] Existing Gate 0.5 runtime claims (documents only) ===
+docs/production-discovery/04-homepage-runtime.md:18:The canonical current page directly references a public legacy teacher asset under `data/teacher/<opaque-id>`. Prior read-only inventory confirms `data/teacher` is present. Current existence and deployment-version parity are **BLOCKING** until a successfully authenticated, read-only file stat and index hash comparison are completed.
+docs/production-discovery/07-homepage-v2-contract.md:5:For the current tracked canonical `html2/index.php`, Homepage requires **SessionAdapter only** for global header/mobile navigation state. It does **not** require BannerAdapter: the canonical page has no runtime banner call. The hero/content itself is source-owned UI and one public legacy teacher asset path.
+docs/production-discovery/07-homepage-v2-contract.md:37:- Direct legacy public teacher asset resolves; failure has an accessible image fallback. Production asset presence remains a gate item pending authenticated read-only verification.
+docs/production-discovery/05-session-cookie-runtime.md:17:Cookie name/path/security source behavior is **RESOLVED**. Actual host cookie domain, actual Set-Cookie attributes per active branch, session handler/path, and a live anonymous/authenticated response are **BLOCKING** for declaring cross-runtime session coexistence verified. Host-key verification now succeeds, but the read-only SSH run could not authenticate, so no remote PHP configuration was inspected. No HTTP probe was used because it could create or mutate a PHP session.
+docs/production-discovery/08-gate-1.5-final-verdict.md:4:2. **Remaining BLOCKING items:** current `/` execution/deployed revision; current legacy teacher asset availability; live session cookie attributes/handler; current Apache vhost/TLS/rewrite topology. Host-key identity is resolved, but the current verifier could not complete SSH authentication with its available keys.
+docs/production-discovery/08-gate-1.5-final-verdict.md:8:6. **Can Next.js and PHP coexist as one service?** Architecturally yes, using same-host reverse proxy and cookie forwarding; current Apache/TLS state must be confirmed before claiming it is deployable.
+docs/production-discovery/08-gate-1.5-final-verdict.md:19:| actual cookie domain/Set-Cookie/session handler | BLOCKING | required for same-service identity behavior; remote PHP runtime has not been read |
+docs/production-discovery/08-gate-1.5-final-verdict.md:20:| current Apache/VHost/TLS/rewrite | BLOCKING | required for route coexistence; remote vhost state has not been read |
+docs/production-discovery/08-gate-1.5-final-verdict.md:21:| current deployed `/` revision and direct teacher asset | BLOCKING | required for observable homepage parity; remote hash/stat has not run |
+docs/production-discovery/06-production-routing.md:11:After a read-only, current vhost verification, route `/` and approved V2 public paths to Next.js through Apache reverse proxy. Explicitly preserve `/bbs/`, `/shop/`, `/lecture/`, `/mobile/`, `/uAdmin/`, `/data/`, `/src/`, `/js/`, `/css/`, `/img/`, and PHP callback paths for Legacy. Do not retain the current 404-to-home fallback for V2 routes; return Next.js 404s and preserve Legacy responses for Legacy namespaces. Keep same scheme/host so browser PHP session cookies accompany adapter requests.
+docs/production-discovery/06-production-routing.md:15:DocumentRoot history is **RESOLVED**. Current VirtualHost directives, TLS termination, host aliases, proxy module availability, and any vhost-level rewrites are **BLOCKING** because the current Production inspection could not authenticate after host-key verification succeeded. No Apache configuration was changed, reloaded, or restarted.
+docs/migration/01-data-inventory.md:7:The audit recorded schema drift: code expects `tbl_lec_item_exam`, snapshot had `tbl_rlec_item_exam`; `correc_cnt` was code-referenced but absent from that snapshot. Neither is deletion evidence.
+docs/migration/02-must-migrate-data.md:7:C archive: historical visit/login/board/audit-like data after retention/legal review. D regenerate: derived counts/search indexes. E discard candidate only: cache/session/temp/autosave. F unknown: orphan/drift tables and unproven custom datasets. No grade authorizes deletion.
+docs/migration/17-production-migration-readiness-audit.md:95:| shop order runtime column | code probes/ALTERs | unavailable | unavailable | UNKNOWN | checkout schema drift risk |
+docs/migration/17-production-migration-readiness-audit.md:163:The audit host is macOS 14.7.1; it is not evidence of production. PHP CLI returned no version here. Production OS/webserver/PHP-SAPI/extensions/timezone/docroot/limits/session settings/TLS/proxy/CDN/app filesystem permissions are **UNVERIFIED — production server metadata required**. No tracked cron scripts/configuration were found; this does not prove no production cron exists.
+docs/migration/17-production-migration-readiness-audit.md:264:| U04 | Old dump and drift comparison | ignored dump absent | approved dump metadata/schema or prod schema | critical |
+docs/migration/17-production-migration-readiness-audit.md:269:| U09 | Server/PHP/session/TLS/proxy/runtime limits | no prod host access | server metadata | high |
+docs/migration/10-open-questions.md:3:BLOCKED: complete table/column/PK/FK inventory; current schema drift; production row counts; actual payment/refund states; correction status/assignment model; parent/counseling data model; file-to-record completeness; Firebase hash import viability; current operators/configuration; backup/cron; exact html/html2 production role.
+../nonsullearn-v2-frontend/docs/php homepage/05 dev plan.md:184:- [ ] `.htaccess`, `scripts/deploy-bridge.sh`, `bridge-smoke.sh`, `drift-check.sh`
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:44:RewriteRule ^ - [S=3]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:47:RewriteRule ^/_next/(.*)$ https://v2-origin.<도메인>/_next/$1 [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:50:RewriteRule ^/(_v2/check|courses/.*|api/v2-health)$ https://v2-origin.<도메인>/$1 [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:54:RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:60:ProxyPassReverse / https://v2-origin.<도메인>/
+../nonsullearn-v2-frontend/docs/php homepage/04 implementation plan.md:235:  RewriteRule ^/shop/item\.php$ /courses/%2? [R=301,L]
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:299:RewriteRule ^/?$ /_v2/index.html [PT,L]
+../nonsullearn-v2-frontend/docs/php homepage/02 nextjs integration and harness.md:307:- 롤백: `RewriteRule` 한 줄 주석 처리 → reload
+../nonsullearn-v2-frontend/docs/php homepage/03 prerequisites and harness.md:75:| vhost 파일 경로, TLS 인증서 방식(certbot 등) | 설정 삽입 위치 | ☐ |
+../nonsullearn-v2-frontend/docs/production-discovery/04-homepage-runtime.md:18:The canonical current page directly references a public legacy teacher asset under `data/teacher/<opaque-id>`. Prior read-only inventory confirms `data/teacher` is present. Current existence and deployment-version parity are **BLOCKING** until a successfully authenticated, read-only file stat and index hash comparison are completed.
+../nonsullearn-v2-frontend/docs/production-discovery/07-homepage-v2-contract.md:5:For the current tracked canonical `html2/index.php`, Homepage requires **ViewerAdapter only** for global header/mobile navigation state. It does **not** require BannerAdapter: the canonical page has no runtime banner call. The hero/content itself is source-owned UI and one public legacy teacher asset path.
+../nonsullearn-v2-frontend/docs/production-discovery/07-homepage-v2-contract.md:39:- Direct legacy public teacher asset resolves; failure has an accessible image fallback. Production asset presence remains a gate item pending authenticated read-only verification.
+../nonsullearn-v2-frontend/docs/production-discovery/05-session-cookie-runtime.md:17:Cookie name/path/security source behavior is **RESOLVED**. Actual host cookie domain, actual Set-Cookie attributes per active branch, session handler/path, and a live anonymous/authenticated response are **BLOCKING** for declaring cross-runtime session coexistence verified. Host-key verification now succeeds, but the read-only SSH run could not authenticate, so no remote PHP configuration was inspected. No HTTP probe was used because it could create or mutate a PHP session.
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:4:2. **Remaining BLOCKING items:** current `/` execution/deployed revision; current legacy teacher asset availability; live session cookie attributes/handler; current Apache vhost/TLS/rewrite topology. Host-key identity is resolved, but the current verifier could not complete SSH authentication with its available keys.
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:8:6. **Can Next.js and PHP coexist as one service?** Architecturally yes, using same-host reverse proxy while the browser calls the same-origin PHP viewer bridge directly; current Apache/TLS state must be confirmed before claiming it is deployable.
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:19:| actual cookie domain/Set-Cookie/session handler | BLOCKING | required for same-service identity behavior; remote PHP runtime has not been read |
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:20:| current Apache/VHost/TLS/rewrite | BLOCKING | required for route coexistence; remote vhost state has not been read |
+../nonsullearn-v2-frontend/docs/production-discovery/08-gate-1.5-final-verdict.md:21:| current deployed `/` revision and direct teacher asset | BLOCKING | required for observable homepage parity; remote hash/stat has not run |
+../nonsullearn-v2-frontend/docs/production-discovery/06-production-routing.md:11:After a read-only, current vhost verification, route `/` and approved V2 public paths to Next.js through Apache reverse proxy. Explicitly preserve `/bbs/`, `/shop/`, `/lecture/`, `/mobile/`, `/uAdmin/`, `/data/`, `/src/`, `/js/`, `/css/`, `/img/`, and PHP callback paths for Legacy. Do not retain the current 404-to-home fallback for V2 routes; return Next.js 404s and preserve Legacy responses for Legacy namespaces. Keep same scheme/host so browser PHP session cookies accompany adapter requests.
+../nonsullearn-v2-frontend/docs/production-discovery/06-production-routing.md:15:DocumentRoot history is **RESOLVED**. Current VirtualHost directives, TLS termination, host aliases, proxy module availability, and any vhost-level rewrites are **BLOCKING** because the current Production inspection could not authenticate after host-key verification succeeded. No Apache configuration was changed, reloaded, or restarted.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:50:| Important PHP source and canonical `html2` retained | PASS | auth, PG, LMS/correction, entrypoints, assets under `html2/` | Low for snapshot; Production drift UNKNOWN |
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:85:stated canonical root, but Production revision/root drift is UNKNOWN. Do not
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:180:- Production-to-Git drift and live canonical-root revision.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:183:- Apache VirtualHost/rewrite/proxy, kill switch, direct-origin behavior.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:205:- Record canonical `html2` release references and a repeatable drift comparison.
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:223:3. **Remaining UNKNOWN:** drift, backups/restores, deployment, Apache runtime,
+../nonsullearn-v2-frontend/docs/audits/gate-0-final-audit.md:227:   kill-switch validation, drift evidence, active cron/provider/runtime checks.
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:107:RewriteRule ^/?$ - [CO=v2_home:${homebucket:b}:.<메인도메인>:10080:/:secure:httponly,E=V2HOME:${homebucket:b}]
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:112:RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/harness/GATES.md:99:| ○ | deployed revision, teacher asset, Set-Cookie, handler/storage, VirtualHost/TLS/Rewrite/Proxy runtime 검증 |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:111:| 2 | Apache 버전/MPM/모듈, vhost/TLS/sudo 권한 | ● |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:166:| ○ | existing endpoint 재사용 및 drift check |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:186:| ● | VirtualHost/Rewrite/Proxy runtime, route ownership matrix, `/v2-api/*` PHP 유지 |
+
+=== [G09] Gate 0.9 requirements source (V2 repo) ===
+PRESENT ../nonsullearn-v2-frontend/AGENTS.md
+PRESENT ../nonsullearn-v2-frontend/docs/harness/GATES.md
+PRESENT ../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md
+-- Gate 0.9 section lines --
+../nonsullearn-v2-frontend/docs/harness/GATES.md:11:  ├─ V2 routes → Vercel → Next.js + TypeScript
+../nonsullearn-v2-frontend/docs/harness/GATES.md:29:| Gate 0.9 | Prerequisites | - | 0.9 | NOT STARTED |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:33:| Gate 4 | Production Routing (preview 전용, kill switch) | 7 | 1.3 | NOT STARTED |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:104:## Gate 0.9 — Prerequisites
+../nonsullearn-v2-frontend/docs/harness/GATES.md:111:| 2 | Apache 버전/MPM/모듈, vhost/TLS/sudo 권한 | ● |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:115:| 6 | 인스턴스 메모리/CPU credit 기준선 및 CloudWatch alarm | ● |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:116:| 7 | Vercel commercial plan, origin URL 체계, kill switch 경로 | ● |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:117:| 8 | 일반/첨삭 테스트 계정 | ● |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:132:| ● | L1/L2 CI, L3 Playwright 골격, middleware origin 보호, `/api/v2-health` |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:133:| ● | Vercel Preview, `pnpm check` |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:139:**PASS CONDITION:** mock 기반 V2 페이지를 Vercel Preview로 검증할 수 있다.
+../nonsullearn-v2-frontend/docs/harness/GATES.md:168:Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php → $member → canonical JSON`. Apache가 Vercel proxy 시 Cookie를 제거하므로 Next.js server는 PHP session을 볼 수 없다. Course public data는 Vercel server(ISR)가 cookie 없이 `/v2-api/courses.php`를 호출한다.
+../nonsullearn-v2-frontend/docs/harness/GATES.md:180:## Gate 4 — Production Routing (preview 전용, kill switch)
+../nonsullearn-v2-frontend/docs/harness/GATES.md:182:**Objective:** 외부 비노출 `/_v2/check`(noindex)와 preview cookie로 Vercel routing을 검증한다.
+../nonsullearn-v2-frontend/docs/harness/GATES.md:190:| ● | kill switch 시연, vhost rollback, resource 비교, runbook |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:220:| ● | L4 재실행, L5 홈 P1~P12, tracking parity, kill switch/rollback 가능 |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:221:| ● | 100% 후 7일간 rollback 없음 및 kill switch 사용 가능 |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:281:| ○ | Vercel-first ingress, PHP removal, 후보 domain 재평가 |
+../nonsullearn-v2-frontend/docs/harness/GATES.md:301:L4 S1~S9 실패, P10 결제 실패, cookieForwarded true, critical parity/security regression, L6 경보 또는 Gate 6 전환율 조건 실패 시 원인 분석 전에 rollback한다. 순서는 **kill switch → Vercel 이전 deployment promote → vhost backup 복원 → Bridge tar backup 복원**이다. DB/data 변경을 rollback 수단으로 사용하지 않는다.
+../nonsullearn-v2-frontend/docs/harness/GATES.md:305:Apache Front Door 아래 V2 route는 Vercel/Next.js, `/v2-api/*`와 Legacy route 및 Marketing Landing은 PHP/Legacy Core/MariaDB로 유지한다. 성공은 PHP 파일 수가 아니라 Public Frontend, SEO, Analytics, Attribution, Experiment의 TypeScript ownership과 Checkout/Auth/LMS/Payment 안정성, 점진 route migration, 빠른 Vercel deployment, 측정 가능한 Growth improvement의 동시 달성이다.
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:25:Step 1      Gate 1 Foundation + 하네스           Gate 0.9 정보 수집
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:29:Step 4      Gate 4 Production Routing   ← Apache 프록시 (preview 전용, kill switch)
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:44:| **1-A** | Gate 1 | Next 프로젝트, env 검증, ESLint 경계, `src/legacy/` 골격, L1/L2 테스트, Vercel 연결 | 에이전트 | Preview URL에서 mock 페이지 동작, CI 통과 |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:45:| **1-B** | Gate 0.9 | Header 필드, Apache/MPM/모듈, 추적 코드, Legacy URL 지도, 인스턴스 기준선 수집 | **사람** (SSH) | Gate 0.9 필수 항목 12개 채움 |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:49:| **4** | Gate 4 | Apache 프록시 설정, kill switch 시연 | **사람** (sudo) | S5~S9 통과, 특히 `cookieForwarded:false` |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:60:| **Gate 4** | `middleware.ts` origin 보호, `/api/v2-health`, 내부 확인용 페이지 `/_v2/check` (noindex), Vercel origin 도메인 | Apache 모듈/MPM 확인(1-B), sudo 권한 |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:78:   광고 유입은 PHP 랜딩으로 들어오고 V2 홈이나 강좌 페이지를 거쳐 PHP 결제로 간다. UTM과 referrer가 두 시스템을 오가도 끊기지 않아야 한다. V2 attribution 쿠키는 메인 도메인 기준으로 쓰고, PHP 랜딩이 이미 남기는 값(있다면)과 충돌하지 않는지 Gate 0.9에서 확인한다.
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:90:   | V2 경로 전체 | kill switch (`/etc/nonsulrun/v2.off`) — 즉시 |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:91:   | Vercel 배포 | 이전 배포 promote |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:109:# v2 버킷이거나 preview 쿠키면 V2 홈 (kill switch 파일이 없을 때만)
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:112:RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:124:- [ ] **Step 1-B:** 그동안 서버에서 Gate 0.9 수집 명령 실행
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:127:- [ ] Gate 0.9 결과 공유 → `viewer.php` Contract, Apache 설정 초안을 실제 값으로 확정
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:136:| - | Gate 0.5 | SUBSTANTIALLY PASS | | | 잔여 항목은 Gate 0.9에서 처리 |
+../nonsullearn-v2-frontend/docs/harness/EXECUTION-PLAN.md:139:| 1-B | Gate 0.9 | NOT STARTED | | | |
+
+=== [B7-LOCAL] Local baseline SHA256 (relative to html2) ===
+2722e9877a89bcae65ce45a640333bb6b156921fd7a6854bd7ddaba0a6145b4e  index.php
+6d99715a4735193ad0478dbc38d4cdfe1885067683d61b99ca1b619ac8e0c41d  common.php
+9fae3209a6be445ceabd6aa61976b299d61e4f420d80ca82038291ffbb01e487  config.php
+99579df182e23e815c781be430add6c8db48a20d6c8e9163d65a763bc3fc2d8b  head.php
+e27b198bf00324bd410e16909e8d45daa5548b6517944caf76b4eabf4f65ef20  _head.php
+fae62148df8299fe1162e379f8fbd6b64e851abe936c5ce6612cc45ea433c01a  head.sub.php
+c4306c2084930d7f7c0aef95b87df16a933f9f60a4e8b97795a6b94b8f3899a4  tail.php
+a818c3fb96c6419ef4f9b0476529cb1e96c98cfef5c9130cbf983687e985703b  _tail.php
+7a89876e1caf0a7e14c1321ea06bf237e512d34de4064590e2e10283bf6d0a4c  shop/item.php
+8e25f031d4704668ef7d1e76845ec53a3128649ccdeb751e4de8a39ff8b5fd8b  shop/ajax.list.php
+dc86bfe0d09cf37c6bd929c4304c2e74eb316230973c1729dbc7031fca60da81  bbs/login.php
+
+=== [PART-C] Existing final artifacts ===
+MISSING docs/discovery/viewer-contract-v1.md
+MISSING docs/discovery/bridge-risks.md
+MISSING docs/discovery/legacy-url-map.md
+MISSING docs/discovery/protected-routes.md
+MISSING docs/discovery/tracking-inventory.md
+MISSING docs/discovery/apache-readiness.md
+MISSING docs/discovery/decisions-needed.md
+
+=== [SEC] Potentially sensitive tracked files (names only) ===
+.github/workflows/secret-scan.yml
+html/shop/inicis/key/pgcert.pem
+html/shop/kcp/bin/pub.key
+html/src/vendor/aws/aws-crt-php/src/AWS/CRT/Auth/CredentialsProvider.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/AssumeRoleCredentialProvider.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/AssumeRoleWithWebIdentityCredentialProvider.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialProvider.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialSources.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/Credentials.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialsInterface.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialsUtils.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/EcsCredentialProvider.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/InstanceProfileProvider.php
+html/src/vendor/aws/aws-sdk-php/src/Credentials/LoginCredentialProvider.php
+html/src/vendor/aws/aws-sdk-php/src/Exception/CredentialsException.php
+html/src/vendor/aws/aws-sdk-php/src/SecretsManager/Exception/SecretsManagerException.php
+html/src/vendor/aws/aws-sdk-php/src/SecretsManager/SecretsManagerClient.php
+html/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/api-2.json.php
+html/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/endpoint-rule-set-1.json.php
+html/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/paginators-1.json.php
+html/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/smoke.json.php
+html2/shop/inicis/key/pgcert.pem
+html2/shop/kcp/bin/pub.key
+html2/src/vendor/aws/aws-crt-php/src/AWS/CRT/Auth/CredentialsProvider.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/AssumeRoleCredentialProvider.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/AssumeRoleWithWebIdentityCredentialProvider.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialProvider.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialSources.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/Credentials.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialsInterface.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/CredentialsUtils.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/EcsCredentialProvider.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/InstanceProfileProvider.php
+html2/src/vendor/aws/aws-sdk-php/src/Credentials/LoginCredentialProvider.php
+html2/src/vendor/aws/aws-sdk-php/src/Exception/CredentialsException.php
+html2/src/vendor/aws/aws-sdk-php/src/SecretsManager/Exception/SecretsManagerException.php
+html2/src/vendor/aws/aws-sdk-php/src/SecretsManager/SecretsManagerClient.php
+html2/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/api-2.json.php
+html2/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/endpoint-rule-set-1.json.php
+html2/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/paginators-1.json.php
+html2/src/vendor/aws/aws-sdk-php/src/data/secretsmanager/2017-10-17/smoke.json.php
+v2/.env.example
+
+=== [NEXT] Runtime evidence still required ===
+collect-runtime.sh : B1-B12 (Apache, vhost, AllowOverride, MPM, PHP SAPI/session, data/session, prod hashes, sudo, cron)
+collect-http.sh    : H1-H6 (Set-Cookie, TTFB, TLS, login, assets, rendered tracking IDs)
+AWS console        : instance type, Elastic IP, CPU credit 7d, system log, CloudWatch alarms
+Human decisions    : Vercel plan, origin hostname, kill switch path, test accounts, visit-log bypass
+Do not upgrade baseline evidence to DONE for runtime items without runtime evidence.

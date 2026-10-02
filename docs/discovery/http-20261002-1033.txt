@@ -1,0 +1,97 @@
+Gate 0.5 / 0.9 HTTP Discovery
+Generated: 2026-10-02T10:33:11+0900
+Target: https://nonsul-learn.com
+Host: nonsul-learn.com
+Rules: no cookies sent/stored, no auth, no POST, max 14 requests
+
+=== [H1] Set-Cookie attributes (names/attributes only) ===
+name=PHPSESSID
+attributes=path=/;secure;HttpOnly;
+Secure=YES
+HttpOnly=YES
+SameSite=NOT_SET
+---
+name=PHPSESSID
+attributes=path=/;secure;HttpOnly;SameSite=None;secure;HttpOnly;SameSite=None;
+Secure=YES
+HttpOnly=YES
+---
+name=2a0d2363701f23f8a75028924a3af643
+attributes=expires=Sat, 03 Oct 2026 01:33:11 GMT;Max-Age=86400;path=/;secure;HttpOnly;
+Secure=YES
+HttpOnly=YES
+SameSite=NOT_SET
+---
+
+=== [H2] Homepage response (HEAD) ===
+http_code=200
+time_connect=0.058518
+time_starttransfer=0.090924
+time_total=0.091073
+remote_ip=43.202.37.184
+redirect_url=
+HTTP/1.1 200 OK
+Server: Apache/2.4.58 (Ubuntu)
+Expires: 0
+Cache-Control: pre-check=0, post-check=0, max-age=0
+Pragma: no-cache
+
+=== [H3] TLS certificate ===
+issuer=C=US, O=Let's Encrypt, CN=YE2
+subject=CN=nonsul-learn.com
+notBefore=Sep 27 11:56:55 2026 GMT
+notAfter=Dec 26 11:56:54 2026 GMT
+NOTE: certificate expires Dec 26 11:56:54 2026 GMT
+Protocol version: TLSv1.3
+Ciphersuite: TLS_AES_256_GCM_SHA384
+
+=== [H4] Login page (HEAD) ===
+url=https://nonsul-learn.com/bbs/login.php
+http_code=200
+redirect_url=
+time_total=0.039671
+
+=== [H6] Rendered homepage: tracking IDs and asset paths ===
+final_url=https://nonsul-learn.com/
+http_code=200
+size_bytes=69551
+-- tracking identifiers (public IDs) --
+NO_TRACKING_SIGNATURES_FOUND
+-- same-host asset paths (images) --
+seo/img/android-icon-192x192.png
+seo/img/apple-icon-114x114.png
+seo/img/apple-icon-120x120.png
+seo/img/apple-icon-144x144.png
+seo/img/apple-icon-152x152.png
+seo/img/apple-icon-180x180.png
+seo/img/apple-icon-57x57.png
+seo/img/apple-icon-60x60.png
+seo/img/apple-icon-72x72.png
+seo/img/apple-icon-76x76.png
+seo/img/favicon-16x16.png
+seo/img/favicon-32x32.png
+seo/img/favicon-96x96.png
+src/nonsul-learn/img/logo.png
+src/nonsul-learn/img/logo2.png
+(saved to docs/discovery/home-assets.from-html.txt — copy to server as ~/v2-home-assets.txt for B8)
+-- login/logout/member links in rendered HTML (anonymous view) --
+/bbs/login.php
+/bbs/register.php
+/lecture/mypage.php
+
+=== [H5] Homepage asset HTTP status ===
+source=docs/discovery/home-assets.from-html.txt
+200  seo/img/android-icon-192x192.png
+200  seo/img/apple-icon-114x114.png
+200  seo/img/apple-icon-120x120.png
+200  seo/img/apple-icon-144x144.png
+200  seo/img/apple-icon-152x152.png
+200  seo/img/apple-icon-180x180.png
+200  seo/img/apple-icon-57x57.png
+200  seo/img/apple-icon-60x60.png
+200  seo/img/apple-icon-72x72.png
+200  seo/img/apple-icon-76x76.png
+
+=== [END] Collector completion ===
+COMPLETED_AT=2026-10-02T10:33:21+0900
+No cookies sent or stored. No authentication. No POST.
