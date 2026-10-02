@@ -1,0 +1,6 @@
+{
+  "v": 1,
+  "authenticated": true,
+  "capabilities": { "correction": false, "admin": false },
+  "displayName": "테스트회원"
+}

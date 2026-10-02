@@ -174,3 +174,37 @@ describe('legacy 폴더 내부는 상대경로로 참조한다', () => {
     );
   });
 });
+
+describe('@/legacy 공개 API 는 index 와 server 두 개다 (ADR 0004)', () => {
+  const rule = 'no-restricted-imports';
+
+  it.each(['src/app/courses/page.tsx', 'src/features/home/CourseList.tsx'])(
+    '%s 에서 @/legacy/server 는 통과한다',
+    async (filePath) => {
+      await expectClean(
+        filePath,
+        "import { getCourses } from '@/legacy/server';\nexport const a = getCourses;\n",
+        rule,
+      );
+    },
+  );
+
+  it('@/legacy/server 와 비슷해 보이는 내부 경로는 여전히 막힌다', async () => {
+    await expectViolation(
+      'src/app/page.tsx',
+      "import { x } from '@/legacy/server/internal';\nexport const a = x;\n",
+      rule,
+    );
+  });
+
+  it.each(['src/design-system/primitives/Button.tsx', 'src/components/Card.tsx'])(
+    '순수 UI 영역인 %s 에서는 @/legacy/server 도 에러다',
+    async (filePath) => {
+      await expectViolation(
+        filePath,
+        "import { getCourses } from '@/legacy/server';\nexport const a = getCourses;\n",
+        rule,
+      );
+    },
+  );
+});

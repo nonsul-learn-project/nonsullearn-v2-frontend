@@ -9,13 +9,19 @@ import nextTypeScript from 'eslint-config-next/typescript';
  * 규칙을 바꾸면 그 테스트도 같이 바뀌어야 한다.
  */
 
-/** `@/legacy` 내부 경로 직접 import 금지. 공개 API는 `@/legacy`(index) 하나다. */
+/**
+ * `@/legacy` 내부 경로 직접 import 금지.
+ *
+ * 공개 API는 `@/legacy`(클라이언트 안전)와 `@/legacy/server`(server-only) 두 개뿐이다.
+ * 왜 두 개인지는 docs/decisions/0004-legacy-public-api-split.md 참고.
+ */
 const legacyInternalsForbidden = {
   patterns: [
     {
-      group: ['@/legacy/*', '@/legacy/*/**'],
+      // `!` 로 `@/legacy/server` 만 예외로 둔다 (group 은 gitignore 식 negation 을 지원한다).
+      group: ['@/legacy/*', '@/legacy/*/**', '!@/legacy/server'],
       message:
-        'Legacy 내부 경로를 직접 import하지 않는다. 공개 API는 `@/legacy` 하나다 (AGENTS.md §6.2).',
+        'Legacy 내부 경로를 직접 import하지 않는다. 공개 API는 `@/legacy` 와 `@/legacy/server` 뿐이다 (AGENTS.md §6.2, ADR 0004).',
     },
   ],
 };
@@ -26,7 +32,7 @@ const pureUiForbidden = {
     {
       group: ['@/legacy', '@/legacy/*', '@/legacy/*/**'],
       message:
-        '순수 UI 영역은 Legacy를 import하지 않는다. 데이터는 prop으로 받는다 (AGENTS.md §6.2).',
+        '순수 UI 영역은 Legacy를 import하지 않는다 (@/legacy/server 포함). 데이터는 prop으로 받는다 (AGENTS.md §6.2).',
     },
     {
       group: ['@/analytics', '@/analytics/*', '@/analytics/*/**'],
