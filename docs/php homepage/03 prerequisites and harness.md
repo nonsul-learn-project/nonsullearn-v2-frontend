@@ -96,7 +96,7 @@ grep -n "gtag\|googletagmanager\|fbq\|wcs_do\|wcs_add\|kakaoPixel" head.php _hea
 
 | 결정 | 제안 기본값 |
 |---|---|
-| V2 URL 체계 | 마케팅 랜딩은 PHP 유지, 강좌 `/courses/[id]` |
+| V2 URL 체계 | 별도 마케팅 랜딩 없음; 홈 `/`은 Gate 5/6, 강좌 `/courses/[id]` |
 | 기존 강좌 URL 처리 | 강좌별 컷오버 시 `shop/item.php?it_id=X` → `/courses/X` 301 |
 | Vercel origin 도메인 | `v2-origin.<도메인>` (Vercel production에 연결) |
 | preview 쿠키 이름 | `v2_preview=1` |

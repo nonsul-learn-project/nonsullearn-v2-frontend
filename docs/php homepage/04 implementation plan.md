@@ -7,19 +7,19 @@
 
 ## 1. 목표와 범위
 
-**목표:** 결제, 로그인, 강의실 및 마케팅 랜딩을 건드리지 않고 **홈 → 강좌 상세** 순서로 V2(Next.js on Vercel)를 메인 도메인에 올린다.
+**목표:** 결제, 로그인, 강의실을 건드리지 않고 홈(별도 마케팅 랜딩 없음) → 강좌 상세 순서로 V2(Next.js on Vercel)를 메인 도메인에 올린다.
 
 | 포함 | 제외 (PHP Handoff 유지) |
 |---|---|
-| 홈 `/`, 강좌 상세 `/courses/*` | 마케팅 랜딩, 로그인, 회원가입, 세션 |
+| 홈 `/`, 강좌 상세 `/courses/*` | 로그인, 회원가입, 세션 |
 | 홈 `/` | 장바구니, 결제, PG callback |
 | 강좌 상세 `/courses/*` (ISR) | 강의 재생, 내 강의실, LMS |
 | Header 로그인 상태 (viewer) | 첨삭, 관리자 |
 | 추적 / Attribution | 파일 업로드 |
 
-### 왜 랜딩부터인가
+### 왜 홈부터인가
 
-새 랜딩 페이지는 **기존 화면과 비교할 대상(parity)이 없어서** 가장 위험이 낮다. 프록시, Bridge, 추적, kill switch를 실제 트래픽으로 먼저 검증한 뒤 홈과 강좌 상세를 옮긴다.
+별도 랜딩은 없고 홈이 랜딩 역할을 한다. 홈은 PHP 화면과 직접 parity 비교를 수행하며 Gate 5/6에서 프록시, Bridge, 추적, kill switch를 검증한다.
 
 ---
 
@@ -46,7 +46,7 @@ RewriteRule ^ - [S=3]
 # ── V2 정적 자산 (항상)
 RewriteRule ^/_next/(.*)$ https://v2-origin.<도메인>/_next/$1 [P,L,E=V2PROXY:1]
 
-# ── 내부 확인, 강좌 (마케팅 랜딩은 PHP 유지)
+# ── 내부 확인, 강좌 (별도 마케팅 랜딩 없음)
 RewriteRule ^/(_v2/check|courses/.*|api/v2-health)$ https://v2-origin.<도메인>/$1 [P,L,E=V2PROXY:1]
 
 # ── 홈: 컷오버 전에는 preview 쿠키가 있을 때만
@@ -214,7 +214,7 @@ Bridge가 죽어 있을 때 ISR은 **마지막으로 성공한 페이지를 계�
 ### Phase 4. 홈 내부 soak (preview 쿠키)
 
 - [ ] 홈 V2, 추적 태그 + UTM 저장, CTA → Legacy 결제 URL 확인
-- [ ] PHP 마케팅 랜딩 → V2 홈/강좌 → PHP 결제 attribution 연속성 확인
+- [ ] 홈 → V2 홈/강좌 → PHP 결제 attribution 연속성 확인
 - [ ] preview 쿠키로 L5 P1~P12 및 내부 soak
 
 **종료 조건:** L5 P1~P12 통과, 추적 parity와 attribution 연속성 확인

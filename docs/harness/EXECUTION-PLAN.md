@@ -23,7 +23,7 @@
             [A. 레포 트랙: SSH 불필요]            [B. 서버 트랙: SSH 필요, 읽기 위주]
 Step 0      문서 통합 (Codex)
 Step 1      Gate 1 Foundation + 하네스           Gate 0.9 정보 수집
-Step 2      Gate 2 Design System                 Bridge PHP 작성 (Legacy 레포)
+Step 2      Gate 2 기존 디자인 추출              Bridge PHP 작성 (Legacy 레포)
                └──────────── 합류 ────────────┘
 Step 3      Gate 3 Legacy Integration   ← viewer, courses 실제 연결
 Step 4      Gate 4 Production Routing   ← Apache 프록시 (preview 전용, kill switch)
@@ -43,11 +43,11 @@ Step 9~     Gate 9 Growth / Gate 10 Optional
 | **0** | - | Gate 문서 통합 | Codex → 사람 리뷰 | 완료 확인 grep 6개 통과, `docs/harness/GATES.md` 하나만 남음 |
 | **1-A** | Gate 1 | Next 프로젝트, env 검증, ESLint 경계, `src/legacy/` 골격, L1/L2 테스트, Vercel 연결 | 에이전트 | Preview URL에서 mock 페이지 동작, CI 통과 |
 | **1-B** | Gate 0.9 | Header 필드, Apache/MPM/모듈, 추적 코드, Legacy URL 지도, 인스턴스 기준선 수집 | **사람** (SSH) | Gate 0.9 필수 항목 12개 채움 |
-| **2-A** | Gate 2 | 디자인 토큰, Header/Footer, 모바일 내비게이션 | 에이전트 | 샘플 페이지가 Design System만으로 조립됨 |
+| **2-A** | Gate 2 | legacy 디자인 추출: Bootstrap+main.css 재사용, Header/Footer/MobileNav 컴포넌트화, visual parity 기준선 | 에이전트 | 3개 viewport Header/Footer/MobileNav visual parity 기준 확보 |
 | **2-B** | Gate 3 준비 | `_bootstrap.php`, `viewer.php`, `courses.php`, 배포 스크립트 | 에이전트 작성, **배포는 사람** | Legacy 레포에 커밋, `php -l` 통과 |
 | **3** | Gate 3 | Bridge 운영 배포, V2 adapter를 `http`로 전환 | 사람 (배포) + 에이전트 (연결) | 스모크 S1~S4 통과 |
 | **4** | Gate 4 | Apache 프록시 설정, kill switch 시연 | **사람** (sudo) | S5~S9 통과, 특히 `cookieForwarded:false` |
-| **5** | Gate 5 | Tracking Parity & Homepage Internal Soak: 홈 V2, 동일 추적 태그, preview 쿠키 내부 soak, PHP 랜딩 → V2 홈 UTM 연속성 | 에이전트 + 사람 (soak, 추적 확인) | P1~P12 통과, soak 기간 오류 없음, PHP 랜딩 → V2 홈 → 결제 흐름이 GA4에서 이어짐 |
+| **5** | Gate 5 | Tracking Parity & Homepage Internal Soak: 홈 V2, 동일 추적 태그, preview 쿠키 내부 soak, 홈 → PHP 결제 UTM 연속성 | 에이전트 + 사람 (soak, 추적 확인) | P1~P12 및 visual parity 통과, soak 기간 오류 없음, 홈 → PHP 결제 흐름이 GA4에서 이어짐 |
 | **6** | Gate 6 | Homepage Cutover: canary 공개(신규 방문자 일부) → 비율 확대 → 100% | 사람 (Apache 설정) + 에이전트 (지표 해석) | 단계마다 L6 경보 없음, 전환율 -20% 이내, 100% 후 7일간 롤백 없음 |
 | **7** | Gate 7 | 전체 canonical event, provider 매핑, 채널별 전환 리포트 | 에이전트 | Gate 7 DoD |
 | **8** | Gate 8 | 강좌 상세 ISR, 강좌별 parity와 301 | 에이전트 + 사람 (301, parity) | 강좌마다 Slice DoD |
@@ -69,13 +69,13 @@ Step 9~     Gate 9 Growth / Gate 10 Optional
 2. **Gate 4(프록시)를 홈보다 먼저 둔 이유**
    프록시가 가장 위험한 인프라 변경이다. 외부에 노출되지 않는 `/_v2/check`와 preview 쿠키로 먼저 검증하고, 실제 사용자가 보는 페이지는 그 다음에 올린다.
 
-3. **마케팅 랜딩은 V2로 옮기지 않는다**
-   기존 PHP 랜딩을 그대로 쓴다. 그래서 **V2가 처음으로 실제 사용자에게 나가는 페이지는 홈**이다. 랜딩으로 인프라를 미리 검증하는 단계가 없으므로 다음 두 가지로 위험을 줄인다.
+3. **별도 마케팅 랜딩은 없고 홈이 랜딩 역할이다**
+   홈은 Gate 5/6에서 이전한다. 홈 이전 전 별도 랜딩으로 인프라를 미리 검증하는 단계가 없으므로 다음 두 가지로 위험을 줄인다.
    - **Gate 5 내부 soak:** 홈 V2를 preview 쿠키로 며칠간 직접 사용하면서 Header, 링크, 결제 이동, 추적을 확인한다.
    - **Gate 6 canary:** 신규 방문자 일부에게만 먼저 공개하고, 문제가 없으면 비율을 올린다.
 
-4. **PHP 랜딩 → V2 홈 attribution 연속성**
-   광고 유입은 PHP 랜딩으로 들어오고 V2 홈이나 강좌 페이지를 거쳐 PHP 결제로 간다. UTM과 referrer가 두 시스템을 오가도 끊기지 않아야 한다. V2 attribution 쿠키는 메인 도메인 기준으로 쓰고, PHP 랜딩이 이미 남기는 값(있다면)과 충돌하지 않는지 Gate 0.9에서 확인한다.
+4. **홈 → PHP 결제 attribution 연속성**
+   광고 유입은 홈으로 들어오고 V2 홈이나 강좌 페이지를 거쳐 PHP 결제로 간다. UTM과 referrer가 두 시스템을 오가도 끊기지 않아야 한다. V2 attribution 쿠키는 메인 도메인 기준으로 쓰고, Legacy가 이미 남기는 값(있다면)과 충돌하지 않는지 Gate 0.9에서 확인한다.
 
 ---
 
@@ -133,10 +133,10 @@ RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
 | Step | Gate | 상태 | 시작 | 완료 | 메모 |
 |---|---|---|---|---|---|
 | - | Gate 0 | PASS | | | |
-| - | Gate 0.5 | SUBSTANTIALLY PASS | | | 잔여 항목은 Gate 0.9에서 처리 |
+| - | Gate 0.5 | PASS | | | 잔여 항목은 Gate 0.9에서 처리 |
 | 0 | 문서 통합 | NOT STARTED | | | |
 | 1-A | Gate 1 | NOT STARTED | | | |
-| 1-B | Gate 0.9 | NOT STARTED | | | |
+| 1-B | Gate 0.9 | IN PROGRESS | | | |
 | 2-A | Gate 2 | NOT STARTED | | | |
 | 2-B | Gate 3 준비 | NOT STARTED | | | |
 | 3 | Gate 3 | NOT STARTED | | | |

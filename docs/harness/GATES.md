@@ -4,13 +4,13 @@
 
 ## Mission
 
-PHP를 제거하지 않는다. Legacy PHP/MariaDB Core를 안정적으로 유지하면서 Public Frontend(홈, 강좌 상세), UI/UX, Design System, SEO, Analytics, Attribution, Experiment의 ownership을 TypeScript로 점진 이동한다. **마케팅 랜딩은 PHP가 계속 소유하며 V2 범위가 아니다.**
+PHP를 제거하지 않는다. Legacy PHP/MariaDB Core를 안정적으로 유지하면서 Public Frontend(홈, 강좌 상세), UI/UX, Design System, SEO, Analytics, Attribution, Experiment의 ownership을 TypeScript로 점진 이동한다. **별도 마케팅 랜딩은 없다. 홈(`index.php`)이 랜딩 역할을 하며 Gate 5/6에서 이전한다.**
 
 ```text
 Browser → Apache Front Door
   ├─ V2 routes → Vercel → Next.js + TypeScript
   ├─ /v2-api/* → Thin PHP Bridge → Legacy PHP Core → MariaDB
-  └─ Legacy routes 및 마케팅 랜딩 → Legacy PHP Core → MariaDB
+  └─ Legacy routes → Legacy PHP Core → MariaDB
 ```
 
 ## Core Principles
@@ -28,7 +28,7 @@ Browser → Apache Front Door
 | Gate 0.5 | Production Discovery | 0.5 | 0.5 | SUBSTANTIALLY PASS |
 | Gate 0.9 | Prerequisites | - | 0.9 | NOT STARTED |
 | Gate 1 | V2 Foundation + Harness | 1 | 1 | NOT STARTED |
-| Gate 2 | Design System & App Shell | 2 | 1.1 | NOT STARTED |
+| Gate 2 | Design Parity Foundation (기존 디자인 추출) | 2 | 1.1 | NOT STARTED |
 | Gate 3 | Legacy Integration Foundation (viewer + courses Bridge) | 3 | 1.2 | NOT STARTED |
 | Gate 4 | Production Routing (preview 전용, kill switch) | 7 | 1.3 | NOT STARTED |
 | Gate 5 | Tracking Parity & Homepage Internal Soak (preview 쿠키) | 5 일부 | 1.4 | NOT STARTED |
@@ -115,7 +115,7 @@ Production Safety: 명시 승인 없이 DB schema/data 변경·삭제, Payment �
 | 6 | 인스턴스 메모리/CPU credit 기준선 및 CloudWatch alarm | ● |
 | 7 | Vercel commercial plan, origin URL 체계, kill switch 경로 | ● |
 | 8 | 일반/첨삭 테스트 계정 | ● |
-| 9 | PHP landing과 V2 홈/강좌 사이 UTM/attribution 충돌 여부 | ● |
+| 9 | 홈과 V2 홈/강좌 사이 UTM/attribution 충돌 여부 | ● |
 | 10 | `shop/ajax.list.php` 재사용 가능성 | ○ |
 
 **DoD:** 모든 ● 항목의 근거 또는 blocker/source-of-truth를 `docs/gates/Gate-0.9.md`에 기록한다.  
@@ -138,20 +138,25 @@ Production Safety: 명시 승인 없이 DB schema/data 변경·삭제, Payment �
 **DoD:** Global DoD Code Quality/Architecture/Security 및 L1~L3 기반.  
 **PASS CONDITION:** mock 기반 V2 페이지를 Vercel Preview로 검증할 수 있다.
 
-## Gate 2 — Design System & App Shell
+## Gate 2 — Design Parity Foundation (기존 디자인 추출)
 
-**Objective:** 임의 CSS/Component 복제 없이 최소 Design System과 App Shell을 구축한다.
+**Objective:** 기존 PHP 화면의 디자인을 그대로 재현할 수 있는 스타일 기반과 공통 셸 컴포넌트를 만든다.
 
 | 구분 | 항목 |
 |---|---|
-| ● | `src/design-system/`의 Color, Typography, Spacing, Radius, Shadow, Container, Breakpoint, Z-index, Motion token |
-| ● | Container, Section, Stack, Button, Link, Heading, Text, Image primitive |
-| ● | Header/Desktop·Mobile Navigation/Footer/MainContent |
-| ● | Mobile/Tablet/Desktop/Wide responsive, keyboard/focus/alt/heading/contrast/reduced motion baseline |
-| ○ | 여러 feature 공용 조합 component만 `src/components/` 배치 |
+| ● | Legacy Bootstrap 버전/로드 방식, 폰트, `main.css` 출처와 SHA256 기록 |
+| ● | `src/design-system/legacy/`의 global CSS 로드 구조; 같은 Bootstrap CSS와 `main.css` 복사본 사용 |
+| ● | 실제 Bootstrap 변수와 `main.css`에서 추출한 `tokens.css` 문서; 새 값 생성 금지 |
+| ● | `SiteHeader`, `DesktopNav`, mock viewer 기반 `AuthArea`, `MobileNav`, `SiteFooter` |
+| ● | `Container`, `Section`, `Button`, `Link`, `Heading`, `Text` primitive |
+| ● | PHP → 컴포넌트 매핑 표 `docs/design/component-map.md` |
+| ● | Header/Footer/MobileNav 열린 상태의 visual parity 스크립트와 legacy 기준 이미지(3 viewport) |
+| ● | Footer 법적 표시 사항 글자 단위 일치 테스트 |
+| ● | 키보드 접근, focus 표시, alt |
+| ○ | production 비노출 `/_dev/ui` 컴포넌트 미리보기 |
 
-**DoD:** Global DoD UX/Code Quality.  
-**PASS CONDITION:** 홈과 Public Page를 동일 UI foundation에서 조립한다.
+**DoD:** Legacy와 동일한 Bootstrap 클래스·`main.css` 클래스 및 마크업 구조를 유지하고, Bootstrap JS 없이 React로 carousel/accordion/dropdown/offcanvas 동작을 재현한다. visual diff는 `maxDiffPixelRatio` 2%(TBD-조정 가능)를 초과하면 merge 차단이 아닌 diff 이미지 첨부 리뷰 필수로 시작한다.
+**PASS CONDITION:** V2의 Header, Footer, MobileNav가 3개 viewport에서 legacy와 허용치 이내로 일치하고, 홈 섹션을 같은 기반 위에서 조립할 수 있다.
 
 ## Gate 3 — Legacy Integration Foundation (viewer + courses Bridge)
 
@@ -184,7 +189,7 @@ Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php
 | 구분 | 항목 |
 |---|---|
 | ● | VirtualHost/Rewrite/Proxy runtime, route ownership matrix, `/v2-api/*` PHP 유지 |
-| ● | `/_v2/check`, `/courses/*`, `/_next/*`, `/api/v2-health`만 proxy; 마케팅 랜딩 경로는 PHP 유지 |
+| ● | `/_v2/check`, `/courses/*`, `/_next/*`, `/api/v2-health`만 proxy; 별도 마케팅 랜딩은 없으며 홈은 preview cookie 조건에서만 V2 |
 | ● | 홈은 `v2_preview=1` cookie일 때만 V2 |
 | ● | Payment/PG return/uploads/LMS/admin/auth 보호, L4 S5~S9 및 cookieForwarded false |
 | ● | kill switch 시연, vhost rollback, resource 비교, runbook |
@@ -201,9 +206,11 @@ Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php
 |---|---|
 | ● | 홈 V2 완성, Legacy와 동일 추적 tag, `page_view`/`cta_click`/`begin_checkout`/`bridge_error` |
 | ● | preview cookie 내부 soak: Header, 링크, 결제 이동, tracking 확인 |
-| ● | PHP landing → V2 home/course → PHP checkout의 UTM/attribution GA4 연속성 |
+| ● | 홈 → V2 home/course → PHP checkout의 UTM/attribution GA4 연속성 |
 | ● | L5 홈 P1~P12 전부 PASS 및 debug/deduplication evidence |
 | ● | purchase는 V2가 보내지 않으며 결제 상태 + 주문 ID로 Legacy가 확정 |
+| ● | `HeroCarousel`, `StatsBar`, `CurriculumSection`, `WhySection`, `CompareTable`, `ProcessSteps`, `CeoMessage`, `BriefingPartners`, `Testimonials`, `FaqAccordion`을 `src/content/home.ts`의 타입 있는 문구·수치·FAQ·후기·링크 데이터로 조립 |
+| ● | 홈 전체 visual parity: legacy/V2를 375×812, 768×1024, 1440×900에서 캡처 비교; carousel 자동전환·animation 정지 후 2%(TBD-조정 가능) 이내 |
 | ○ | provider 추가 검증 |
 
 **DoD:** Slice DoD 중 공개 canary 전 조건과 L5 홈 필수 항목.  
@@ -219,6 +226,7 @@ Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php
 | ● | 단계마다 L6 경보 없음 및 컷오버 전 7일 평균 대비 전환율 -20% 이내 |
 | ● | L4 재실행, L5 홈 P1~P12, tracking parity, kill switch/rollback 가능 |
 | ● | 100% 후 7일간 rollback 없음 및 kill switch 사용 가능 |
+| ● | 홈 전체 visual parity가 Gate 5의 3개 viewport 기준에서 허용치 이내; Gate 2의 리뷰 필수 정책을 컷오버 시 필수 통과로 강화 |
 | ○ | homepage experiment |
 
 캐러셀 parity는 automatic cycle, controls, indicators, touch, mobile, internal links를 포함한다.
@@ -243,7 +251,7 @@ Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php
 
 ## Gate 8 — Public Frontend Migration (강좌 상세 등, 페이지별 반복)
 
-**Objective:** Marketing Landing을 제외한 Public Frontend를 feature slice로 이전한다.
+**Objective:** 홈 이외 Public Frontend를 feature slice로 이전한다.
 
 | 구분 | 항목 |
 |---|---|
@@ -302,4 +310,4 @@ L4 S1~S9 실패, P10 결제 실패, cookieForwarded true, critical parity/securi
 
 ## Final Architecture 및 Success Criteria
 
-Apache Front Door 아래 V2 route는 Vercel/Next.js, `/v2-api/*`와 Legacy route 및 Marketing Landing은 PHP/Legacy Core/MariaDB로 유지한다. 성공은 PHP 파일 수가 아니라 Public Frontend, SEO, Analytics, Attribution, Experiment의 TypeScript ownership과 Checkout/Auth/LMS/Payment 안정성, 점진 route migration, 빠른 Vercel deployment, 측정 가능한 Growth improvement의 동시 달성이다.
+Apache Front Door 아래 V2 route는 Vercel/Next.js, `/v2-api/*`와 Legacy route는 PHP/Legacy Core/MariaDB로 유지한다. 홈은 Gate 5/6의 대상이며 성공은 PHP 파일 수가 아니라 Public Frontend, SEO, Analytics, Attribution, Experiment의 TypeScript ownership과 Checkout/Auth/LMS/Payment 안정성, 점진 route migration, 빠른 Vercel deployment, 측정 가능한 Growth improvement의 동시 달성이다.

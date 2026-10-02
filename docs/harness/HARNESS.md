@@ -149,6 +149,20 @@ for (const f of files) {
 
 ---
 
+## Visual Parity — Gate 2 / Gate 5
+
+**실행:** `pnpm test:visual`
+
+**legacy 기준 이미지:** `tests/visual/baseline/legacy/`
+**legacy 캡처:** `scripts/capture-legacy-baseline.ts`를 사람이 운영 도메인에 대해 1회 실행해 기준 이미지를 커밋한다. 에이전트는 운영 도메인에 반복 요청하지 않는다.
+
+| 대상 Gate | 화면 | viewport |
+|---|---|---|
+| Gate 2 | Header, Footer, 열린 MobileNav | 375×812, 768×1024, 1440×900 |
+| Gate 5 | 홈 전체 | 375×812, 768×1024, 1440×900 |
+
+캡처 전 carousel 자동 전환과 animation을 정지한다. 초기 허용치는 `maxDiffPixelRatio: 2%`이며 **TBD-조정 가능**이다. 허용치를 초과하면 Gate 2에서는 merge 차단이 아닌 diff 이미지를 PR에 첨부한 리뷰 필수, Gate 6 컷오버에서는 필수 통과다.
+
 ## 7. L5 — Parity (컷오버 전)
 
 **기록:** `docs/parity/<page>.md` (아래 템플릿 복사)
@@ -173,9 +187,11 @@ for (const f of files) {
 | P12 | UTM 진입 → 결제 페이지에서 attribution 쿠키 읽힘 | - | | ☐ | |
 | P13 | (강좌) 기존 URL → 새 URL 301 | | - | ☐ | |
 | P14 | 콘텐츠 차이 (의도된 변경 목록과 일치) | | | ☐ | |
+| P15 | Footer 법적 표시 사항 글자 단위 일치 | | | ☐ | |
+| P16 | 3개 viewport visual diff 허용치 이내 | | | ☐ | |
 ```
 
-- 페이지 유형별 필수 항목: 홈 = P1~P12 / 강좌 = 전 항목. 마케팅 랜딩은 PHP 유지로 V2 parity 대상이 아니다.
+- 페이지 유형별 필수 항목: 홈 = P1~P12, P15~P16 / 강좌 = 전 항목. 별도 마케팅 랜딩은 없으며 홈이 parity 대상이다.
 - **필수 항목 전부 ☑ 전 컷오버 금지.**
 
 ---

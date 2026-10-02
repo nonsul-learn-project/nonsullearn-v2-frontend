@@ -8,7 +8,7 @@
 
 ## 1. 프로젝트 한 줄 요약
 
-**논술런(온라인 논술 인강 플랫폼)의 Legacy PHP/MariaDB Production을 그대로 유지하면서, 사용자 경험 영역(홈, 강좌 상세 등)만 Next.js + TypeScript로 옮기는 레포. 마케팅 랜딩은 PHP에 남긴다.**
+**논술런(온라인 논술 인강 플랫폼)의 Legacy PHP/MariaDB Production을 그대로 유지하면서, 사용자 경험 영역(홈, 강좌 상세 등)만 Next.js + TypeScript로 옮기는 레포. 별도 마케팅 랜딩은 없고 홈(`index.php`)이 랜딩 역할이며 Gate 5/6에서 이전한다.**
 
 > Preserve the Core. Replace the Experience.
 
@@ -48,7 +48,7 @@ Browser ── 메인 도메인 (DNS → EC2)
 
 | V2 (이 레포) 소유 | Legacy PHP 소유 (건드리지 않음) |
 |---|---|
-| 홈, 강좌 상세 등 Public Frontend UI | 마케팅 랜딩, 로그인, 세션, 회원가입 |
+| 홈, 강좌 상세 등 Public Frontend UI | 로그인, 세션, 회원가입 |
 | Design System, 반응형 | 장바구니, 주문, 결제, PG callback, 환불 |
 | SEO, 메타데이터, sitemap | 강의 재생, 내 강의실, LMS |
 | Analytics, UTM/Attribution, 실험 | 첨삭, 관리자 |
@@ -69,9 +69,13 @@ src/
 │   ├── api/v2-health/route.ts  # 프록시 진단
 │   ├── robots.ts, sitemap.ts
 │   └── layout.tsx
-├── features/                   # 사용자 기능 단위 (header, course-detail, landing ...)
-├── design-system/              # Design Token + primitive. Legacy/도메인을 모름
+├── features/                   # 사용자 기능 단위 (header, home, course-detail ...)
+├── design-system/              # tokens.css, legacy CSS 복사본, primitive
+│   ├── legacy/                 # Legacy 원본 동기화 절차로만 갱신
+│   ├── tokens.css              # Bootstrap/main.css에서 추출한 변수
+│   └── primitives/             # Container, Section, Button, Link, Heading, Text
 ├── components/                 # 여러 feature가 공유하는 조합 component만
+├── content/                    # 타입 있는 문구·수치·FAQ·후기·링크 데이터
 ├── legacy/                     # ★ Legacy Integration Boundary (유일한 Legacy 접점)
 │   ├── contracts/              # zod schema + 타입
 │   │   └── fixtures/           # Contract 예시 JSON (하네스의 단일 진실)
@@ -145,7 +149,11 @@ mock 시나리오 전환(로컬): URL에 `?viewer=anonymous|member|corrector|una
 - 권한 판단은 `viewer.capabilities.*`만 사용. `level` 숫자 비교를 UI에서 하지 않는다.
 
 ### 6.5 스타일 / 접근성
-- Design System 토큰 사용, 임의 색상/간격 하드코딩 금지.
+- 기존 Bootstrap 클래스와 `main.css` 클래스를 우선 사용한다.
+- 새 색상/간격 하드코딩 금지. 필요하면 `tokens.css` 변수를 사용한다.
+- Gate 6 전까지 마크업 구조와 클래스명은 legacy와 동일하게 유지한다.
+- Bootstrap JS를 사용하지 않고 동작은 React로 재현한다.
+- 문구와 수치는 `src/content/`에서 가져오며 컴포넌트에 하드코딩하지 않는다.
 - 모바일(375px) 우선. 가로 스크롤 금지.
 - 인터랙티브 요소는 키보드 접근 가능, 이미지 alt 필수.
 
@@ -203,6 +211,8 @@ mock 시나리오 전환(로컬): URL에 `?viewer=anonymous|member|corrector|una
 - 테스트를 통과시키기 위해 fixture/schema를 실제 Legacy 응답과 다르게 바꾸기
 - 하네스 테스트 삭제, `skip`, 기준 완화 (사람 승인 없이)
 - 기존 Legacy URL 구조 변경을 전제로 한 코드 (301은 Apache 소관)
+- Gate 6 이전 리디자인 또는 클래스명 변경
+- `src/design-system/legacy/` 파일 직접 수정 (legacy 원본과 동기화 절차로만 갱신)
 
 ---
 

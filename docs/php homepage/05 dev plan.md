@@ -205,7 +205,7 @@ Week 5~ ▶ P6 Course Detail (강좌별 점진)
 - [ ] `src/analytics/`: `track(event, props)` → GTM dataLayer / GA4 / Meta / Naver / Kakao 어댑터
 - [ ] canonical event: `page_view`, `cta_click`, `course_view`, `begin_checkout`
 - [ ] UTM/Referrer 저장 (메인 도메인 first-party 쿠키), Legacy 결제 페이지에서 읽히는지 확인
-- [ ] PHP 마케팅 랜딩 → V2 홈/강좌 → PHP 결제 attribution 연속성 확인
+- [ ] 홈 → V2 홈/강좌 → PHP 결제 attribution 연속성 확인
 - [ ] CTA → Legacy 상담/결제 URL, `begin_checkout` 발생 확인
 - [ ] 광고 소량 집행, 48시간 L6 관찰 (bridge_error, 5xx, Web Vitals, EC2)
 
