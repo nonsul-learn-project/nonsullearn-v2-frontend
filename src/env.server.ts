@@ -30,6 +30,15 @@ export const serverEnvSchema = z.object({
   V2_ENFORCE_PROXY: z.enum(['true', 'false']).default('false'),
 
   VERCEL_ENV: z.enum(['development', 'preview', 'production']).default('development'),
+
+  /**
+   * Vercel 이 자동 주입하는 배포 커밋. `/api/v2-health` 가 "어느 배포를 보고 있는지" 알려줄 때만 쓴다.
+   * 사람이 등록하는 값이 아니므로 비어 있어도 된다. 빈 문자열은 null 로 본다.
+   */
+  VERCEL_GIT_COMMIT_SHA: z
+    .string()
+    .optional()
+    .transform((value) => (value === undefined || value === '' ? null : value)),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -92,6 +101,7 @@ export const serverEnv: ServerEnv = parseServerEnv({
   V2_PROXY_SECRET: process.env.V2_PROXY_SECRET,
   V2_ENFORCE_PROXY: process.env.V2_ENFORCE_PROXY,
   VERCEL_ENV: process.env.VERCEL_ENV,
+  VERCEL_GIT_COMMIT_SHA: process.env.VERCEL_GIT_COMMIT_SHA,
   NEXT_PUBLIC_VIEWER_SOURCE: process.env.NEXT_PUBLIC_VIEWER_SOURCE,
 });
 
