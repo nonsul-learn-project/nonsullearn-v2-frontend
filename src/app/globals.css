@@ -1,32 +1,65 @@
+/*
+ * Gate 1 최소 baseline.
+ *
+ * 스타일의 본체는 Gate 2 에서 들어온다 — legacy Bootstrap 5.3.2 와 main.css 를
+ * 그대로 재사용하고 tokens.css 로 값을 추출한다 (ADR 0002).
+ * 여기에 새 색상이나 간격을 만들지 않는다.
+ *
+ * create-next-app 이 넣어 둔 `main { display: grid; place-content: center }` 는 제거했다.
+ * `place-content: center` 는 grid track 을 max-content 로 잡아서 긴 문자열이 있으면
+ * 375px 뷰포트에서 가로 스크롤이 생긴다 (L3 tests/e2e/mobile.spec.ts 가 잡았다).
+ */
+
 :root {
   color-scheme: light;
-  --background: #ffffff;
-  --foreground: #171717;
 }
-* {
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
-html,
+
+html {
+  /* 모바일 우선. 가로 스크롤을 만들지 않는다 (AGENTS.md §6.5). */
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
+  margin: 0;
   min-height: 100%;
+  background: #fff;
+  color: #171717;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  line-height: 1.5;
 }
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
 }
-main {
-  display: grid;
-  min-height: 100vh;
-  place-content: center;
-  padding: 2rem;
-  text-align: center;
+
+/* 긴 URL·코드 문자열이 뷰포트를 넘기지 않게 한다. */
+code,
+pre,
+dd {
+  overflow-wrap: anywhere;
 }
-h1,
-p {
-  margin: 0;
-}
-p {
-  margin-top: 0.75rem;
+
+/* 스크린 리더 전용 텍스트. Bootstrap 의 .visually-hidden 과 같은 역할이며 Gate 2 에서 legacy 것으로 교체된다. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
