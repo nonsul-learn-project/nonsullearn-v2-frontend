@@ -1,15 +1,15 @@
-# Homepage runtime verification verdict (Gate 6 prerequisite)
+# Gate 1.5 final verdict
 
 1. **Can Homepage migration start?** Not yet as a production-parity migration: source implementation may be prepared, but the runtime verification gate is not closed.
 2. **Remaining BLOCKING items:** current `/` execution/deployed revision; current legacy teacher asset availability; live session cookie attributes/handler; current Apache vhost/TLS/rewrite topology. Host-key identity is resolved, but the current verifier could not complete SSH authentication with its available keys.
 3. **Remaining UNKNOWNs:** former banner rows are non-blocking for the current tracked canonical homepage because it does not call `get_banner()`. DB dumps, runtime session files, PG credentials/certificates, cache/logs, and cron are **NON_BLOCKING** for Homepage.
-4. **Is ViewerAdapter information sufficient?** Contract and source behavior are sufficient; deployment-ready implementation is blocked by live cookie topology verification.
+4. **Is SessionAdapter information sufficient?** Contract and source behavior are sufficient; deployment-ready implementation is blocked by live cookie topology verification.
 5. **Is BannerAdapter information sufficient?** It is not required for the current canonical Homepage. For a future banner surface, source contract is sufficient but live row verification remains unknown.
-6. **Can Next.js and PHP coexist as one service?** Architecturally yes, using same-host reverse proxy while the browser calls the same-origin PHP viewer bridge directly; current Apache/TLS state must be confirmed before claiming it is deployable.
+6. **Can Next.js and PHP coexist as one service?** Architecturally yes, using same-host reverse proxy and cookie forwarding; current Apache/TLS state must be confirmed before claiming it is deployable.
 7. **Gate status:** **BLOCKED**. Host-key verification now passes, but the strict read-only verifier's available SSH credentials were rejected before any remote command could run. Security controls were not bypassed.
-8. **Next implementation after the blocks are resolved:** `ViewerAdapter + Next.js Homepage implementation`. Do not implement BannerAdapter for Homepage absent new confirmed Production evidence.
+8. **Next implementation after the blocks are resolved:** `SessionAdapter + Next.js Homepage implementation`. Do not implement BannerAdapter for Homepage absent new confirmed Production evidence.
 
-## Reclassification of prior homepage migration gaps (Gate 6)
+## Reclassification of prior Gate 1.5 gaps
 
 | Prior item | Classification | Reason |
 |---|---|---|

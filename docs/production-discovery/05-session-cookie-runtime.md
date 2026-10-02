@@ -10,7 +10,7 @@ Member resolution is: session `ss_mb_id` → `get_member()` → intercept/leave/
 
 ## V2 implication
 
-Next.js must never parse, write, or access PHP session storage. On the same HTTPS host, the browser calls the PHP-backed `ViewerAdapter` through same-origin `/v2-api/viewer.php` and receives a sanitized viewer model. Apache removes the `Cookie` header when proxying to Vercel, so the Next.js server cannot inspect the PHP session. Treat cookie name/domain, actual SameSite, and active save handler as deployment configuration, not compile-time assumptions.
+Next.js must never parse, write, or access PHP session storage. On the same HTTPS host it forwards the browser cookie to a small PHP-backed `SessionAdapter` endpoint and receives a sanitized viewer model. It should treat cookie name/domain, actual SameSite, and active save handler as deployment configuration, not compile-time assumptions.
 
 ## Runtime status
 
