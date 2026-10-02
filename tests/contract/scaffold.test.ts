@@ -62,7 +62,18 @@ describe('package.json', () => {
 
   it('AGENTS.md §2 가 금지한 DB 드라이버 의존성이 없다', () => {
     const all = { ...pkg.dependencies, ...pkg.devDependencies };
-    for (const forbidden of ['mysql', 'mysql2', 'mariadb', 'prisma', '@prisma/client', 'drizzle-orm', 'pg', 'knex', 'sequelize', 'typeorm']) {
+    for (const forbidden of [
+      'mysql',
+      'mysql2',
+      'mariadb',
+      'prisma',
+      '@prisma/client',
+      'drizzle-orm',
+      'pg',
+      'knex',
+      'sequelize',
+      'typeorm',
+    ]) {
       expect(all, `forbidden dependency: ${forbidden}`).not.toHaveProperty(forbidden);
     }
   });

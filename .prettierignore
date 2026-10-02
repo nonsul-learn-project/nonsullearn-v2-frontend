@@ -6,6 +6,10 @@ node_modules
 playwright-report
 test-results
 coverage
-docs/discovery
-docs/production-discovery
+
+# 사람이 쓴 문서는 prettier가 건드리지 않는다 (불필요한 diff 방지)
+*.md
+docs
+
+# Legacy 원본 복사본은 동기화 절차로만 갱신한다 (AGENTS.md §9)
 src/design-system/legacy
