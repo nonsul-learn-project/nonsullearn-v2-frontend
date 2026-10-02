@@ -135,7 +135,7 @@ RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
 | - | Gate 0 | PASS | | | |
 | - | Gate 0.5 | PASS | | | 잔여 항목은 Gate 0.9에서 처리 |
 | 0 | 문서 통합 | NOT STARTED | | | |
-| 1-A | Gate 1 | NOT STARTED | | | |
+| 1-A | Gate 1 | IN PROGRESS | 2026-10-02 | | 레포 트랙 완료 (`feat/gate-1-foundation`, 커밋 7개, 테스트 290 + L3 20). Vercel Preview 검증 대기 → `docs/gates/gate-1.md`, `docs/runbook/vercel-setup.md` |
 | 1-B | Gate 0.9 | IN PROGRESS | | | |
 | 2-A | Gate 2 | NOT STARTED | | | |
 | 2-B | Gate 3 준비 | NOT STARTED | | | |

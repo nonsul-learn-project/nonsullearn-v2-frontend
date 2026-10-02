@@ -1,0 +1,82 @@
+name: CI
+
+# main 으로 가는 PR 과, main 을 제외한 브랜치 push 에서 돈다.
+# main push 는 Vercel 배포가 담당하므로 중복으로 돌리지 않는다.
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# 하네스용 mock 조합. 전부 공개 가능한 값이며 비밀값이 아니다.
+# 운영 값은 Vercel 환경변수로만 주입한다 (docs/runbook/vercel-setup.md).
+env:
+  NEXT_PUBLIC_SITE_URL: http://localhost:3000
+  NEXT_PUBLIC_LEGACY_BASE_URL: ''
+  NEXT_PUBLIC_LEGACY_ASSET_HOST: localhost
+  NEXT_PUBLIC_VIEWER_SOURCE: mock
+  NEXT_PUBLIC_ANALYTICS_ENABLED: 'false'
+  COURSE_SOURCE: mock
+  LEGACY_BRIDGE_BASE: http://localhost:3000/v2-api
+  LEGACY_BRIDGE_TIMEOUT_MS: '3000'
+  COURSE_REVALIDATE_SECONDS: '300'
+  V2_PROXY_SECRET: ci-mock-secret-not-production
+  V2_ENFORCE_PROXY: 'false'
+  VERCEL_ENV: development
+
+jobs:
+  check:
+    name: check (lint, typecheck, test, build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # pnpm 버전은 package.json 의 packageManager 가 고정한다.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  e2e:
+    name: e2e (L3, Chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Chromium 만 받는다. Gate 1 L3 의 목적은 브라우저 호환성이 아니다.
+      - run: pnpm exec playwright install --with-deps chromium
+
+      # playwright.config.ts 의 webServer 가 build && start 를 돌린다.
+      - run: pnpm test:e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

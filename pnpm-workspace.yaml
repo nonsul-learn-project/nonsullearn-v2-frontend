@@ -1,0 +1,6 @@
+# pnpm 11+ 는 빌드 승인 설정을 package.json이 아니라 이 파일의 allowBuilds에서 읽는다.
+# (pnpm 10의 onlyBuiltDependencies는 조용히 무시된다.)
+# 아래 두 패키지만 postinstall 빌드를 허용하고, 그 외 패키지의 빌드 스크립트는 차단된다.
+allowBuilds:
+  esbuild: true # vitest의 TS/JSX 트랜스포머
+  unrs-resolver: true # eslint-config-next의 import 해석기
