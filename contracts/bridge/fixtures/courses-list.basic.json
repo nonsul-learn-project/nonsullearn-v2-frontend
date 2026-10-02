@@ -1,0 +1,38 @@
+{
+  "v": 1,
+  "items": [
+    {
+      "id": "1001",
+      "title": "인문논술 기본완성 (예시)",
+      "summary": "하네스용 예시 강좌입니다. 실제 강좌가 아닙니다.",
+      "price": 264000,
+      "listPrice": 330000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "image": "/data/item/1001/thumb.jpg",
+      "categoryId": "1010"
+    },
+    {
+      "id": "4003",
+      "title": "약술논술 전화문의 (예시)",
+      "summary": "영카트 '전화문의' 상품입니다. price 는 0 이고 이미지가 없습니다.",
+      "price": 0,
+      "listPrice": null,
+      "priceOnInquiry": true,
+      "soldOut": false,
+      "image": null,
+      "categoryId": "4010"
+    },
+    {
+      "id": "3002",
+      "title": "수리논술 심화 (예시, 마감)",
+      "summary": "품절 상품입니다.",
+      "price": 420000,
+      "listPrice": null,
+      "priceOnInquiry": false,
+      "soldOut": true,
+      "image": "/data/item/3002/thumb.jpg",
+      "categoryId": "3020"
+    }
+  ]
+}
