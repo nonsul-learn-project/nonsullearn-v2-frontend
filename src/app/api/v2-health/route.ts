@@ -15,19 +15,14 @@ import { serverEnv } from '@/env.server';
 // 매 요청 실제 헤더를 봐야 하므로 캐시하지 않는다. AGENTS.md §6.3 이 허용한 유일한 예외다.
 export const dynamic = 'force-dynamic';
 
-const PROXY_SECRET_HEADER = 'x-v2-proxy-secret';
-
 export function GET(request: NextRequest): NextResponse {
-  const providedSecret = request.headers.get(PROXY_SECRET_HEADER);
-
   const body = {
-    /** Apache 정문을 지나왔는가. */
-    proxied: providedSecret === serverEnv.V2_PROXY_SECRET,
+    /** Gate 4 전에는 proxy 검증을 하지 않는다. */
+    proxied: false,
     /** 쿠키가 V2 까지 전달됐는가. **false 여야 정상이다.** */
     cookieForwarded: request.headers.get('cookie') !== null,
     /** 어느 배포인지. Vercel 이 주입한다. */
     sha: serverEnv.VERCEL_GIT_COMMIT_SHA,
-    env: serverEnv.VERCEL_ENV,
   };
 
   return NextResponse.json(body, {

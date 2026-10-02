@@ -1,6 +1,6 @@
 # ADR 0005 — Production release guard switch
 
-상태: ACCEPTED
+상태: Superseded by 0006
 작성일: 2026-10-02
 
 ## Context

@@ -8,18 +8,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
  * Gate 4 에서 S6 가 `cookieForwarded == false` 를 확인해 Apache 가 Cookie 를 제거했는지 판정한다.
  */
 
-const SECRET = 'a'.repeat(40);
-
 const env = {
-  NEXT_PUBLIC_SITE_URL: 'https://nonsul.example.test',
-  NEXT_PUBLIC_LEGACY_BASE_URL: '',
-  NEXT_PUBLIC_LEGACY_ASSET_HOST: 'assets.example.test',
-  NEXT_PUBLIC_ANALYTICS_ENABLED: 'false',
-  NEXT_PUBLIC_VIEWER_SOURCE: 'mock',
-  COURSE_SOURCE: 'mock',
-  LEGACY_BRIDGE_BASE: 'https://nonsul.example.test/v2-api',
-  V2_PROXY_SECRET: SECRET,
-  VERCEL_ENV: 'preview',
+  VERCEL_GIT_COMMIT_SHA: '',
 };
 
 async function loadRoute(overrides: Record<string, string> = {}) {
@@ -41,16 +31,10 @@ afterEach(() => {
 });
 
 describe('proxied', () => {
-  it('secret 이 맞으면 true 다', async () => {
-    const { GET } = await loadRoute();
-    const body = await GET(request({ 'x-v2-proxy-secret': SECRET })).json();
-    expect(body.proxied).toBe(true);
-  });
-
-  it('secret 이 없거나 틀리면 false 다', async () => {
+  it('Gate 4 전에는 요청 헤더와 무관하게 false 다', async () => {
     const { GET } = await loadRoute();
     expect((await GET(request()).json()).proxied).toBe(false);
-    expect((await GET(request({ 'x-v2-proxy-secret': 'wrong' })).json()).proxied).toBe(false);
+    expect((await GET(request({ 'x-v2-proxy-secret': 'arbitrary' })).json()).proxied).toBe(false);
   });
 });
 
@@ -77,10 +61,10 @@ describe('cookieForwarded — 쿠키 존재 여부만 boolean 으로', () => {
     expect(text).not.toContain('ck_mb_id');
   });
 
-  it('proxy secret 값을 응답에 담지 않는다', async () => {
+  it('proxy 관련 요청 헤더 값을 응답에 담지 않는다', async () => {
     const { GET } = await loadRoute();
-    const text = await GET(request({ 'x-v2-proxy-secret': SECRET })).text();
-    expect(text).not.toContain(SECRET);
+    const text = await GET(request({ 'x-v2-proxy-secret': 'arbitrary' })).text();
+    expect(text).not.toContain('arbitrary');
   });
 
   it('헤더 원문을 담지 않는다', async () => {
@@ -94,15 +78,10 @@ describe('cookieForwarded — 쿠키 존재 여부만 boolean 으로', () => {
 });
 
 describe('응답 모양', () => {
-  it('키는 proxied, cookieForwarded, sha, env 뿐이다', async () => {
+  it('키는 proxied, cookieForwarded, sha 뿐이다', async () => {
     const { GET } = await loadRoute();
     const body = await GET(request()).json();
-    expect(Object.keys(body).sort()).toEqual(['cookieForwarded', 'env', 'proxied', 'sha']);
-  });
-
-  it('env 를 그대로 알려준다', async () => {
-    const { GET } = await loadRoute({ VERCEL_ENV: 'preview' });
-    expect((await GET(request()).json()).env).toBe('preview');
+    expect(Object.keys(body).sort()).toEqual(['cookieForwarded', 'proxied', 'sha']);
   });
 
   it('VERCEL_GIT_COMMIT_SHA 가 없으면 sha 는 null 이다', async () => {

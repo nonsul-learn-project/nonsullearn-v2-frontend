@@ -133,7 +133,7 @@ Production Safety: 명시 승인 없이 DB schema/data 변경·삭제, Payment �
 | ● | Vercel Preview, `pnpm check` |
 | ○ | Production deployment 준비(공개 cutover 제외) |
 
-환경변수 상세의 단일 진실은 `.env.example`이다. `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_LEGACY_BASE_URL`, `NEXT_PUBLIC_LEGACY_ASSET_HOST`, `NEXT_PUBLIC_VIEWER_SOURCE`, `COURSE_SOURCE`, `LEGACY_BRIDGE_BASE`, `LEGACY_BRIDGE_TIMEOUT_MS`, `COURSE_REVALIDATE_SECONDS`, `V2_PROXY_SECRET`, `V2_ENFORCE_PROXY`를 사용한다. 추적 ID와 `NEXT_PUBLIC_ATTRIBUTION_COOKIE_DOMAIN`은 Gate 5에서 도입한다.
+환경변수 상세의 단일 진실은 `.env.example`이다. Gate 4 전에는 모든 항목이 optional이며 `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_LEGACY_BASE_URL`, `NEXT_PUBLIC_LEGACY_ASSET_HOST`, `NEXT_PUBLIC_VIEWER_SOURCE`, `COURSE_SOURCE`, `LEGACY_BRIDGE_BASE`, `LEGACY_BRIDGE_TIMEOUT_MS`, `COURSE_REVALIDATE_SECONDS`, `V2_PROXY_SECRET`, `VERCEL_URL`을 사용한다. 추적 ID와 `NEXT_PUBLIC_ATTRIBUTION_COOKIE_DOMAIN`은 Gate 5에서 도입한다.
 
 **DoD:** Global DoD Code Quality/Architecture/Security 및 L1~L3 기반.  
 **PASS CONDITION:** mock 기반 V2 페이지를 Vercel Preview로 검증할 수 있다.
@@ -197,7 +197,7 @@ Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php
 
 **DoD:** route/session/rollback evidence.  
 **PASS CONDITION:** preview routing이 보호 route 영향 없이 검증되고 Legacy 즉시 복귀가 가능하며,
-Vercel Production env에 `V2_RELEASE_GUARD=on`을 설정한 뒤 금지 조합에서 빌드가 실패함을 확인한다.
+ADR 0006의 재도입 목록을 전부 복구하고 테스트한다.
 
 ## Gate 5 — Tracking Parity & Homepage Internal Soak (preview 쿠키)
 

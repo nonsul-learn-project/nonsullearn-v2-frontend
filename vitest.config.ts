@@ -19,21 +19,10 @@ export default defineConfig({
     include: ['tests/**/*.test.{ts,tsx}'],
     exclude: ['tests/e2e/**', 'node_modules/**'],
     setupFiles: ['tests/setup.ts'],
-    // `src/env.*.ts`는 import 시점에 env를 검증한다(빌드를 빨리 깨뜨리는 것이 목적).
-    // 테스트는 `.env.example`과 같은 mock 조합을 쓴다. L1/L2는 운영 값을 쓰지 않는다.
+    // 테스트도 env 없이 동작하는 Gate 4 전 단일 환경 기본값을 사용한다.
     env: {
-      NEXT_PUBLIC_SITE_URL: 'http://localhost:3000',
-      NEXT_PUBLIC_LEGACY_BASE_URL: '',
-      NEXT_PUBLIC_LEGACY_ASSET_HOST: 'localhost',
-      NEXT_PUBLIC_VIEWER_SOURCE: 'mock',
-      NEXT_PUBLIC_ANALYTICS_ENABLED: 'false',
-      COURSE_SOURCE: 'mock',
-      LEGACY_BRIDGE_BASE: 'http://localhost:3000/v2-api',
-      LEGACY_BRIDGE_TIMEOUT_MS: '3000',
-      COURSE_REVALIDATE_SECONDS: '300',
-      V2_PROXY_SECRET: 'local-development-only-not-a-secret',
-      V2_ENFORCE_PROXY: 'false',
-      VERCEL_ENV: 'development',
+      NEXT_PUBLIC_LEGACY_BASE_URL: 'https://nonsul-learn.com',
+      NEXT_PUBLIC_LEGACY_ASSET_HOST: 'nonsul-learn.com',
     },
   },
 });

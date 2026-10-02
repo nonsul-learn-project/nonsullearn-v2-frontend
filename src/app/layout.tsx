@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import { clientEnv } from '@/env.client';
+import { serverEnv } from '@/env.server';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/design-system/legacy/main.css';
@@ -9,12 +10,16 @@ import '@/design-system/tokens.css';
 import './globals.css';
 
 /**
- * canonical 의 기준은 항상 `NEXT_PUBLIC_SITE_URL` 이다 (AGENTS.md §6.3).
- * origin 도메인이 아니라 사용자가 보는 메인 도메인이어야 한다. 그래야 Vercel origin 이
- * 검색에 중복으로 잡히지 않는다.
+ * 명시적인 site URL이 없으면 Vercel 배포 URL을 쓴다. 둘 다 없으면 absolute URL을
+ * 만들지 않도록 metadataBase를 생략한다.
  */
+const metadataBase =
+  clientEnv.NEXT_PUBLIC_SITE_URL ??
+  (serverEnv.VERCEL_URL === undefined ? undefined : new URL(`https://${serverEnv.VERCEL_URL}`));
+
 export const metadata: Metadata = {
-  metadataBase: new URL(clientEnv.NEXT_PUBLIC_SITE_URL),
+  ...(metadataBase === undefined ? {} : { metadataBase }),
+  robots: { index: false, follow: false },
   title: {
     default: '논술런',
     template: '%s | 논술런',

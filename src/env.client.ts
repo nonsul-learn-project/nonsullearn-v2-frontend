@@ -11,12 +11,13 @@ import { z } from 'zod';
  */
 
 export const clientEnvSchema = z.object({
-  // Gate 1~3의 Vercel Production build는 mock placeholder를 배포할 수 있다.
-  // 값이 아직 등록되지 않은 경우에도 안전한 로컬 mock 기본값으로 빌드한다.
-  NEXT_PUBLIC_SITE_URL: z.url().default('http://localhost:3000'),
+  /** 없으면 relative URL을 유지하고 metadataBase도 생략한다. */
+  NEXT_PUBLIC_SITE_URL: z.url().optional(),
 
-  /** 빈 문자열이면 상대경로를 쓴다는 뜻이다 (운영에서 Legacy가 같은 도메인에 있을 때). */
-  NEXT_PUBLIC_LEGACY_BASE_URL: z.union([z.literal(''), z.url()]).default(''),
+  NEXT_PUBLIC_LEGACY_BASE_URL: z.preprocess(
+    (value) => (value === '' ? undefined : value),
+    z.url().default('https://nonsul-learn.com'),
+  ),
 
   NEXT_PUBLIC_LEGACY_ASSET_HOST: z
     .string()
@@ -24,7 +25,7 @@ export const clientEnvSchema = z.object({
     .refine((value) => !value.includes('/') && !value.includes(':'), {
       message: 'hostname만 넣는다 (scheme, 경로, 포트 없이)',
     })
-    .default('localhost'),
+    .default('nonsul-learn.com'),
 
   NEXT_PUBLIC_VIEWER_SOURCE: z.enum(['mock', 'http']).default('mock'),
 
