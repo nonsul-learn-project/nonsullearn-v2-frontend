@@ -30,6 +30,10 @@ export async function bridgeServerFetch<T>(options: BridgeServerOptions<T>): Pro
     throw new BridgeError('network', path, "경로는 '/'로 시작해야 한다");
   }
 
+  if (serverEnv.LEGACY_BRIDGE_BASE === undefined) {
+    throw new BridgeError('network', path, 'COURSE_SOURCE=http 에는 LEGACY_BRIDGE_BASE가 필요하다');
+  }
+
   const url = `${serverEnv.LEGACY_BRIDGE_BASE}${path}`;
   const timeoutMs = serverEnv.LEGACY_BRIDGE_TIMEOUT_MS;
 

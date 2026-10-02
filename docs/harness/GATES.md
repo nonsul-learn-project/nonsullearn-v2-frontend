@@ -196,7 +196,8 @@ Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php
 | ○ | Production smoke-test window |
 
 **DoD:** route/session/rollback evidence.  
-**PASS CONDITION:** preview routing이 보호 route 영향 없이 검증되고 Legacy 즉시 복귀가 가능하다.
+**PASS CONDITION:** preview routing이 보호 route 영향 없이 검증되고 Legacy 즉시 복귀가 가능하며,
+Vercel Production env에 `V2_RELEASE_GUARD=on`을 설정한 뒤 금지 조합에서 빌드가 실패함을 확인한다.
 
 ## Gate 5 — Tracking Parity & Homepage Internal Soak (preview 쿠키)
 

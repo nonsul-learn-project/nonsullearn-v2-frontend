@@ -1,8 +1,13 @@
 import { readFileSync } from 'node:fs';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { clientEnvSchema } from '@/env.client';
-import { assertProductionGuards, serverEnvSchema, type ServerEnv } from '@/env.server';
+import {
+  assertProductionGuards,
+  parseServerEnv,
+  serverEnvSchema,
+  type ServerEnv,
+} from '@/env.server';
 
 // Gate 1: env contract. 정상 조합은 통과하고 production 금지 조합은 실패해야 한다.
 // `src/env.*.ts`를 import하면 모듈 로드 시점에 실제 process.env를 검증하므로
@@ -57,10 +62,8 @@ describe('client env', () => {
     expect(field.safeParse('assets.example.test:8080').success).toBe(false);
   });
 
-  it('NEXT_PUBLIC_SITE_URL 이 없거나 URL 이 아니면 실패한다', () => {
-    expect(
-      clientEnvSchema.safeParse({ ...validClient, NEXT_PUBLIC_SITE_URL: undefined }).success,
-    ).toBe(false);
+  it('mock build 기본값을 채우되 URL 이 아니면 실패한다', () => {
+    expect(clientEnvSchema.parse({}).NEXT_PUBLIC_SITE_URL).toBe('http://localhost:3000');
     expect(
       clientEnvSchema.safeParse({ ...validClient, NEXT_PUBLIC_SITE_URL: 'nope' }).success,
     ).toBe(false);
@@ -120,13 +123,10 @@ describe('server env', () => {
     ).toBe(true);
   });
 
-  it('V2_PROXY_SECRET 은 최소 16자다', () => {
-    expect(serverEnvSchema.safeParse({ ...validServer, V2_PROXY_SECRET: 'short' }).success).toBe(
-      false,
-    );
-    expect(
-      serverEnvSchema.safeParse({ ...validServer, V2_PROXY_SECRET: 'x'.repeat(16) }).success,
-    ).toBe(true);
+  it('mock source는 Bridge 전용 값을 생략할 수 있다', () => {
+    const parsed = serverEnvSchema.parse({ COURSE_SOURCE: 'mock' });
+    expect(parsed.LEGACY_BRIDGE_BASE).toBeUndefined();
+    expect(parsed.V2_PROXY_SECRET).toBe('');
   });
 
   it('DB 접속 정보는 server env schema 에 존재하지 않는다 (AGENTS.md §2)', () => {
@@ -149,51 +149,105 @@ describe('server env', () => {
 describe('production 금지 조합', () => {
   const productionSecret = 'a'.repeat(32);
 
-  it('정상 production 조합은 통과한다', () => {
-    const env = parseServer({
-      VERCEL_ENV: 'production',
-      COURSE_SOURCE: 'http',
-      V2_PROXY_SECRET: productionSecret,
-    });
-    expect(() => assertProductionGuards(env, 'http')).not.toThrow();
+  it('guard off + production + mock + env 비어 있음은 통과한다', () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    expect(() =>
+      parseServerEnv({ VERCEL_ENV: 'production', V2_RELEASE_GUARD: 'off' }),
+    ).not.toThrow();
+    expect(warning).toHaveBeenCalledWith('[env] release guard OFF — Gate 4 전까지만 허용');
+    warning.mockRestore();
   });
 
-  it('viewer source 가 mock 이면 실패한다', () => {
+  it('guard on + production + mock 이면 실패한다', () => {
     const env = parseServer({
       VERCEL_ENV: 'production',
-      COURSE_SOURCE: 'http',
+      V2_RELEASE_GUARD: 'on',
+      COURSE_SOURCE: 'mock',
       V2_PROXY_SECRET: productionSecret,
     });
     expect(() => assertProductionGuards(env, 'mock')).toThrow(/NEXT_PUBLIC_VIEWER_SOURCE/);
   });
 
-  it('COURSE_SOURCE 가 mock 이면 실패한다', () => {
+  it('guard on + production + http + 31자 secret 이면 실패한다', () => {
     const env = parseServer({
       VERCEL_ENV: 'production',
-      COURSE_SOURCE: 'mock',
-      V2_PROXY_SECRET: productionSecret,
-    });
-    expect(() => assertProductionGuards(env, 'http')).toThrow(/COURSE_SOURCE/);
-  });
-
-  it('V2_PROXY_SECRET 이 32자 미만이면 실패한다', () => {
-    const env = parseServer({
-      VERCEL_ENV: 'production',
+      V2_RELEASE_GUARD: 'on',
       COURSE_SOURCE: 'http',
       V2_PROXY_SECRET: 'b'.repeat(31),
     });
     expect(() => assertProductionGuards(env, 'http')).toThrow(/V2_PROXY_SECRET/);
   });
 
-  it('non-production 에서는 mock 과 짧은 secret 을 허용한다', () => {
+  it('guard on + production + http + 32자 secret + bridge URL은 통과한다', () => {
+    const env = parseServer({
+      VERCEL_ENV: 'production',
+      V2_RELEASE_GUARD: 'on',
+      COURSE_SOURCE: 'http',
+      V2_PROXY_SECRET: productionSecret,
+    });
+    expect(() => assertProductionGuards(env, 'http')).not.toThrow();
+  });
+
+  it('http source인데 LEGACY_BRIDGE_BASE가 없으면 guard와 무관하게 실패한다', () => {
+    const env = parseServer({
+      COURSE_SOURCE: 'http',
+      LEGACY_BRIDGE_BASE: undefined,
+      V2_PROXY_SECRET: 'x'.repeat(16),
+    });
+    expect(() => assertProductionGuards(env, 'http')).toThrow(/LEGACY_BRIDGE_BASE/);
+  });
+
+  it('guard off production은 mock과 빈 secret을 허용한다', () => {
+    const env = parseServer({
+      VERCEL_ENV: 'production',
+      V2_RELEASE_GUARD: 'off',
+      COURSE_SOURCE: 'mock',
+      LEGACY_BRIDGE_BASE: undefined,
+      V2_PROXY_SECRET: '',
+    });
+    expect(() => assertProductionGuards(env, 'mock')).not.toThrow();
+  });
+
+  it('non-production에서는 mock과 짧은 secret을 허용한다', () => {
     for (const vercelEnv of ['development', 'preview'] as const) {
       const env = parseServer({
         VERCEL_ENV: vercelEnv,
         COURSE_SOURCE: 'mock',
-        V2_PROXY_SECRET: 'x'.repeat(16),
+        LEGACY_BRIDGE_BASE: undefined,
+        V2_PROXY_SECRET: '',
       });
       expect(() => assertProductionGuards(env, 'mock')).not.toThrow();
     }
+  });
+
+  it('guard on에서 viewer source가 mock이면 실패한다', () => {
+    const env = parseServer({
+      VERCEL_ENV: 'production',
+      V2_RELEASE_GUARD: 'on',
+      COURSE_SOURCE: 'http',
+      V2_PROXY_SECRET: productionSecret,
+    });
+    expect(() => assertProductionGuards(env, 'mock')).toThrow(/NEXT_PUBLIC_VIEWER_SOURCE/);
+  });
+
+  it('guard on에서 course source가 mock이면 실패한다', () => {
+    const env = parseServer({
+      VERCEL_ENV: 'production',
+      V2_RELEASE_GUARD: 'on',
+      COURSE_SOURCE: 'mock',
+      V2_PROXY_SECRET: productionSecret,
+    });
+    expect(() => assertProductionGuards(env, 'http')).toThrow(/COURSE_SOURCE/);
+  });
+
+  it('guard on에서 32자 미만 secret이면 실패한다', () => {
+    const env = parseServer({
+      VERCEL_ENV: 'production',
+      V2_RELEASE_GUARD: 'on',
+      COURSE_SOURCE: 'http',
+      V2_PROXY_SECRET: 'b'.repeat(31),
+    });
+    expect(() => assertProductionGuards(env, 'http')).toThrow(/V2_PROXY_SECRET/);
   });
 });
 

@@ -41,8 +41,9 @@ Gate 1 의 PASS CONDITION 은 "mock 기반 V2 페이지를 Vercel Preview 로 �
 | `LEGACY_BRIDGE_BASE` | `http://localhost:3000/v2-api` | `https://<메인도메인>/v2-api` | `https://<메인도메인>/v2-api` |
 | `LEGACY_BRIDGE_TIMEOUT_MS` | `3000` | `3000` | `3000` |
 | `COURSE_REVALIDATE_SECONDS` | `300` | `300` | `300` |
-| `V2_PROXY_SECRET` | 아무 16자 이상 | 아무 16자 이상 | **32자 이상** (아래 생성법) |
+| `V2_PROXY_SECRET` | mock이면 생략 가능 | mock이면 생략 가능 | Gate 4 전 `V2_RELEASE_GUARD=off`이면 생략 가능, Gate 4부터 **32자 이상** |
 | `V2_ENFORCE_PROXY` | `false` | `false` | `false` (Production 은 자동 강제) |
+| `V2_RELEASE_GUARD` | `off` | `off` | Gate 4 전 `off`, Gate 4 routing 검증부터 **`on`** |
 | `VERCEL_ENV` | — | — | — (Vercel 이 자동 주입. **등록하지 않는다**) |
 | `VERCEL_GIT_COMMIT_SHA` | — | — | — (Vercel 이 자동 주입. **등록하지 않는다**) |
 
@@ -56,13 +57,22 @@ openssl rand -hex 32   # 64자 hex 출력 → 그대로 사용
 - Vercel 과 Apache 양쪽에만 둔다. **레포, PR, 이슈, 채팅에 붙여넣지 않는다.**
 - 유출되면 교체 순서: Vercel env 수정 → 재배포 → Apache vhost 수정 → `apachectl configtest` → reload.
 
-### Production 금지 조합
+### Production release guard
 
-`VERCEL_ENV=production` 일 때 아래 조합은 **빌드가 실패한다** (`src/env.server.ts`).
+`V2_RELEASE_GUARD=off`가 기본값이다. 이는 Gate 1~3 동안 Production branch의 Vercel build가
+환경변수 미등록 상태에서도 mock placeholder로 성공하도록 하는 임시 상태다. 빌드 로그에는
+`[env] release guard OFF — Gate 4 전까지만 허용` 경고가 찍힌다. 외부 공개/route cutover에는
+사용하면 안 된다.
+
+Gate 4 routing 검증을 시작하기 전에 Production 환경변수를 모두 등록하고
+`V2_RELEASE_GUARD=on`으로 바꾼다. 이때 아래 조합은 **빌드가 실패한다** (`src/env.server.ts`).
 Vercel 로그에 `production env 금지 조합:` 으로 이유가 찍힌다.
 
 - `NEXT_PUBLIC_VIEWER_SOURCE` 또는 `COURSE_SOURCE` 가 `http` 가 아님
 - `V2_PROXY_SECRET` 이 32자 미만
+
+`COURSE_SOURCE=http`이면 guard 상태와 무관하게 `LEGACY_BRIDGE_BASE`가 필요하다. http source는
+`V2_PROXY_SECRET`도 16자 이상 필요하며, guard가 on인 Production에서는 32자 이상으로 강화된다.
 
 ### Preview 의 `COURSE_SOURCE`
 
