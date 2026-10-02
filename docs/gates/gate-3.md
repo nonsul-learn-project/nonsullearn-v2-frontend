@@ -106,14 +106,25 @@ Vercel 도메인에서는 PHP 세션 쿠키가 전달되지 않아 `http` 로 �
 비로그인으로 보인다. Gate 4 에서 Apache 프록시가 메인 도메인으로 요청을 받은 뒤 전환한다
 (`src/env.client.ts` 주석).
 
-### 5.3 문서 잔여 항목 (사람 통제 문서, 에이전트가 수정하지 않았다)
+### 5.3 문서 정합
+
+사용자 승인을 받아 `GATES.md` Gate 3 항목을 Contract 에 맞게 고쳤다 (DONE).
+
+| 문서 | 어긋났던 내용 | 처리 |
+|---|---|---|
+| `GATES.md` Gate 3 3번째 ● | fixture 가 `src/legacy/contracts/fixtures/` | `contracts/bridge/` 로 수정 (ADR 0008 참조 추가) |
+| `GATES.md` Gate 3 예시 JSON | `"member": { "displayName": ..., "level": 2 }` 포함 | 해당 필드 삭제. 금지 목록에 `mb_id`·이름/닉네임·raw level 을 명시하고, 두 거부 fixture 를 음성 증거로 연결 |
+| `HARNESS.md` §4 L2 `member` 행 | ADR 0003 이 잔여로 적어 둔 항목 | **고칠 것이 없었다.** 현재 §4 의 `member`/`corrector` 는 **mock 시나리오 이름**이고 Pass 조건에 `displayName` 이 없다. ADR 0003 작성 당시 표와 다르다 |
+
+남은 항목 하나:
 
 | 문서 | 어긋난 내용 | 실제 구현 |
 |---|---|---|
-| `AGENTS.md` §4 | fixture 가 `src/legacy/contracts/fixtures/` | `contracts/bridge/fixtures/` (ADR 0008) |
-| `GATES.md` Gate 3 3번째 ● | 같음 | 같음 |
-| `GATES.md` Gate 3 예시 JSON | `"member": { "displayName": ..., "level": 2 }` 포함 | **Contract 는 이 필드를 금지한다.** `viewer.raw-level.invalid.json` 이 거부를 고정 (ADR 0003) |
-| `HARNESS.md` §4 L2 `member` 행 | 같음 | 같음 (ADR 0003 이 이미 기록) |
+| `AGENTS.md` §4 구조도 | `legacy/contracts/fixtures/` 를 fixture 위치로 적고 있다 | `contracts/bridge/fixtures/` (ADR 0008) |
+
+`AGENTS.md` 는 모든 에이전트의 작업 계약서이므로 사람이 통제한다 (ADR 0004 와 같은 처리).
+`GATES.md` Gate 1 항목(`src/legacy/` contracts/fixtures/adapters/handoff 골격)은 **Gate 1 당시의
+산출물 기록**이라 그대로 두었다. 바꾸면 통과한 Gate 의 증거를 사후 수정하는 셈이 된다.
 
 ### 5.4 Gate 8 로 넘기는 항목
 

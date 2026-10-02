@@ -166,7 +166,7 @@ Production Safety: 명시 승인 없이 DB schema/data 변경·삭제, Payment �
 |---|---|
 | ● | endpoint audit, Contract/fixture, `ViewerAdapter`/`CourseAdapter`, `bridge-fetch.ts`/`bridge-server.ts` |
 | ● | Bridge는 GET-only, output isolation, lint/review/controlled deployment/rollback과 L4 S1~S4 |
-| ● | mock은 `src/legacy/adapters/<contract>/mock.ts`, fixture는 `src/legacy/contracts/fixtures/` |
+| ● | mock은 `src/legacy/adapters/<contract>/mock.ts`, Contract 단일 원본과 fixture는 `contracts/bridge/` (ADR 0008) |
 | ● | secret/PII/transaction 변경 없음, 응답 key와 fixture key 정합 |
 | ○ | existing endpoint 재사용 및 drift check |
 
@@ -174,10 +174,14 @@ Viewer: `Browser → ViewerAdapter(client) → /v2-api/viewer.php → common.php
 
 ```json
 { "v": 1, "authenticated": false }
-{ "v": 1, "authenticated": true, "member": { "displayName": "...", "level": 2 }, "capabilities": { "correction": false, "admin": false } }
+{ "v": 1, "authenticated": true, "capabilities": { "correction": false, "admin": false } }
 ```
 
-로그인 ID, 이메일, 연락처, session ID는 금지하고 UI는 `capabilities`만 사용한다.
+`mb_id`, 이름/닉네임, 이메일, 연락처, session ID, 그리고 **`mb_level` 같은 raw 권한 숫자**는 금지한다.
+UI는 `capabilities`만 사용하며 level 숫자를 비교하지 않는다 (ADR 0003, `AGENTS.md` §6.4).
+Contract가 `.strict()` / `additionalProperties: false`이므로 위 필드가 섞이면 응답 전체가 거부된다.
+`contracts/bridge/fixtures/viewer.leaks-mb_id.invalid.json`과 `viewer.raw-level.invalid.json`이
+그 거부를 음성 증거로 고정한다.
 
 **DoD:** Global DoD Architecture/Security/Parity.  
 **PASS CONDITION:** viewer/course read가 adapter boundary에서 검증되고 PHP authority가 유지된다.
