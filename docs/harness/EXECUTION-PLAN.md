@@ -137,7 +137,7 @@ RewriteRule ^/?$ https://v2-origin.<도메인>/ [P,L,E=V2PROXY:1]
 | 0 | 문서 통합 | NOT STARTED | | | |
 | 1-A | Gate 1 | IN PROGRESS | 2026-10-02 | | 레포 트랙 완료 (`feat/gate-1-foundation`, 커밋 7개, 테스트 290 + L3 20). Vercel Preview 검증 대기 → `docs/gates/gate-1.md`, `docs/runbook/vercel-setup.md` |
 | 1-B | Gate 0.9 | IN PROGRESS | | | |
-| 2-A | Gate 2 | NOT STARTED | | | |
+| 2-A | Gate 2 | PARTIAL | 2026-10-02 | | Repository work complete (`a9435fc`, `dd8c3e3`, `8b7a17e`); Legacy L5 baseline capture pending |
 | 2-B | Gate 3 준비 | NOT STARTED | | | |
 | 3 | Gate 3 | NOT STARTED | | | |
 | 4 | Gate 4 | NOT STARTED | | | |
