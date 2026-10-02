@@ -30,8 +30,15 @@ export async function bridgeServerFetch<T>(options: BridgeServerOptions<T>): Pro
     throw new BridgeError('network', path, "경로는 '/'로 시작해야 한다");
   }
 
+  // 단일 환경 원칙(ADR 0006): 빌드를 막지 않는다. `COURSE_SOURCE=http` 로 바꿔 놓고
+  // base 를 등록하지 않았을 때 **adapter 를 호출하는 순간** 분명하게 실패한다.
   if (serverEnv.LEGACY_BRIDGE_BASE === undefined) {
-    throw new BridgeError('network', path, 'COURSE_SOURCE=http 에는 LEGACY_BRIDGE_BASE가 필요하다');
+    throw new BridgeError(
+      'network',
+      path,
+      'COURSE_SOURCE=http 인데 LEGACY_BRIDGE_BASE 가 없다. Vercel env 에 ' +
+        'LEGACY_BRIDGE_BASE=https://<도메인>/v2-api 를 등록하라',
+    );
   }
 
   const url = `${serverEnv.LEGACY_BRIDGE_BASE}${path}`;
@@ -50,6 +57,11 @@ export async function bridgeServerFetch<T>(options: BridgeServerOptions<T>): Pro
       method: 'GET',
       headers: { Accept: 'application/json' },
       // 쿠키를 보내지 않는다. 공개 데이터만 가져온다.
+      //
+      // 리디렉션을 따라가지 않는다. Legacy 는 없는/보호된 경로를 로그인 페이지나 홈으로 302 시키는데,
+      // 따라가면 200 HTML 이 되어 "Bridge 가 죽었다"가 "이상한 JSON 파싱 실패"로 둔갑한다.
+      // `redirect: 'manual'` 이면 3xx 가 그대로 남아 아래 status 검사에서 실패한다.
+      redirect: 'manual',
       next: revalidate === undefined ? undefined : { revalidate },
       signal: abortSignal,
     });
