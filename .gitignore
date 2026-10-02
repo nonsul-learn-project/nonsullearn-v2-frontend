@@ -11,7 +11,20 @@
 /build
 
 # local environment files
+.env
 .env*.local
+
+# secrets / keys
+*.pem
+
+# test artifacts
+/playwright-report
+/test-results
+/blob-report
+/playwright/.cache
+
+# deployment
+.vercel
 
 # logs
 npm-debug.log*
