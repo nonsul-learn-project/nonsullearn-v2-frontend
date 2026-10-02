@@ -1,0 +1,23 @@
+/* Extracted values only; source references use legacy mirror line numbers. */
+:root {
+  --nonsul-color-navy: #0b1c3d; /* main.css:2 */
+  --nonsul-color-white: #ffffff; /* main.css:78 */
+  --nonsul-color-muted: #666; /* main.css:147 */
+  --nonsul-radius-md: 12px; /* main.css:201 */
+  --nonsul-radius-lg: 16px; /* main.css:170 */
+  --nonsul-radius-xl: 20px; /* main.css:110 */
+  --nonsul-space-1: 4px; /* main.css:321 */
+  --nonsul-space-2: 8px; /* main.css:158 */
+  --nonsul-space-3: 12px; /* main.css:186 */
+  --nonsul-space-4: 16px; /* main.css:32 */
+  --nonsul-space-5: 20px; /* main.css:202 */
+  --nonsul-space-6: 24px; /* main.css:38 */
+  --nonsul-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02); /* main.css:215 */
+  --nonsul-shadow-md: 0 8px 20px rgba(0, 0, 0, 0.03); /* main.css:173 */
+  --nonsul-font-weight-light: 300; /* main.css:39 */
+  --nonsul-font-weight-medium: 500; /* main.css:148 */
+  --nonsul-font-weight-bold: 700; /* main.css:339 */
+  --nonsul-font-weight-heavy: 900; /* main.css:30 */
+  --nonsul-breakpoint-lg: 991.98px; /* main.css:275 */
+  --nonsul-breakpoint-xxl: 1399.98px; /* main.css:262 */
+}

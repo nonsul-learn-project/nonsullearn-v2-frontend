@@ -84,7 +84,7 @@ for (const f of files) {
 |---|---|
 | `loading` | skeleton 렌더, 고정 폭(레이아웃 이동 없음) |
 | `anonymous` | 로그인 링크 = `legacyRoutes.login(현재경로)` |
-| `member` | 표시 이름, 로그아웃 링크 |
+| `member` | 정보수정·로그아웃 링크 |
 | `corrector` | 첨삭 메뉴 노출 |
 | `member`(비첨삭) | 첨삭 메뉴 **미노출** |
 | `unavailable` | 로그인 버튼 노출, 에러 UI 없음, `track('bridge_error')` 1회 |
@@ -217,7 +217,7 @@ for (const f of files) {
 | | 로컬 | Vercel Preview | Production |
 |---|---|---|---|
 | viewer source | mock | mock | http |
-| course source | mock | http | http |
+| course source | mock | mock (Gate 3 전까지) | http |
 | L1, L2 | ○ | ○ (CI) | - |
 | L3 | ○ (mock) | ○ | - |
 | L4 | - | - | ○ |

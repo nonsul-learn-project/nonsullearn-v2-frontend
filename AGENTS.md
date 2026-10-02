@@ -87,7 +87,7 @@ src/
 ├── analytics/                  # track(), canonical events, provider adapters, attribution
 ├── env.client.ts               # NEXT_PUBLIC_* 검증
 ├── env.server.ts               # 서버 env 검증 ('server-only')
-└── middleware.ts               # origin 보호 (프록시 secret 검사)
+└── proxy.ts                    # origin 보호 (프록시 secret 검사, Next 16)
 tests/
 ├── contract/   component/   e2e/
 scripts/
@@ -130,7 +130,7 @@ mock 시나리오 전환(로컬): URL에 `?viewer=anonymous|member|corrector|una
 - 날짜, 금액 포맷은 `src/lib/format.ts` 유틸만 사용 (원화, `Asia/Seoul`).
 
 ### 6.2 Import 경계 (ESLint로 강제)
-- `app/`, `features/`, `components/` → `@/legacy` (index)만 import. `@/legacy/client/*`, `@/legacy/adapters/*` 직접 import 금지.
+- `app/`, `features/`, `components/` → 클라이언트 안전 공개 API인 `@/legacy` 또는 서버 전용 공개 API인 `@/legacy/server`만 import. Client Component에서 `@/legacy/server` import 금지; `@/legacy/client/*`, `@/legacy/adapters/*` 직접 import 금지.
 - `components/` → `@/legacy`, `@/analytics` import 금지 (순수 UI).
 - `process.env` 직접 접근 금지. `@/env.client`, `@/env.server`만 사용.
 - 클라이언트 컴포넌트에서 `@/env.server` import 금지.
