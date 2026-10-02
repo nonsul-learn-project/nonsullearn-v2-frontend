@@ -27,6 +27,14 @@ export const clientEnvSchema = z.object({
     })
     .default('nonsul-learn.com'),
 
+  /**
+   * 기본값이 `mock` 인 이유: viewer 는 브라우저가 same-origin 으로 `/v2-api/viewer.php` 를 호출하고
+   * PHP 세션 쿠키에 의존한다 (AGENTS.md §2). **Vercel 도메인에서는 그 쿠키가 전달되지 않으므로**
+   * `http` 로 두면 전부 `unavailable` 이 된다 — 로그인한 사용자도 비로그인으로 보인다.
+   *
+   * Gate 4 에서 Apache 프록시가 메인 도메인으로 요청을 받기 시작하면 same-origin 이 성립한다.
+   * 그때 `http` 로 바꾼다.
+   */
   NEXT_PUBLIC_VIEWER_SOURCE: z.enum(['mock', 'http']).default('mock'),
 
   NEXT_PUBLIC_ANALYTICS_ENABLED: z.enum(['true', 'false']).default('false'),

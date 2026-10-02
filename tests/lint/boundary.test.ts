@@ -11,9 +11,18 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 let eslint: ESLint;
 
-beforeAll(() => {
+/**
+ * `new ESLint()` 는 싸지만 **첫 `lintText()` 가 비싸다** — flat config 를 해석하면서
+ * eslint-config-next 와 TypeScript parser 를 끌어온다 (단독 실행에도 ~3초).
+ *
+ * 그 비용을 첫 `it` 안에서 치르면, 테스트 파일이 병렬로 돌 때 그 하나가 기본 5초 timeout 을
+ * 넘겨 간헐적으로 실패한다. 여기서 미리 한 번 돌려 캐시를 덮혀 두면 개별 테스트는 수십 ms 다.
+ * 검사 기준을 완화한 것이 아니라 준비 비용을 옮긴 것이다.
+ */
+beforeAll(async () => {
   eslint = new ESLint({ cwd: process.cwd() });
-});
+  await eslint.lintText('export const warmup = 1;\n', { filePath: 'src/app/page.tsx' });
+}, 60_000);
 
 /** 해당 경로로 코드를 lint 하고 발생한 ruleId 목록을 돌려준다. */
 async function lint(filePath: string, code: string): Promise<string[]> {

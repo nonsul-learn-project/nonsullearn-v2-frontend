@@ -11,7 +11,7 @@
 |---|---|---|---|---|---|---|
 | **L1** | Contract | 매 커밋 (CI) | 자동 | fixture ⇄ zod schema | Gate 1, Gate 3, 적용 Slice | merge 차단 |
 | **L2** | Component | 매 커밋 (CI) | 자동 | mock 시나리오별 UI | Gate 1~3, 적용 Slice | merge 차단 |
-| **L3** | Preview E2E | PR (Vercel Preview) | 자동 | 페이지 렌더, SEO, 모바일 | Gate 1~2, 적용 Slice | merge 차단 |
+| **L3** | Preview E2E + Bridge smoke | PR (Vercel Preview) / Bridge 배포 후 | 자동 (E2E) · 사람 (`pnpm bridge:check`) | 페이지 렌더, SEO, 모바일, **운영 Bridge 실응답** | Gate 1~2, Gate 3, 적용 Slice | merge 차단 / Bridge 수정 |
 | **L4** | Smoke | 배포 직후 | 사람 실행 (스크립트) | 운영 Bridge + Proxy + Legacy 무영향 | Gate 3~6 | 즉시 롤백 / kill switch |
 | **L5** | Parity | 컷오버 전 | 사람 (체크리스트) | Legacy 화면 vs V2 화면 | Gate 5 홈 P1~P12, Gate 6, Gate 8 | 컷오버 금지 |
 | **L6** | Monitor | 운영 상시 | 경보 | 오류율, 성능, EC2 리소스 | Gate 5 soak, Gate 6 canary, Gate 9 | 조사 → 필요 시 kill switch |
@@ -24,22 +24,34 @@
 
 ## 2. 단일 진실: Fixture
 
+Gate 3 에서 단일 원본을 `contracts/bridge/` 로 옮겼다. JSON Schema 와 fixture 가 같은 곳에 있고,
+`src/legacy/contracts/` 의 zod 는 그 **사본**이다 (`contracts/bridge/README.md`).
+
 ```text
-src/legacy/contracts/fixtures/
-├── viewer.anonymous.json
-├── viewer.member.json
-├── viewer.corrector.json
-├── viewer.invalid.has-mb_id.json        ← 반드시 parse 실패해야 함
-├── viewer.invalid.wrong-version.json    ← 반드시 parse 실패해야 함
-├── course.on-sale.json
-├── course.sold-out.json
-├── course.list.json
-└── course.invalid.extra-field.json
+contracts/bridge/
+├── viewer.v1.schema.json
+├── courses-list.v1.schema.json
+├── course-detail.v1.schema.json
+├── error.v1.schema.json
+└── fixtures/
+    ├── viewer.anonymous.json
+    ├── viewer.member.json
+    ├── viewer.corrector.json
+    ├── courses-list.basic.json          ← 일반 + 전화문의 + 품절 + image null
+    ├── courses-list.empty.json
+    ├── course-detail.basic.json
+    ├── error.not_found.json
+    ├── viewer.leaks-mb_id.invalid.json           ← 반드시 거부해야 함
+    ├── viewer.raw-level.invalid.json             ← 반드시 거부해야 함
+    └── course-detail.absolute-image.invalid.json ← 반드시 거부해야 함
 ```
 
 규칙:
-- 파일명: `<contract>.<scenario>.json`, 실패해야 하는 것은 `<contract>.invalid.<reason>.json`.
-- mock adapter, L1 테스트, L4 스모크(key 비교)가 **모두 같은 fixture를 사용**한다.
+- 파일명: `<schema>.<scenario>.json`, 거부되어야 하는 것은 `<schema>.<reason>.invalid.json`.
+  **접두사가 스키마 이름이다** — 검사기가 이름으로 스키마를 고른다.
+- mock adapter, L1 테스트, Bridge smoke 가 **모두 같은 fixture를 사용**한다.
+- **zod 와 JSON Schema 의 판정이 같아야 한다.** `tests/contract/bridge-fixtures.test.ts` 가
+  fixture 전체에 대해 두 검증기를 대조한다. 한쪽만 고치면 깨진다.
 - 실제 Bridge 응답이 바뀌면 fixture를 먼저 고치는 것이 아니라, **Contract 변경 여부를 판단**하고 버전 정책(`AGENTS.md` §7.2)을 따른다.
 - fixture에 실제 회원 정보 금지. 이름은 `테스트회원` 등 가상값.
 
@@ -121,6 +133,29 @@ for (const f of files) {
 | Handoff | 로그인 링크, CTA | href가 `NEXT_PUBLIC_LEGACY_BASE_URL` + Legacy 경로 |
 | 404 | `/courses/does-not-exist` | 404 페이지 |
 | 성능 (참고) | Lighthouse 모바일 | 성능 점수 80 이상 (경고, 차단 아님) |
+
+### 5.1 Bridge smoke (Gate 3)
+
+**위치:** `scripts/bridge-check.mjs` · **실행:** `BASE=https://nonsul-learn.com pnpm bridge:check` (사람)
+**선택 env:** `SMOKE_PHPSESSID` (로그인 viewer 까지 확인), `BRIDGE_CHECK_TIMEOUT_MS` (기본 10000)
+
+Legacy 쪽 `html2/v2-api/` 를 배포한 뒤 **Vercel env 를 `http` 로 바꾸기 전에** 돌린다.
+운영 Bridge 가 Contract v1 을 실제로 지키는지 보는 유일한 자동 검사다.
+
+| # | 검사 | Pass 조건 |
+|---|---|---|
+| B1 | `GET viewer.php` (쿠키 없음) | 200, JSON, `viewer.v1` 통과, `authenticated==false`, `Cache-Control: no-store`, CORS 헤더 없음 |
+| B2 | `GET courses.php` | 200, `courses-list.v1` 통과, `Cache-Control: public` + `max-age`, **`Set-Cookie` 없음** |
+| B3 | `GET courses.php?id=<첫 항목>` | 200, `course-detail.v1` 통과, `item.id` 가 요청한 id 와 같음 |
+| B4 | `GET courses.php?id=zzz-no-such-id` | **404**, `error.v1`, `error=="not_found"` |
+| B5 | `GET courses.php?id=..%2F` | **400**, `error.v1`, `error=="invalid_id"` |
+| B6 | `POST courses.php` | **405**, `error.v1`, `error=="method_not_allowed"` |
+| B7 | `GET viewer.php` + `SMOKE_PHPSESSID` | 200, `authenticated==true` (세션 있을 때만) |
+
+리디렉션을 따라가지 않는다(`redirect: 'manual'`). Legacy 로그인 페이지로 302 되는 것 자체가 실패다.
+
+오프라인 버전은 `pnpm contract:fixtures` 이며, `pnpm check` 에 포함되어 매 커밋 돈다
+(정상 fixture 7개 통과, `*.invalid.json` 3개 거부).
 
 ---
 
