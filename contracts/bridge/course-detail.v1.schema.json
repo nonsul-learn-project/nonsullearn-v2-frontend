@@ -32,7 +32,7 @@
         "listPrice": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
         "priceOnInquiry": { "type": "boolean" },
         "soldOut": { "type": "boolean" },
-        "image": { "oneOf": [{ "type": "string", "pattern": "^/" }, { "type": "null" }] },
+        "image": { "oneOf": [{ "type": "string", "pattern": "^/(?!/)" }, { "type": "null" }] },
         "categoryId": { "type": "string", "minLength": 1 }
       }
     }

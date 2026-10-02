@@ -4,9 +4,10 @@
  *
  * 두 가지 모드가 있다.
  *
- *   node scripts/bridge-check.mjs --fixtures
+ *   node scripts/bridge-check.mjs --fixtures [--json]
  *     오프라인. `contracts/bridge/fixtures/` 를 순회해서 정상 fixture 는 통과하고
  *     `*.invalid.json` 은 거부되는지 본다. 스키마는 파일명 접두사로 고른다.
+ *     `--json` 은 판정을 기계가 읽을 수 있게 출력한다 (zod 와 대조하는 테스트가 쓴다).
  *
  *   BASE=https://nonsul-learn.com node scripts/bridge-check.mjs
  *     운영 실응답 검증 (L3 Bridge smoke). 사람이 실행한다.
@@ -216,59 +217,94 @@ function finish(title) {
 // 모드 1 — fixture 검사 (오프라인)
 // ---------------------------------------------------------------------------
 
-function checkFixtures() {
+/**
+ * fixture 하나하나의 판정. `--json` 이 이 배열을 그대로 출력하고
+ * `tests/contract/bridge-fixtures.test.ts` 가 zod 판정과 대조한다.
+ */
+function judgeFixtures(schemas) {
+  return readdirSync(FIXTURE_DIR)
+    .filter((file) => file.endsWith('.json'))
+    .sort()
+    .map((file) => {
+      const base = path.basename(file, '.json');
+      const name = base.slice(0, base.indexOf('.'));
+      const expectedAccepted = !base.endsWith('.invalid');
+      const schema = schemas.get(name);
+
+      if (schema === undefined) {
+        return {
+          file,
+          schema: name,
+          expectedAccepted,
+          accepted: false,
+          errors: [`접두사 '${name}' 에 해당하는 스키마가 없다`],
+          schemaMissing: true,
+        };
+      }
+
+      let data;
+      try {
+        data = JSON.parse(readFileSync(path.join(FIXTURE_DIR, file), 'utf8'));
+      } catch (cause) {
+        return {
+          file,
+          schema: name,
+          expectedAccepted,
+          accepted: false,
+          errors: [`JSON 파싱 실패: ${cause.message}`],
+          schemaMissing: false,
+        };
+      }
+
+      const errors = validate(data, schema);
+      return {
+        file,
+        schema: name,
+        expectedAccepted,
+        accepted: errors.length === 0,
+        errors,
+        schemaMissing: false,
+      };
+    });
+}
+
+function checkFixtures({ asJson }) {
   const schemas = loadSchemas();
+  const results = judgeFixtures(schemas);
+
+  if (asJson) {
+    console.log(JSON.stringify(results, null, 2));
+    process.exit(0);
+  }
+
   console.log(`fixture 검사 — ${FIXTURE_DIR}`);
   console.log(`스키마: ${[...schemas.keys()].sort().join(', ')}`);
   console.log('');
 
-  const files = readdirSync(FIXTURE_DIR)
-    .filter((file) => file.endsWith('.json'))
-    .sort();
-
-  if (files.length === 0) {
+  if (results.length === 0) {
     report('fixture 가 하나 이상 있다', ['fixture 디렉터리가 비어 있다']);
     finish('fixtures');
   }
 
-  let normalCount = 0;
-  let invalidCount = 0;
-
-  for (const file of files) {
-    const base = path.basename(file, '.json');
-    const name = base.slice(0, base.indexOf('.'));
-    const shouldReject = base.endsWith('.invalid');
-    const schema = schemas.get(name);
-
-    if (schema === undefined) {
-      report(file, [`접두사 '${name}' 에 해당하는 스키마가 없다`]);
+  for (const result of results) {
+    if (result.schemaMissing) {
+      report(result.file, result.errors);
       continue;
     }
 
-    let data;
-    try {
-      data = JSON.parse(readFileSync(path.join(FIXTURE_DIR, file), 'utf8'));
-    } catch (cause) {
-      report(file, [`JSON 파싱 실패: ${cause.message}`]);
-      continue;
-    }
-
-    const errors = validate(data, schema);
-
-    if (shouldReject) {
-      invalidCount += 1;
-      report(
-        `${file} → 거부되어야 한다 (${name}.v1)`,
-        errors.length === 0 ? ['거부되지 않고 통과했다'] : [],
-      );
+    if (result.expectedAccepted) {
+      report(`${result.file} → 통과해야 한다 (${result.schema}.v1)`, result.errors);
     } else {
-      normalCount += 1;
-      report(`${file} → 통과해야 한다 (${name}.v1)`, errors);
+      report(
+        `${result.file} → 거부되어야 한다 (${result.schema}.v1)`,
+        result.accepted ? ['거부되지 않고 통과했다'] : [],
+      );
     }
   }
 
+  const normalCount = results.filter((result) => result.expectedAccepted).length;
   console.log('');
-  console.log(`정상 fixture ${normalCount}개, 거부 fixture ${invalidCount}개`);
+  console.log(`정상 fixture ${normalCount}개, 거부 fixture ${results.length - normalCount}개`);
   finish('fixtures');
 }
 
@@ -473,12 +509,12 @@ const wantsFixtures = process.argv.includes('--fixtures');
 const base = process.env.BASE;
 
 if (wantsFixtures) {
-  checkFixtures();
+  checkFixtures({ asJson: process.argv.includes('--json') });
 } else if (base !== undefined && base !== '') {
   await checkLive(base);
 } else {
   console.error('사용법:');
-  console.error('  node scripts/bridge-check.mjs --fixtures');
+  console.error('  node scripts/bridge-check.mjs --fixtures [--json]');
   console.error('  BASE=https://nonsul-learn.com node scripts/bridge-check.mjs');
   process.exit(2);
 }

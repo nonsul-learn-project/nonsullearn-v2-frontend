@@ -3,6 +3,10 @@ import { z } from 'zod';
 /**
  * Viewer Contract v1 — 로그인 상태와 권한만.
  *
+ * **단일 원본은 `contracts/bridge/viewer.v1.schema.json` 이다.** 이 파일은 그 스키마의 zod 사본이며,
+ * `tests/contract/bridge-fixtures.test.ts` 가 두 검증기의 판정이 fixture 전체에서 일치하는지 본다.
+ * Gate 3 에서 대조한 결과 이 schema 는 Contract 와 이미 같았다 (바꾼 것 없음).
+ *
  * 근거: `docs/discovery/viewer-contract-v1.md` (상태 DONE), `docs/discovery/decisions-needed.md` #10.
  *
  * `displayName`은 **일부러 없다.** Legacy Header가 이름을 쓰지 않으므로 넣을 이유가 없고,
