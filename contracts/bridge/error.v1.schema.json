@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "error.v1",
+  "description": "Bridge 의 4xx/5xx 본문. HTTP 상태와 짝을 이룬다: invalid_id 400, not_found 404, method_not_allowed 405, bridge_misconfigured/bridge_unavailable 503.",
+  "type": "object",
+  "required": ["v", "error"],
+  "additionalProperties": false,
+  "properties": {
+    "v": { "const": 1 },
+    "error": {
+      "enum": [
+        "method_not_allowed",
+        "bridge_misconfigured",
+        "bridge_unavailable",
+        "invalid_id",
+        "not_found"
+      ]
+    }
+  }
+}

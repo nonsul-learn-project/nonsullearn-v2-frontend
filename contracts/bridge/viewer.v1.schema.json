@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "viewer.v1",
+  "description": "GET /v2-api/viewer.php — 로그인 상태와 권한만. 브라우저가 same-origin 으로 호출하고 Cache-Control: no-store 로 응답한다. mb_id, 이름/닉네임, level 숫자, 이메일 등 개인 식별 정보는 절대 포함되지 않는다.",
+  "oneOf": [{ "$ref": "#/$defs/anonymous" }, { "$ref": "#/$defs/authenticated" }],
+  "$defs": {
+    "anonymous": {
+      "type": "object",
+      "required": ["v", "authenticated"],
+      "additionalProperties": false,
+      "properties": {
+        "v": { "const": 1 },
+        "authenticated": { "const": false }
+      }
+    },
+    "authenticated": {
+      "type": "object",
+      "required": ["v", "authenticated", "capabilities"],
+      "additionalProperties": false,
+      "properties": {
+        "v": { "const": 1 },
+        "authenticated": { "const": true },
+        "capabilities": { "$ref": "#/$defs/capabilities" }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["correction", "admin"],
+      "additionalProperties": false,
+      "properties": {
+        "correction": { "type": "boolean" },
+        "admin": { "type": "boolean" }
+      }
+    }
+  }
+}

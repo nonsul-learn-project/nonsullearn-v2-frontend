@@ -20,6 +20,8 @@ export { legacyRoutes, safeReturnTo, type LegacyRoutes } from './handoff/routes'
 
 export { BridgeError, isBridgeError, type BridgeErrorKind } from './client/bridge-error';
 
+export { legacyAssetUrl, COURSE_IMAGE_PLACEHOLDER } from './assets';
+
 export type { ViewerState, ViewerCapabilities } from './contracts/viewer';
 
-export type { Course, CourseState, CourseListState, SaleStatus } from './contracts/course';
+export type { Course, CourseState, CourseListState, BridgeErrorCode } from './contracts/course';

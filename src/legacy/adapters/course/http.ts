@@ -3,57 +3,58 @@ import 'server-only';
 import { courseRevalidateSeconds } from '@/env.server';
 
 import { bridgeServerFetch } from '../../client/bridge-server';
+import { isBridgeError } from '../../client/bridge-error';
 import {
   courseItemResponseSchema,
   courseListResponseSchema,
-  type CourseListState,
-  type CourseState,
+  type Course,
 } from '../../contracts/course';
 
 /**
- * 실제 강좌 조회. **Vercel 서버에서** ISR로 호출한다 (AGENTS.md §2 표).
+ * 실제 강좌 조회. **Vercel 서버에서** ISR 로 호출한다 (AGENTS.md §2 표).
  *
- * 경로와 파라미터 이름은 **placeholder다.** Gate 3에서 `courses.php`를 실제로 배포하고 확정한다
- * (docs/harness/EXECUTION-PLAN.md Step 2-B). 지금은 Contract와 호출 모양만 세운다.
+ * 반환 규약 (Gate 3 Contract v1):
+ *   - 없는 강좌(404) → `null`
+ *   - 그 밖의 실패(네트워크, timeout, 3xx, HTML, 5xx, Contract 위반) → `BridgeError` throw
  *
- * AGENTS.md §6.4: 실패는 `unavailable` 상태로 돌려준다. 페이지를 throw로 깨뜨리지 않는다.
+ * **실패를 throw 하는 것이 의도다.** ISR 재생성 중에 throw 하면 Next 는 마지막으로 성공한
+ * HTML 을 계속 내보낸다. 여기서 `unavailable` 을 돌려주면 Bridge 가 잠깐 흔들릴 때마다
+ * 캐시된 좋은 페이지가 빈 화면으로 덮인다. UI 상태가 필요한 호출자는
+ * `getCourseState`/`getCoursesState` 를 쓴다 (ADR 0007).
+ *
+ * 쿠키는 보내지 않는다. 공개 데이터만 가져온다 (AGENTS.md §2 절대 원칙 2).
  */
 
-// TBD(legacy): Gate 3에서 courses.php 확정 시 경로와 쿼리 이름을 검증한다.
 export const COURSE_BRIDGE_PATH = '/courses.php';
 
-export async function getCourseHttp(
-  id: string,
-  options: { onError?: (error: unknown) => void } = {},
-): Promise<CourseState> {
+/** Bridge 가 없는 강좌에 쓰는 상태코드. 이것만 `null` 이고 나머지는 전부 실패다. */
+const NOT_FOUND = 404;
+
+function isNotFound(error: unknown): boolean {
+  return isBridgeError(error) && error.kind === 'http' && error.status === NOT_FOUND;
+}
+
+/** 없는 강좌는 `null`. 그 밖의 실패는 `BridgeError` 를 던진다. */
+export async function getCourseHttp(id: string): Promise<Course | null> {
   try {
     const response = await bridgeServerFetch({
       path: `${COURSE_BRIDGE_PATH}?id=${encodeURIComponent(id)}`,
       schema: courseItemResponseSchema,
       revalidate: courseRevalidateSeconds,
     });
-    if (response.item === null) return { status: 'missing' };
-    return { status: 'ready', course: response.item };
+    return response.item;
   } catch (error) {
-    options.onError?.(error);
-    return { status: 'unavailable' };
+    if (isNotFound(error)) return null;
+    throw error;
   }
 }
 
-export async function getCoursesHttp(
-  options: { categoryId?: string; onError?: (error: unknown) => void } = {},
-): Promise<CourseListState> {
-  const query =
-    options.categoryId === undefined ? '' : `?categoryId=${encodeURIComponent(options.categoryId)}`;
-  try {
-    const response = await bridgeServerFetch({
-      path: `${COURSE_BRIDGE_PATH}${query}`,
-      schema: courseListResponseSchema,
-      revalidate: courseRevalidateSeconds,
-    });
-    return { status: 'ready', courses: response.items };
-  } catch (error) {
-    options.onError?.(error);
-    return { status: 'unavailable' };
-  }
+/** 강좌가 없으면 빈 배열. 실패는 `BridgeError` 를 던진다. */
+export async function getCoursesHttp(): Promise<Course[]> {
+  const response = await bridgeServerFetch({
+    path: COURSE_BRIDGE_PATH,
+    schema: courseListResponseSchema,
+    revalidate: courseRevalidateSeconds,
+  });
+  return response.items;
 }

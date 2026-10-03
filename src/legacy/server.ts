@@ -10,4 +10,10 @@ import 'server-only';
  * 그게 목적이다 (docs/decisions/0004-legacy-public-api-split.md).
  */
 
-export { getCourse, getCourses, type GetCourseOptions } from './adapters/course';
+export {
+  getCourse,
+  getCourses,
+  getCourseState,
+  getCoursesState,
+  type GetCourseOptions,
+} from './adapters/course';

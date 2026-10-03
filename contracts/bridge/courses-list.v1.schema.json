@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "courses-list.v1",
+  "description": "GET /v2-api/courses.php — 강좌 공개 정보 목록. Vercel 서버가 쿠키 없이 호출하고 Cache-Control: public, max-age=60 으로 응답한다.",
+  "type": "object",
+  "required": ["v", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "v": { "const": 1 },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/course" } }
+  },
+  "$defs": {
+    "course": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "price",
+        "listPrice",
+        "priceOnInquiry",
+        "soldOut",
+        "image",
+        "categoryId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,20}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string" },
+        "price": { "type": "integer", "minimum": 0 },
+        "listPrice": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
+        "priceOnInquiry": { "type": "boolean" },
+        "soldOut": { "type": "boolean" },
+        "image": { "oneOf": [{ "type": "string", "pattern": "^/(?!/)" }, { "type": "null" }] },
+        "categoryId": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
