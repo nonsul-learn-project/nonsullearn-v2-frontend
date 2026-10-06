@@ -45,6 +45,18 @@ describe('optional env validation', () => {
     expect(clientEnvSchema.parse({}).NEXT_PUBLIC_SITE_URL).toBeUndefined();
     expect(clientEnvSchema.safeParse({ NEXT_PUBLIC_SITE_URL: 'nope' }).success).toBe(false);
   });
+
+  it('V2 asset prefix는 optional이며 끝 슬래시 없는 절대 URL만 허용한다', () => {
+    expect(serverEnvSchema.parse({}).V2_ASSET_PREFIX).toBeUndefined();
+    expect(
+      serverEnvSchema.parse({ V2_ASSET_PREFIX: 'https://nonsullearn-v2-frontend.vercel.app' })
+        .V2_ASSET_PREFIX,
+    ).toBe('https://nonsullearn-v2-frontend.vercel.app');
+    expect(
+      serverEnvSchema.safeParse({ V2_ASSET_PREFIX: 'https://nonsullearn-v2-frontend.vercel.app/' })
+        .success,
+    ).toBe(false);
+  });
 });
 
 describe('.env.example', () => {

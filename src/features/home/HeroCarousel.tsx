@@ -48,6 +48,7 @@ export function HeroCarousel() {
                 fill
                 sizes="100vw"
                 priority={index === 0}
+                unoptimized
                 style={{ objectFit: 'cover', objectPosition: 'center' }}
               />
             </div>
@@ -103,6 +104,7 @@ export function HeroCarousel() {
                           alt="대치동 대표 강사"
                           fill
                           sizes="(max-width: 991px) 240px, 300px"
+                          unoptimized
                           style={{ objectFit: 'cover', zIndex: 1 }}
                         />
                         <div

@@ -31,7 +31,7 @@ describe('site shell legacy parity', () => {
     expect(screen.getAllByAltText(siteContent.brand.label)).toHaveLength(3);
     expect(screen.getAllByAltText(siteContent.brand.label)[0]).toHaveAttribute(
       'src',
-      siteContent.brand.logo,
+      'https://nonsul-learn.com/src/nonsul-learn/img/logo2.png',
     );
   });
   it('desktop dropdown synchronizes state and Escape', async () => {

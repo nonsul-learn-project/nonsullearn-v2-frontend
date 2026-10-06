@@ -28,4 +28,13 @@ describe('Gate 5 home sections', () => {
     render(<Component />);
     expect(screen.getByText(expected, { exact: false })).toBeInTheDocument();
   });
+
+  it('uses legacy image originals instead of the same-origin Next image optimizer', () => {
+    const { container } = render(<HeroCarousel />);
+    const sources = [...container.querySelectorAll('img')].map((image) => image.getAttribute('src'));
+
+    expect(sources.some((source) => source?.startsWith('/_next/image'))).toBe(false);
+    expect(sources).toContain('https://nonsul-learn.com/src/nonsul-learn/img/visualbg001.jpg');
+    expect(sources).toContain('https://nonsul-learn.com/data/teacher/HP3L51W1RDDF');
+  });
 });

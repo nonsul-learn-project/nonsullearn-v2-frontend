@@ -1,10 +1,14 @@
-import { legacyRoutes } from '@/legacy';
+import { legacyAssetUrl, legacyRoutes } from '@/legacy';
 
 export type MenuItem = { label: string; href: string };
 export type MenuGroup = { label: string; href: string; items: MenuItem[] };
 
 export const siteContent = {
-  brand: { label: '논술런 - 논술을 배우다', logo: '/images/logo2.png' },
+  // Legacy header가 쓰는 파일과 SHA-256이 같은 것을 확인했다 (Gate 4 방법 C).
+  brand: {
+    label: '논술런 - 논술을 배우다',
+    logo: legacyAssetUrl('/src/nonsul-learn/img/logo2.png'),
+  },
   headerMenus: [
     {
       label: '논술런',

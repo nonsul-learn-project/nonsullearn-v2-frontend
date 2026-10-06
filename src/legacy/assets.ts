@@ -13,7 +13,7 @@ import { clientEnv } from '@/env.client';
  * 이 모듈은 클라이언트에서도 안전하다 (`NEXT_PUBLIC_LEGACY_ASSET_HOST` 만 읽는다).
  *
  * AGENTS.md §6.3: 이 호스트는 `next.config` 의 `remotePatterns` 에 등록돼 있어야
- * `next/image` 가 최적화할 수 있다.
+ * Gate 4 방법 C의 Hero 등은 `next/image unoptimized`로 이 원본 URL을 직접 쓴다.
  */
 
 /**

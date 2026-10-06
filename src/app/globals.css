@@ -44,6 +44,17 @@ svg {
   height: auto;
 }
 
+/*
+ * Hero 원본은 HeroCarousel의 `next/image unoptimized`가 Legacy 절대 URL에서 직접 받는다.
+ * legacy/main.css는 동기화 전용이라 건드리지 않고, 같은 선택자를 나중에 선언해 이전
+ * background-image 요청을 막는다.
+ */
+.hero-slide-1,
+.hero-slide-2,
+.hero-slide-3 {
+  background-image: none;
+}
+
 /* 긴 URL·코드 문자열이 뷰포트를 넘기지 않게 한다. */
 code,
 pre,

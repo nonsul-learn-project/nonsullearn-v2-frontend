@@ -18,6 +18,11 @@ export const serverEnvSchema = z.object({
     .optional(),
   LEGACY_BRIDGE_TIMEOUT_MS: z.coerce.number().int().min(500).max(10_000).default(3_000),
   COURSE_REVALIDATE_SECONDS: z.coerce.number().int().min(30).default(300),
+  /** Gate 4 방법 C에서 `/_next/static/*`을 Vercel origin으로 보내는 절대 URL. */
+  V2_ASSET_PREFIX: z
+    .url()
+    .refine((value) => !value.endsWith('/'), { message: '끝에 / 를 붙이지 않는다' })
+    .optional(),
   V2_PROXY_SECRET: z.string().optional(),
   /** Vercel이 자동 주입하는 배포 URL host. 없으면 metadataBase를 생략한다. */
   VERCEL_URL: z.string().min(1).optional(),
@@ -43,6 +48,7 @@ export const serverEnv: ServerEnv = parseServerEnv({
   LEGACY_BRIDGE_BASE: process.env.LEGACY_BRIDGE_BASE,
   LEGACY_BRIDGE_TIMEOUT_MS: process.env.LEGACY_BRIDGE_TIMEOUT_MS,
   COURSE_REVALIDATE_SECONDS: process.env.COURSE_REVALIDATE_SECONDS,
+  V2_ASSET_PREFIX: process.env.V2_ASSET_PREFIX,
   V2_PROXY_SECRET: process.env.V2_PROXY_SECRET,
   VERCEL_URL: process.env.VERCEL_URL,
   VERCEL_GIT_COMMIT_SHA: process.env.VERCEL_GIT_COMMIT_SHA,
