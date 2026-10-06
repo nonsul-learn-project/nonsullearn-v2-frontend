@@ -1,3 +1,5 @@
+'use client';
+
 import { siteContent } from '@/content/site';
 
 export function SiteFooter() {
@@ -36,9 +38,28 @@ export function SiteFooter() {
               className="text-secondary small mb-0"
               style={{ fontStyle: 'normal', lineHeight: 1.6 }}
             >
-              {footer.legal.map((legal) => (
+              {footer.legal.map((legal, index) => (
                 <p className="mb-1" key={legal}>
                   {legal}
+                  {index === 0 ? (
+                    <>
+                      {' '}
+                      <a
+                        href={footer.businessInfo.href}
+                        className="text-warning text-decoration-none"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          window.open(
+                            footer.businessInfo.href,
+                            'kyhinfo',
+                            'scrollbars=no,width=600,height=802,top=10,left=20,noopener,noreferrer',
+                          );
+                        }}
+                      >
+                        {footer.businessInfo.label}
+                      </a>
+                    </>
+                  ) : null}
                 </p>
               ))}
             </address>
@@ -50,6 +71,11 @@ export function SiteFooter() {
                 className="form-select form-select-sm bg-dark text-white border-secondary"
                 defaultValue=""
                 aria-label="패밀리사이트 바로가기"
+                onChange={(event) => {
+                  if (event.target.value === '') return;
+                  window.open(event.target.value, '_blank', 'noopener,noreferrer');
+                  event.target.value = '';
+                }}
               >
                 <option value="">패밀리사이트 바로가기</option>
                 {footer.family.map((item) => (

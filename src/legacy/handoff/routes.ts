@@ -58,6 +58,7 @@ export const legacyRoutes = {
   learningFaq: (): string => legacyUrl('/bbs/faq.php', { fm_id: '1' }),
   terms: (): string => legacyUrl('/bbs/content.php', { co_id: 'provision' }),
   privacy: (): string => legacyUrl('/bbs/content.php', { co_id: 'privacy' }),
+  businessInfo: (): string => legacyUrl('/kyhinfo.php'),
 
   /** 현장강의설명회. */
   briefing: (): string => legacyUrl('/bbs/board.php', { bo_table: 'briefing' }),

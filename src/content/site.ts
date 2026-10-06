@@ -80,6 +80,7 @@ export const siteContent = {
       'E-mail : nonsullearn@gmail.com',
       '통신판매업 신고번호 : 제 2026-서울강남-00870 호',
     ],
+    businessInfo: { label: '[정보조회]', href: legacyRoutes.businessInfo() },
     family: [
       { label: '김윤환논술', href: 'http://www.pogara.com' },
       { label: '김윤환논구술컨설팅', href: 'https://kyh-consulting.com' },

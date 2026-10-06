@@ -109,3 +109,33 @@ Vercel Preview URL 및 Legacy 페이지의 캡처 권한/URL은 이 작업공간
 - `src/features/home/*` — 10개 섹션 및 조립체.
 - `src/app/page.tsx` — Gate 1 placeholder를 홈 섹션 조립으로 교체.
 - `tests/component/home-sections.test.tsx` — 섹션 렌더 테스트.
+
+## 최종 검수 보완 기록 — 2026-10-06
+
+### Footer Legacy 대조 및 수정
+
+| 항목 | Legacy 근거 | 결과 |
+|---|---|---|
+| 패밀리사이트 | `html2/tail.php:75-81` (`김윤환논술`, `김윤환논구술컨설팅`, `카이로스논술`, `논술핏`) | `src/content/site.ts`의 이름·순서·URL이 일치함을 확인. `SiteFooter`가 Legacy와 같이 새 창으로 연다. `noopener,noreferrer`를 window feature로 추가했다. |
+| 이용약관 / 개인정보처리방침 | `html2/tail.php:92-93` | `legacyRoutes.terms()` / `privacy()`가 각각 같은 URL·순서·강조 class를 사용한다. |
+| 사업자 정보 조회 | `html2/tail.php:46`, 운영 HTML | 누락된 `[정보조회]` popup 링크를 `legacyRoutes.businessInfo()`로 복구했다. Legacy의 600×802 popup 옵션을 유지하고 `noopener,noreferrer`를 더했다. |
+| 사업자 정보 이미지 | `html2/tail.php:40-84`, 운영 HTML | 해당 영역에는 배지·인증 마크 `<img>`가 없다. 따라서 추측 이미지 추가 없음. |
+
+Footer 상호·대표자·사업자번호 등 기존 문자 일치 테스트는 유지했다. 패밀리사이트는 Legacy도 `<select>` + `window.open` 방식이라 option에 `target`/`rel`을 둘 수 없으며, V2는 동등한 새 창 동작에 `noopener,noreferrer` feature를 사용한다.
+
+### DoD 상태
+
+| 항목 | 상태 | 증거 / 남은 일 |
+|---|---|---|
+| 10개 섹션 문구·수치 fixture 정확 비교 및 변이 실험 | PENDING | 현재 `home-sections.test.tsx`는 각 섹션의 대표 문구 렌더만 검사한다. Legacy HTML 전체 fixture와 한 글자 변이 실험은 아직 없다. |
+| 홈 전체 링크 목록 비교 | PENDING | header/footer 단위 테스트는 있으나, Legacy 홈 전체 `<a>` 목록의 순서·속성을 비교하는 fixture는 아직 없다. 사업자 popup과 family select는 이번 기록에서 보완했다. |
+| 375 / 768 / 1440 visual parity ≤2% | BLOCKED | `tests/visual/baseline/legacy/`에 Legacy 기준 캡처가 없다. 사람이 다음을 실행해 baseline을 커밋해야 한다: `node scripts/capture-legacy-baseline.mjs https://nonsul-learn.com/`. 그 뒤 각 viewport baseline 및 full-page spec을 추가해 비교한다. |
+| 모바일 LCP ≤2.5s, CLS ≤0.1, axe serious/critical 0 | BLOCKED | Lighthouse/axe 실행 의존성 및 production Preview 접근 증거가 없다. 배포 후 Chrome Lighthouse 모바일 3회 중앙값과 axe 결과를 기록해야 한다. 첫 Hero는 `priority`가 적용돼 있다. |
+
+### Gate 6 이전 미완
+
+- 추적 4개 이벤트와 태그 인벤토리, GA4 DebugView 확인은 이번 범위에서 제외한다.
+- Vercel Preview/운영에서 로그인 Header와 실제 PHP viewer 상태를 확인한다.
+- Gate 4 방식 C의 Vercel 직접 노출 처리 및 proxy secret 검증 재도입을 검토한다.
+
+변경 검증은 `pnpm test` (357 tests), `pnpm lint`, `pnpm typecheck`로 수행했다. 커밋 해시는 아직 생성하지 않았다.

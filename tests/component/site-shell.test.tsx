@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import legal from '../fixtures/footer-legal.json';
 import links from '../fixtures/header-links.json';
 import { DesktopNav } from '@/features/site-shell/DesktopNav';
@@ -33,6 +33,28 @@ describe('site shell legacy parity', () => {
       'src',
       'https://nonsul-learn.com/src/nonsul-learn/img/logo2.png',
     );
+  });
+  it('matches Legacy footer links and opens family sites in a separate safe window', async () => {
+    const user = userEvent.setup();
+    const popup = vi.spyOn(window, 'open').mockReturnValue(null);
+    render(<SiteFooter />);
+
+    expect(screen.getByRole('link', { name: '[정보조회]' })).toHaveAttribute(
+      'href',
+      'https://nonsul-learn.com/kyhinfo.php',
+    );
+    expect(screen.getByRole('link', { name: '이용약관' })).toHaveAttribute(
+      'href',
+      'https://nonsul-learn.com/bbs/content.php?co_id=provision',
+    );
+    expect(screen.getByRole('link', { name: '개인정보처리방침' })).toHaveAttribute(
+      'href',
+      'https://nonsul-learn.com/bbs/content.php?co_id=privacy',
+    );
+
+    await user.selectOptions(screen.getByLabelText('패밀리사이트 바로가기'), 'http://www.pogara.com');
+    expect(popup).toHaveBeenCalledWith('http://www.pogara.com', '_blank', 'noopener,noreferrer');
+    popup.mockRestore();
   });
   it('desktop dropdown synchronizes state and Escape', async () => {
     const user = userEvent.setup();
