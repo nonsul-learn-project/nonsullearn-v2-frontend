@@ -1,11 +1,12 @@
 'use client';
 
 import { siteContent } from '@/content/site';
+import styles from './SiteFooter.module.css';
 
 export function SiteFooter() {
   const { footer, brand } = siteContent;
   return (
-    <footer>
+    <footer className={styles.footer}>
       <div className="container py-5">
         <div className="row g-4 mb-4">
           <div className="col-lg-4">

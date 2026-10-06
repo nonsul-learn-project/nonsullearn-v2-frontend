@@ -9,6 +9,11 @@ export const siteContent = {
     label: '논술런 - 논술을 배우다',
     logo: legacyAssetUrl('/src/nonsul-learn/img/logo2.png'),
   },
+  // Legacy head.php 인증 링크의 Font Awesome 6.4.2 아이콘.
+  authIcons: {
+    register: 'fa-solid fa-user-plus',
+    login: 'fa-solid fa-right-to-bracket',
+  },
   headerMenus: [
     {
       label: '논술런',

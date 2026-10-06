@@ -1,0 +1,23 @@
+/*
+ * Legacy common.css:197-204 의 `footer` 규칙을 그대로 옮긴 것.
+ *
+ * common.css 는 아직 `src/design-system/legacy/` 로 미러링되지 않았고(docs/parity/home-hero.md §5),
+ * 전역에 넣으면 Footer 밖까지 바뀌므로 Footer 범위에서만 보정한다.
+ * 배경만 넣으면 본문 글자색이 globals.css 의 #171717 로 남아 남색 위에서 읽히지 않으므로
+ * 같은 규칙의 color / padding / font-size / 링크 색까지 함께 가져왔다.
+ */
+.footer {
+  background: var(--nonsul-color-footer-bg);
+  color: var(--nonsul-color-footer-text);
+  padding: 50px 0 30px;
+  font-size: 0.88rem;
+}
+
+.footer a {
+  color: var(--nonsul-color-footer-link);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--nonsul-color-white);
+}

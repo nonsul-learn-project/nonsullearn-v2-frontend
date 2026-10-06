@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 import { track } from '@/analytics';
+import { siteContent } from '@/content/site';
 import { legacyRoutes, useViewer } from '@/legacy';
 
 /**
@@ -20,6 +21,11 @@ import { legacyRoutes, useViewer } from '@/legacy';
  *   unavailable  비로그인처럼 보이게 로그인 버튼 + bridge_error 1회
  *
  * `displayName` 은 쓰지 않는다 — Contract v1 에 없다 (ADR 0003).
+ *
+ * 아이콘은 Legacy head.php 와 같은 Font Awesome class 를 `src/content/site.ts` 에서 가져온다
+ * (`fa-user-plus` 회원가입, `fa-right-to-bracket` 로그인). member 분기(정보수정/로그아웃/관리자/
+ * 첨삭제출현황)는 Legacy 가 세션이 있어야 렌더하는 영역이라 아이콘 유무를 확인하지 못했다.
+ * // TBD(legacy): head.php 의 로그인 상태 블록 확인 후 적용.
  */
 export function AuthArea({ mobile = false }: { mobile?: boolean }) {
   const viewer = useViewer();
@@ -58,7 +64,7 @@ export function AuthArea({ mobile = false }: { mobile?: boolean }) {
         className={mobile ? 'd-flex align-items-center gap-3' : undefined}
       >
         <a href={legacyRoutes.login(returnTo)} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
-          로그인
+          <i className={siteContent.authIcons.login} aria-hidden="true" /> 로그인
         </a>
       </div>
     );
@@ -72,11 +78,11 @@ export function AuthArea({ mobile = false }: { mobile?: boolean }) {
         className={mobile ? 'd-flex align-items-center gap-3' : undefined}
       >
         <a href={legacyRoutes.register()} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
-          회원가입
+          <i className={siteContent.authIcons.register} aria-hidden="true" /> 회원가입
         </a>
         <span className="text-black-50 fs-7">|</span>
         <a href={legacyRoutes.login(returnTo)} className={`nav-auth-link${mobile ? ' fs-6' : ''}`}>
-          로그인
+          <i className={siteContent.authIcons.login} aria-hidden="true" /> 로그인
         </a>
       </div>
     );
