@@ -46,6 +46,19 @@ describe('optional env validation', () => {
     expect(clientEnvSchema.safeParse({ NEXT_PUBLIC_SITE_URL: 'nope' }).success).toBe(false);
   });
 
+  it('V2_ENFORCE_PROXY는 기본 false이며 true/false 문자열만 받는다', () => {
+    expect(serverEnvSchema.parse({}).V2_ENFORCE_PROXY).toBe('false');
+    expect(serverEnvSchema.parse({ V2_ENFORCE_PROXY: 'true' }).V2_ENFORCE_PROXY).toBe('true');
+    expect(serverEnvSchema.safeParse({ V2_ENFORCE_PROXY: '1' }).success).toBe(false);
+    expect(serverEnvSchema.safeParse({ V2_ENFORCE_PROXY: 'TRUE' }).success).toBe(false);
+  });
+
+  it('V2_ENFORCE_PROXY=true 에 secret 을 강제하지 않는다', () => {
+    // secret 은 Vercel 에만 등록한다. 로컬에 없다고 빌드가 깨지면 안 된다 (ADR 0009).
+    const parsed = serverEnvSchema.parse({ V2_ENFORCE_PROXY: 'true' });
+    expect(parsed.V2_PROXY_SECRET).toBeUndefined();
+  });
+
   it('V2 asset prefix는 optional이며 끝 슬래시 없는 절대 URL만 허용한다', () => {
     expect(serverEnvSchema.parse({}).V2_ASSET_PREFIX).toBeUndefined();
     expect(

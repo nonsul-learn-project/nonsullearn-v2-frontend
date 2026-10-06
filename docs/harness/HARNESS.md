@@ -258,6 +258,12 @@ Legacy 쪽 `html2/v2-api/` 를 배포한 뒤 **Vercel env 를 `http` 로 바꾸�
 | L4 | - | - | ○ |
 | L5 | - | - | ○ (Gate 5 내부 soak 및 Gate 6 canary 전 preview 쿠키) |
 | L6 | - | - | ○ |
+| `V2_ENFORCE_PROXY` | 미등록 (= false) | 미등록 (= false) | Gate 6 컷오버 시 `true` |
+| `V2_PROXY_SECRET` | 미등록 | 미등록 | 등록 (Apache와 같은 값) |
+
+`V2_ENFORCE_PROXY=true`는 proxy secret 검사와 홈 index/canonical을 동시에 켠다 (ADR 0009).
+secret이 없으면 검사하지 않으므로 **`V2_PROXY_SECRET`을 먼저 등록한 뒤** 스위치를 켠다.
+`robots.txt`는 이 스위치와 무관하게 전체 `Disallow: /`다.
 
 ---
 
