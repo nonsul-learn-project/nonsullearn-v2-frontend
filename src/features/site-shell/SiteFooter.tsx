@@ -9,7 +9,7 @@ export function SiteFooter() {
           <div className="col-lg-4">
             <div className="mb-3">
               <img
-                src="/src/nonsul-learn/img/logo.png"
+                src={brand.logo}
                 alt={brand.label}
                 className="footer-logo"
                 style={{ maxHeight: '40px' }}

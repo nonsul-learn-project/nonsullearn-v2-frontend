@@ -4,7 +4,7 @@ export type MenuItem = { label: string; href: string };
 export type MenuGroup = { label: string; href: string; items: MenuItem[] };
 
 export const siteContent = {
-  brand: { label: '논술런 - 논술을 배우다', logo: '/src/nonsul-learn/img/logo2.png' },
+  brand: { label: '논술런 - 논술을 배우다', logo: '/images/logo2.png' },
   headerMenus: [
     {
       label: '논술런',

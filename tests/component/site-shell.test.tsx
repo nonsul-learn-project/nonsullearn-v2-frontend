@@ -7,6 +7,7 @@ import links from '../fixtures/header-links.json';
 import { DesktopNav } from '@/features/site-shell/DesktopNav';
 import { MobileNav } from '@/features/site-shell/MobileNav';
 import { SiteFooter } from '@/features/site-shell/SiteFooter';
+import { SiteHeader } from '@/features/site-shell/SiteHeader';
 import { siteContent } from '@/content/site';
 import { ViewerProvider } from '@/legacy';
 
@@ -19,6 +20,19 @@ describe('site shell legacy parity', () => {
   it('contains every legacy header menu label', () => {
     render(<DesktopNav menus={siteContent.headerMenus} />);
     links.labels.forEach((label) => expect(screen.getAllByText(label).length).toBeGreaterThan(0));
+  });
+  it('uses the supplied logo asset in the shared shell', () => {
+    render(
+      <ViewerProvider>
+        <SiteHeader />
+        <SiteFooter />
+      </ViewerProvider>,
+    );
+    expect(screen.getAllByAltText(siteContent.brand.label)).toHaveLength(3);
+    expect(screen.getAllByAltText(siteContent.brand.label)[0]).toHaveAttribute(
+      'src',
+      siteContent.brand.logo,
+    );
   });
   it('desktop dropdown synchronizes state and Escape', async () => {
     const user = userEvent.setup();
