@@ -15,9 +15,17 @@ describe('Legacy URL 지도 (docs/discovery/legacy-url-map.md)', () => {
   it.each([
     ['logout', legacyRoutes.logout(), `${legacyBase}/bbs/logout.php`],
     ['register', legacyRoutes.register(), `${legacyBase}/bbs/register.php`],
-    ['memberEdit', legacyRoutes.memberEdit(), `${legacyBase}/bbs/member_confirm.php?url=register_form.php`],
+    [
+      'memberEdit',
+      legacyRoutes.memberEdit(),
+      `${legacyBase}/bbs/member_confirm.php?url=register_form.php`,
+    ],
     ['myLecture', legacyRoutes.myLecture(), `${legacyBase}/lecture/mypage.php`],
-    ['correctionStatus', legacyRoutes.correctionStatus(), `${legacyBase}/bbs/board.php?bo_table=correcting`],
+    [
+      'correctionStatus',
+      legacyRoutes.correctionStatus(),
+      `${legacyBase}/bbs/board.php?bo_table=correcting`,
+    ],
     ['notice', legacyRoutes.notice(), `${legacyBase}/bbs/board.php?bo_table=notice`],
     ['briefing', legacyRoutes.briefing(), `${legacyBase}/bbs/board.php?bo_table=briefing`],
     ['aboutCeo', legacyRoutes.aboutCeo(), `${legacyBase}/ceo_message`],
@@ -51,7 +59,9 @@ describe('쿼리 인코딩', () => {
   });
 
   it('ca_id 와 it_id 의 특수문자를 인코딩한다', () => {
-    expect(legacyRoutes.courseList('10 10&x=1')).toBe(`${legacyBase}/shop/list.php?ca_id=10%2010%26x%3D1`);
+    expect(legacyRoutes.courseList('10 10&x=1')).toBe(
+      `${legacyBase}/shop/list.php?ca_id=10%2010%26x%3D1`,
+    );
     expect(legacyRoutes.courseDetail('a/b')).toBe(`${legacyBase}/shop/item.php?it_id=a%2Fb`);
   });
 });

@@ -63,7 +63,10 @@ describe('.env.example', () => {
   const content = readFileSync('.env.example', 'utf8');
 
   it('모든 항목을 주석 처리하고 실제 값을 담지 않는다', () => {
-    for (const name of [...Object.keys(clientEnvSchema.shape), ...Object.keys(serverEnvSchema.shape)]) {
+    for (const name of [
+      ...Object.keys(clientEnvSchema.shape),
+      ...Object.keys(serverEnvSchema.shape),
+    ]) {
       expect(content).toMatch(new RegExp(`^#\\s*${name}=`, 'm'));
     }
     expect(content).not.toMatch(/^\s*[^#\s][A-Z0-9_]*=/m);

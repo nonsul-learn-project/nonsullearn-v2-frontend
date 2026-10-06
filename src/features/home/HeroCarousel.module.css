@@ -1,3 +1,14 @@
+/*
+ * Legacy common.css(html, body)의 본문 글꼴·줄바꿈 규칙.
+ * common.css는 아직 V2로 미러링되지 않았고(후속 작업), 전역에 넣으면 Hero 밖 섹션까지
+ * 바뀌므로 Hero 범위에서만 보정한다. 글꼴이 다르면 같은 문구의 폭과 줄 수가 달라져서
+ * (375px 슬라이드 3 제목이 legacy 3줄 / V2 2줄) 레이아웃 parity가 깨진다.
+ */
+.root {
+  font-family: 'Noto Sans KR', sans-serif;
+  word-break: keep-all;
+}
+
 .slide {
   /* Legacy main.css의 URL 배경을 V2 next/image 레이어로 대체한다. */
   background-image: none !important;
@@ -21,4 +32,14 @@
 .content {
   position: relative;
   z-index: 2;
+}
+
+/*
+ * Legacy common.css는 .container의 max-width를 1400px로 올린다(`!important`).
+ * Bootstrap 기본값(1320px/720px)을 쓰면 좌측 문구 블록이 1440px에서 40px, 768px에서 24px
+ * 더 안쪽에서 시작한다. 클래스를 두 번 적어 Bootstrap 미디어쿼리의 `.container`(0,1,0)보다
+ * 우선순위를 높인다 — 선언 순서에 의존하지 않기 위함이다.
+ */
+.content.content {
+  max-width: 1400px;
 }

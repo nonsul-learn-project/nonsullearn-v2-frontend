@@ -22,10 +22,7 @@ export const metadata: Metadata = {
 /** 표시해도 되는 것은 **env 이름과 모드**다. 값(특히 secret)은 표시하지 않는다. */
 const visibleEnv = [
   ['NEXT_PUBLIC_SITE_URL', clientEnv.NEXT_PUBLIC_SITE_URL],
-  [
-    'NEXT_PUBLIC_LEGACY_BASE_URL',
-    clientEnv.NEXT_PUBLIC_LEGACY_BASE_URL,
-  ],
+  ['NEXT_PUBLIC_LEGACY_BASE_URL', clientEnv.NEXT_PUBLIC_LEGACY_BASE_URL],
   ['NEXT_PUBLIC_LEGACY_ASSET_HOST', clientEnv.NEXT_PUBLIC_LEGACY_ASSET_HOST],
   ['NEXT_PUBLIC_VIEWER_SOURCE', clientEnv.NEXT_PUBLIC_VIEWER_SOURCE],
   ['NEXT_PUBLIC_ANALYTICS_ENABLED', clientEnv.NEXT_PUBLIC_ANALYTICS_ENABLED],

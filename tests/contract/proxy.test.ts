@@ -7,14 +7,17 @@ afterEach(() => {
 });
 
 describe('proxy', () => {
-  it.each(['', 'preview', 'production'])('%s 환경에서도 요청을 그대로 통과시킨다', async (vercelEnv) => {
-    vi.stubEnv('VERCEL_ENV', vercelEnv);
-    const { proxy } = await import('@/proxy');
-    const response = proxy(new NextRequest('https://v2-origin.example.test/courses/1'));
+  it.each(['', 'preview', 'production'])(
+    '%s 환경에서도 요청을 그대로 통과시킨다',
+    async (vercelEnv) => {
+      vi.stubEnv('VERCEL_ENV', vercelEnv);
+      const { proxy } = await import('@/proxy');
+      const response = proxy(new NextRequest('https://v2-origin.example.test/courses/1'));
 
-    expect(response.status).toBe(200);
-    expect(response.headers.get('location')).toBeNull();
-  });
+      expect(response.status).toBe(200);
+      expect(response.headers.get('location')).toBeNull();
+    },
+  );
 
   it('Gate 4 재도입을 위한 matcher 경계를 유지한다', async () => {
     const { config } = await import('@/proxy');

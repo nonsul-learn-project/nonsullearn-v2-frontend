@@ -52,7 +52,10 @@ describe('site shell legacy parity', () => {
       'https://nonsul-learn.com/bbs/content.php?co_id=privacy',
     );
 
-    await user.selectOptions(screen.getByLabelText('패밀리사이트 바로가기'), 'http://www.pogara.com');
+    await user.selectOptions(
+      screen.getByLabelText('패밀리사이트 바로가기'),
+      'http://www.pogara.com',
+    );
     expect(popup).toHaveBeenCalledWith('http://www.pogara.com', '_blank', 'noopener,noreferrer');
     popup.mockRestore();
   });
