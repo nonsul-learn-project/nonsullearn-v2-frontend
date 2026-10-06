@@ -25,6 +25,8 @@ export function HeroCarousel() {
           <button
             key={slide.title}
             type="button"
+            data-bs-target="#heroCarousel"
+            data-bs-slide-to={index}
             aria-label={`Slide ${index + 1}`}
             aria-current={active === index || undefined}
             className={active === index ? 'active' : ''}
@@ -53,7 +55,10 @@ export function HeroCarousel() {
             <div className={`container ${styles.content}`}>
               <div className="row align-items-center">
                 <div className="col-12 col-lg-7 hero-text-align">
-                  <span className="hero-badge">{slide.badge}</span>
+                  <span className="hero-badge">
+                    <i className={`${slide.badgeIcon} text-warning`} aria-hidden="true" />{' '}
+                    {slide.badge}
+                  </span>
                   <h1 className="hero-title">
                     {slide.title.split('\n').map((line) => (
                       <span key={line}>
@@ -83,7 +88,14 @@ export function HeroCarousel() {
                   </div>
                 </div>
                 <div className="col-12 col-lg-5">
-                  <div className="instructor-single-box position-relative overflow-hidden rounded-4 shadow">
+                  <div
+                    className="instructor-single-box position-relative overflow-hidden rounded-4 shadow"
+                    style={
+                      'image' in slide && slide.image
+                        ? { minHeight: '280px', display: 'flex', alignItems: 'flex-end' }
+                        : undefined
+                    }
+                  >
                     {'image' in slide && slide.image ? (
                       <>
                         <Image
@@ -103,7 +115,9 @@ export function HeroCarousel() {
                         />
                       </>
                     ) : (
-                      <div className="instructor-avatar-icon">{slide.instructor.icon}</div>
+                      <div className="instructor-avatar-icon">
+                        <i className={slide.instructor.iconClass} aria-hidden="true" />
+                      </div>
                     )}
                     <div
                       className="instructor-info text-center text-white p-4 w-100"

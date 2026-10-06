@@ -33,6 +33,38 @@
 - `pnpm test`: **351 passed** (기존 341개에서 감소 없음).
 - `env -i PATH="$PATH" HOME="$HOME" pnpm build`: **PASS**.
 
+## Hero parity — 변경 전 값 대조 (PR 설명용)
+
+| 항목 | Legacy 값 / 출처 | 현재 V2 값 | 판정·수정 방향 |
+|---|---|---|---|
+| 1. 배경 사진 | `main.css:65-74`: `visualbg001`~`003.jpg`; `cover center no-repeat` | 세 장 모두 `next/image fill`, `cover center` | 사진 경로·정렬은 일치. 유지 |
+| 2. 배지 아이콘 | `index.php:23,50,78`: `fa-fire`, `fa-bolt`, `fa-video`, 모두 `text-warning` (`#ffc107`) | 아이콘 마크업 없음 | 같은 Font Awesome 6.4.2 및 `<i>` 클래스를 복구 |
+| 3. 카드 아이콘 | `index.php:60,89`: `fa-user-gear`, `fa-user-graduate`; `.instructor-avatar-icon`의 `color:#fff`, `font-size:3.5rem` | `⚙`, `🎓` 이모지 | 이모지 제거, 같은 Font Awesome 클래스 사용 |
+| 4. 카드 내부 배치 | `.instructor-single-box`: `flex-direction:column; align-items:center; justify-content:center`; 아이콘 원 `110×110px`, `margin-bottom:18px`; 1번은 inline `min-height:280px; align-items:flex-end` | 공통 CSS는 상속하지만 1번 inline 값 없음 | 1번 inline 배치 값을 같은 JSX style로 복구; 2·3은 공통 CSS 유지 |
+| 5. 카드 질감 | `background:linear-gradient(180deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.03) 100%)`; `border:1px solid rgba(255,255,255,.2)`; `backdrop-filter:blur(5px)` | 같은 legacy CSS 상속 | 일치. 사진 적용 뒤에도 변경하지 않음 |
+| 6. 하단 표시줄 | Bootstrap 5.3.2 `.carousel-indicators [data-bs-target]`: `30×3px`, 좌·우 `3px`, `#fff`, opacity `.5` / active `1`, bottom `1rem` | `data-bs-target` 속성 없음 → 위 selector 미적용 | 각 버튼에 Legacy의 `data-bs-target="#heroCarousel"`, `data-bs-slide-to` 추가 |
+| 7. 콘텐츠 시작·타이포 | Bootstrap `.container`: 1400px 이상 `max-width:1320px`, 기본 gutter `1.5rem`; legacy 1399.98px 이하 `width:100%; padding-inline:20px`; title 최종 값 `font-weight:800`, `line-height:1.3`, `letter-spacing:-.5px` | 같은 `.container`, `.hero-title` CSS 상속 | 일치. 변경 없음 |
+
+공통 Hero 오버레이는 `main.css:54-62`의
+`linear-gradient(135deg, rgba(11, 28, 61, 0.88) 0%, rgba(0, 0, 0, 0.75) 100%)`이고,
+현재 V2도 같은 값이다. 설정 파일 변경은 필요하지 않다.
+
+### Hero parity — 수정 후 결과
+
+| 항목 | 결과 | 남은 차이 |
+|---|---|---|
+| 1. 배경 사진 | PASS — 1~3 모두 원본 경로, `fill`, `cover center`, 첫 장 `priority` 적용 | Legacy의 모든 viewport 원본 캡처 대기 |
+| 2. 배지 아이콘 | PASS — Font Awesome 6.4.2의 fire/bolt/video와 `text-warning` 적용 | 없음 |
+| 3. 카드 아이콘 | PASS — user-gear/user-graduate, 흰색 `3.5rem` 적용 | 없음 |
+| 4. 카드 내부 배치 | PASS — 110px 원, 18px 하단 여백, flex 중앙 정렬 및 1번의 280px/`align-items:flex-end` 복구 | 없음 |
+| 5. 카드 질감 | PASS — Legacy gradient, blur(5px), border 값 그대로 상속 | 없음 |
+| 6. 하단 표시줄 | PASS — Bootstrap selector가 적용되는 target/slide 속성을 복구해 30×3px, 3px 간격, 흰색·opacity 값 일치 | 없음 |
+| 7. 컨테이너·타이포 | PASS — 기존 Bootstrap container와 Legacy title CSS를 그대로 사용 | 없음 |
+
+V2 1~3번을 각각 375×812와 1440×900으로 수정 후 재캡처했다. 사용자가 제공한 Legacy
+2번 데스크톱 캡처와는 아이콘, 카드 배치, 인디케이터, 사진 중심·밝기를 대조했다. Legacy의
+1·3번 및 모바일 원본 캡처는 아직 제공되지 않아 해당 나란히 비교 증거만 대기 상태다.
+
 ## 이미지 remotePatterns 근거
 
 추가한 항목:
