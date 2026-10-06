@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     template: '%s | 논술런',
   },
   description: '논술런 온라인 논술 인강',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
