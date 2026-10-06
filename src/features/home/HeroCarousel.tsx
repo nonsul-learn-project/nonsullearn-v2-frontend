@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { track } from '@/analytics';
 import { homeContent } from '@/content/home';
 import { legacyAssetUrl } from '@/legacy';
+import styles from './HeroCarousel.module.css';
 
 export function HeroCarousel() {
   const [active, setActive] = useState(0);
@@ -35,10 +36,21 @@ export function HeroCarousel() {
         {slides.map((slide, index) => (
           <div
             key={slide.title}
-            className={`carousel-item hero-slide-${index + 1}${active === index ? ' active' : ''}`}
+            className={`carousel-item hero-slide-${index + 1} ${styles.slide}${active === index ? ' active' : ''}`}
             aria-hidden={active !== index}
           >
-            <div className="container">
+            <div className={styles.background} aria-hidden="true">
+              <Image
+                src={legacyAssetUrl(slide.backgroundImage)}
+                alt=""
+                fill
+                sizes="100vw"
+                priority={index === 0}
+                style={{ objectFit: 'cover', objectPosition: 'center' }}
+              />
+            </div>
+            <div className={styles.overlay} aria-hidden="true" />
+            <div className={`container ${styles.content}`}>
               <div className="row align-items-center">
                 <div className="col-12 col-lg-7 hero-text-align">
                   <span className="hero-badge">{slide.badge}</span>
@@ -80,7 +92,6 @@ export function HeroCarousel() {
                           fill
                           sizes="(max-width: 991px) 240px, 300px"
                           style={{ objectFit: 'cover', zIndex: 1 }}
-                          priority
                         />
                         <div
                           className="position-absolute top-0 start-0 w-100 h-100"

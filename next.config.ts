@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'nonsul-learn.com',
         pathname: '/data/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'nonsul-learn.com',
+        pathname: '/src/nonsul-learn/img/**',
+      },
     ],
   },
 };

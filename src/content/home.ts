@@ -10,6 +10,7 @@ export const homeContent = {
       label: '지금 시작하기',
       href: legacyRoutes.courseList('1010'),
       button: 'primary',
+      backgroundImage: '/src/nonsul-learn/img/visualbg001.jpg',
       image: '/data/teacher/HP3L51W1RDDF',
       instructor: {
         title: '대치동 대표 강사',
@@ -26,6 +27,7 @@ export const homeContent = {
       label: '첨삭 안내 보기',
       href: legacyRoutes.aboutCorrection(),
       button: 'light',
+      backgroundImage: '/src/nonsul-learn/img/visualbg002.jpg',
       instructor: {
         title: '논술런 첨삭시스템',
         description: undefined,
@@ -41,6 +43,7 @@ export const homeContent = {
       label: '설명회 영상 보기',
       href: legacyRoutes.briefing(),
       button: 'warning',
+      backgroundImage: '/src/nonsul-learn/img/visualbg003.jpg',
       instructor: {
         title: '논술런 입시컨설팅',
         description: '"주요 명문대학 계열별 커버"',
