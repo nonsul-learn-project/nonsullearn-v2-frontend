@@ -37,7 +37,7 @@ describe('Legacy URL 지도 (docs/discovery/legacy-url-map.md)', () => {
   });
 
   it('courseList 는 ca_id 를 붙인다', () => {
-    expect(legacyRoutes.courseList('1010')).toBe(`${legacyBase}/shop/list.php?ca_id=1010`);
+    expect(legacyRoutes.courseList('1010')).toBe('/courses/category/1010');
   });
 
   it('courseDetail 은 it_id 를 붙인다', () => {
@@ -59,9 +59,7 @@ describe('쿼리 인코딩', () => {
   });
 
   it('ca_id 와 it_id 의 특수문자를 인코딩한다', () => {
-    expect(legacyRoutes.courseList('10 10&x=1')).toBe(
-      `${legacyBase}/shop/list.php?ca_id=10%2010%26x%3D1`,
-    );
+    expect(legacyRoutes.courseList('10 10&x=1')).toBe('/courses/category/10%2010%26x%3D1');
     expect(legacyRoutes.courseDetail('a/b')).toBe('/courses/a%2Fb');
   });
 });

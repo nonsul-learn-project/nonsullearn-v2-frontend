@@ -67,8 +67,11 @@ export const legacyRoutes = {
   /** 현장강의설명회. */
   briefing: (): string => legacyUrl('/bbs/board.php', { bo_table: 'briefing' }),
 
-  /** 강좌 목록. `caId`는 강사별 분류 번호 (예: 인문논술 김윤환 1010). */
-  courseList: (caId: string): string => legacyUrl('/shop/list.php', { ca_id: caId }),
+  /**
+   * 분류 목록. `caId`는 강사별 분류 번호 (예: 인문논술 김윤환 1010).
+   * Gate 8 에서 V2 가 소유한다 — `ca_id` 만 옮기고 다른 쿼리는 버린다.
+   */
+  courseList: (caId: string): string => `/courses/category/${encodeURIComponent(caId)}`,
 
   /**
    * 분류 목록의 n 페이지. V2 는 1페이지만 렌더하므로 2페이지 이후는 Legacy 가 받는다.

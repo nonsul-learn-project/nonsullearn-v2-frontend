@@ -321,7 +321,7 @@ describe('형제 강좌 — Legacy sit_siblings', () => {
     expect(document.querySelector('.div_prev')?.textContent).toContain('이전 강의 없음');
     expect(document.querySelector('.div_next')?.textContent).toContain('다음 강의 없음');
     expect(document.querySelector('.div_list a')?.getAttribute('href')).toBe(
-      'https://nonsul-learn.com/shop/list.php?ca_id=101060',
+      '/courses/category/101060',
     );
     unmount();
 
