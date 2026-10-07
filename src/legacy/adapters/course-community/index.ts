@@ -21,8 +21,6 @@ import { getCourseCommunityMock } from './mock';
  * (docs/decisions/bridge-course-community.md).
  */
 export interface GetCourseCommunityOptions {
-  /** mock 일 때만 쓰인다. 보통 `?course=` 쿼리값. */
-  scenario?: string | null;
   onError?: (error: unknown) => void;
 }
 
@@ -37,7 +35,7 @@ export async function getCourseReviewsState(
 ): Promise<CourseReviewsState> {
   try {
     const response = usingMock()
-      ? getCourseCommunityMock('reviews', options.scenario)
+      ? getCourseCommunityMock(id, 'reviews')
       : await getCourseCommunityHttp(id, 'reviews');
     // discriminated union 을 좁힌다. Bridge 가 다른 type 을 주면 그건 Contract 위반이다.
     if (response.type !== 'reviews') {
@@ -62,7 +60,7 @@ export async function getCourseQuestionsState(
 ): Promise<CourseQuestionsState> {
   try {
     const response = usingMock()
-      ? getCourseCommunityMock('questions', options.scenario)
+      ? getCourseCommunityMock(id, 'questions')
       : await getCourseCommunityHttp(id, 'questions');
     if (response.type !== 'questions') {
       throw new Error(`questions 를 요청했는데 type=${response.type} 이 왔다`);

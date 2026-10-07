@@ -39,8 +39,13 @@ export async function getCourseDetailHttp(id: string): Promise<CourseFull | null
       schema: courseFullResponseSchema,
       revalidate: courseRevalidateSeconds,
     });
-    const { v: _version, ...course } = response;
-    return course;
+    // envelope 의 `v` 만 떼어낸다. spread 로 버리면 미사용 변수가 남는다.
+    return {
+      item: response.item,
+      options: response.options,
+      reviewSummary: response.reviewSummary,
+      form: response.form,
+    };
   } catch (error) {
     if (isNotFound(error)) return null;
     throw error;
