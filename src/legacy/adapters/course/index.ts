@@ -1,4 +1,4 @@
-import { assertHostedBridgeConfigured, serverEnv } from '@/env.server';
+import { shouldUseMockBridge } from '@/env.server';
 
 import { isBridgeError } from '../../client/bridge-error';
 import type { Course, CourseListState, CourseState } from '../../contracts/course';
@@ -27,27 +27,20 @@ export interface GetCourseOptions {
   onError?: (error: unknown) => void;
 }
 
-/**
- * Vercel Preview/Production 에서 `LEGACY_BRIDGE_BASE` 가 없으면 mock 으로 떨어지지 않고 터진다.
- * 하네스용 예시 강좌가 운영 화면에 뜨는 건 조용히 지나가면 안 되는 사고다.
- */
-const usingMock = (): boolean => {
-  assertHostedBridgeConfigured();
-  return serverEnv.COURSE_SOURCE === 'mock';
-};
+
 
 /** 없는 강좌는 `null`. 그 밖의 실패는 `BridgeError` 를 던진다. */
 export async function getCourse(
   id: string,
   options: GetCourseOptions = {},
 ): Promise<Course | null> {
-  if (usingMock()) return getCourseMock(parseCourseScenario(options.scenario));
+  if (shouldUseMockBridge()) return getCourseMock(parseCourseScenario(options.scenario));
   return getCourseHttp(id);
 }
 
 /** 강좌가 없으면 빈 배열. 실패는 `BridgeError` 를 던진다. */
 export async function getCourses(options: GetCourseOptions = {}): Promise<Course[]> {
-  if (usingMock()) return getCoursesMock(parseCourseScenario(options.scenario));
+  if (shouldUseMockBridge()) return getCoursesMock(parseCourseScenario(options.scenario));
   return getCoursesHttp();
 }
 

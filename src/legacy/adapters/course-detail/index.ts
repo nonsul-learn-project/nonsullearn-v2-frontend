@@ -1,4 +1,4 @@
-import { assertHostedBridgeConfigured, serverEnv } from '@/env.server';
+import { shouldUseMockBridge } from '@/env.server';
 
 import { isBridgeError } from '../../client/bridge-error';
 import type { CourseFull, CourseFullState } from '../../contracts/course-full';
@@ -24,19 +24,11 @@ export interface GetCourseDetailOptions {
   onError?: (error: unknown) => void;
 }
 
-/**
- * `assertHostedBridgeConfigured()` 를 mock 분기 **앞에서** 부른다.
- * Vercel Preview/Production 에서 `LEGACY_BRIDGE_BASE` 를 빠뜨리면 하네스용 예시 강좌가
- * 운영 화면에 뜨는데, 그건 조용히 지나가는 것보다 터지는 쪽이 낫다.
- */
-const usingMock = (): boolean => {
-  assertHostedBridgeConfigured();
-  return serverEnv.COURSE_SOURCE === 'mock';
-};
+
 
 /** 없는 강좌는 `null`. 그 밖의 실패는 `BridgeError` 를 던진다. */
 export async function getCourseDetail(id: string): Promise<CourseFull | null> {
-  if (usingMock()) return getCourseDetailMock(id);
+  if (shouldUseMockBridge()) return getCourseDetailMock(id);
   return getCourseDetailHttp(id);
 }
 

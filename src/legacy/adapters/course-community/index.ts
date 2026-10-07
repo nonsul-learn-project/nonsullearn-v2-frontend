@@ -1,4 +1,4 @@
-import { assertHostedBridgeConfigured, serverEnv } from '@/env.server';
+import { shouldUseMockBridge } from '@/env.server';
 
 import { isBridgeError } from '../../client/bridge-error';
 import {
@@ -24,17 +24,14 @@ export interface GetCourseCommunityOptions {
   onError?: (error: unknown) => void;
 }
 
-const usingMock = (): boolean => {
-  assertHostedBridgeConfigured();
-  return serverEnv.COURSE_SOURCE === 'mock';
-};
+
 
 export async function getCourseReviewsState(
   id: string,
   options: GetCourseCommunityOptions = {},
 ): Promise<CourseReviewsState> {
   try {
-    const response = usingMock()
+    const response = shouldUseMockBridge()
       ? getCourseCommunityMock(id, 'reviews')
       : await getCourseCommunityHttp(id, 'reviews');
     // discriminated union 을 좁힌다. Bridge 가 다른 type 을 주면 그건 Contract 위반이다.
@@ -59,7 +56,7 @@ export async function getCourseQuestionsState(
   options: GetCourseCommunityOptions = {},
 ): Promise<CourseQuestionsState> {
   try {
-    const response = usingMock()
+    const response = shouldUseMockBridge()
       ? getCourseCommunityMock(id, 'questions')
       : await getCourseCommunityHttp(id, 'questions');
     if (response.type !== 'questions') {

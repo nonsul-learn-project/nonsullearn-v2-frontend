@@ -21,10 +21,15 @@ export const serverEnvSchema = z.object({
     z.enum(['development', 'preview', 'production']).default('development'),
   ),
   COURSE_SOURCE: z.enum(['mock', 'http']).default('mock'),
-  LEGACY_BRIDGE_BASE: z
-    .url()
-    .refine((value) => !value.endsWith('/'), { message: '끝에 / 를 붙이지 않는다' })
-    .optional(),
+  LEGACY_BRIDGE_BASE: z.preprocess(
+    // 빈 문자열은 미설정과 같게 본다. Vercel 에 빈 값이 등록돼 있으면 전체 env 검증이
+    // 터져서 앱이 안 뜨는데, 그건 "등록 안 함"과 구분할 이유가 없다.
+    (value) => (value === '' ? undefined : value),
+    z
+      .url()
+      .refine((url) => !url.endsWith('/'), { message: '끝에 / 를 붙이지 않는다' })
+      .optional(),
+  ),
   LEGACY_BRIDGE_TIMEOUT_MS: z.coerce.number().int().min(500).max(10_000).default(3_000),
   COURSE_REVALIDATE_SECONDS: z.coerce.number().int().min(30).default(300),
   /** Gate 4 방법 C에서 `/_next/static/*`을 Vercel origin으로 보내는 절대 URL. */
@@ -90,11 +95,32 @@ export const courseRevalidateSeconds: number = serverEnv.COURSE_REVALIDATE_SECON
  * 로컬과 CI(`VERCEL_ENV` 미설정 → `development`)에서는 mock fallback 이 정상 동작이다.
  */
 export function assertHostedBridgeConfigured(): void {
-  const hosted = serverEnv.VERCEL_ENV === 'preview' || serverEnv.VERCEL_ENV === 'production';
-  if (hosted && serverEnv.LEGACY_BRIDGE_BASE === undefined) {
+  if (!isHostedEnv()) return;
+  if (serverEnv.LEGACY_BRIDGE_BASE === undefined) {
     throw new Error(
       'Vercel Preview/Production 에는 LEGACY_BRIDGE_BASE 가 필수다. ' +
         'mock fallback 은 로컬·CI 에서만 허용된다.',
     );
   }
+}
+
+/** Vercel 에 올라간 배포인가. 여기서는 mock 이 허용되지 않는다. */
+function isHostedEnv(): boolean {
+  return serverEnv.VERCEL_ENV === 'preview' || serverEnv.VERCEL_ENV === 'production';
+}
+
+/**
+ * 공개 데이터 adapter 가 mock/http 구현을 고를 때 **이 함수만** 쓴다.
+ *
+ * `COURSE_SOURCE` 의 기본값이 `mock` 이라서, Vercel 에 `LEGACY_BRIDGE_BASE` 만 등록하고
+ * `COURSE_SOURCE` 를 빠뜨리면 Preview 가 조용히 fixture 를 돌려줬다. 그러면 실제 강좌 id 가
+ * mock 에 없으니 `null` → `notFound()` → **없는 강좌도 아닌데 404** 가 된다.
+ *
+ * 그래서 hosted(Preview/Production)에서는 `COURSE_SOURCE` 값을 보지 않고 항상 `http` 다.
+ * mock 은 로컬·CI 전용이라는 규칙(`assertHostedBridgeConfigured`)을 소스 선택까지 확장한 것이다.
+ */
+export function shouldUseMockBridge(): boolean {
+  assertHostedBridgeConfigured();
+  if (isHostedEnv()) return false;
+  return serverEnv.COURSE_SOURCE === 'mock';
 }
