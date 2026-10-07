@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "course-community.v1",
+  "description": "GET /v2-api/course-community.php?id=<it_id>&type=reviews|questions — 공개 강의후기(is_confirm=1)와 비밀글이 아닌 강의문의(iq_secret=0). type 으로 갈라지는 discriminated union 이다. 잘못된 파라미터는 400, 없는 강좌는 404 이며 그 본문은 error.v1 이 아니다.",
+  "oneOf": [{ "$ref": "#/$defs/reviewsPage" }, { "$ref": "#/$defs/questionsPage" }],
+  "$defs": {
+    "reviewsPage": {
+      "type": "object",
+      "required": ["v", "courseId", "type", "page", "limit", "total", "items"],
+      "additionalProperties": false,
+      "properties": {
+        "v": { "const": 1 },
+        "courseId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,20}$" },
+        "type": { "const": "reviews" },
+        "page": { "type": "integer", "minimum": 1 },
+        "limit": { "type": "integer", "minimum": 1 },
+        "total": { "type": "integer", "minimum": 0 },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/review" } }
+      }
+    },
+    "questionsPage": {
+      "type": "object",
+      "required": ["v", "courseId", "type", "page", "limit", "total", "items"],
+      "additionalProperties": false,
+      "properties": {
+        "v": { "const": 1 },
+        "courseId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,20}$" },
+        "type": { "const": "questions" },
+        "page": { "type": "integer", "minimum": 1 },
+        "limit": { "type": "integer", "minimum": 1 },
+        "total": { "type": "integer", "minimum": 0 },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/question" } }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "id",
+        "score",
+        "authorName",
+        "subject",
+        "contentHtml",
+        "createdAt",
+        "reply"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "integer", "minimum": 1 },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "0~5. Legacy get_star() 가 round 후 0..5 로 clamp 한 값을 별 이미지 이름으로 쓴다."
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Legacy get_text(is_name). 작성 시 가려진 표시용 이름이며 mb_id 가 아니다."
+        },
+        "subject": { "type": "string" },
+        "contentHtml": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "reply": { "oneOf": [{ "$ref": "#/$defs/reviewReply" }, { "type": "null" }] }
+      }
+    },
+    "reviewReply": {
+      "type": "object",
+      "required": ["authorName", "subject", "contentHtml"],
+      "additionalProperties": false,
+      "properties": {
+        "authorName": { "type": "string" },
+        "subject": { "type": "string" },
+        "contentHtml": { "type": "string" }
+      }
+    },
+    "question": {
+      "type": "object",
+      "required": [
+        "id",
+        "authorName",
+        "subject",
+        "questionHtml",
+        "answerHtml",
+        "createdAt",
+        "answered"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "integer", "minimum": 1 },
+        "authorName": { "type": "string" },
+        "subject": { "type": "string" },
+        "questionHtml": { "type": "string" },
+        "answerHtml": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "answered": { "type": "boolean" }
+      }
+    }
+  }
+}

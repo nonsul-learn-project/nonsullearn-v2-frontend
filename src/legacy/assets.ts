@@ -44,3 +44,56 @@ export function legacyAssetUrl(image: string | null): string {
   const path = image.startsWith('/') ? image : `/${image}`;
   return `https://${clientEnv.NEXT_PUBLIC_LEGACY_ASSET_HOST}${path}`;
 }
+
+/**
+ * Legacy 가 상품 이미지에 쓰는 **썸네일** URL. Legacy `<img src>` 와 바이트 단위로 같다.
+ *
+ * `shop/item.php` 는 원본을 그대로 쓰지 않는다. `get_it_thumbnail()` 이
+ * `thumbnail.lib.php` 로 `thumb-{확장자 뗀 이름}_{너비}x{높이}.{확장자}` 를 만들어 쓴다
+ * (`html2/lib/thumbnail.lib.php:277`). 원본은 3MB 대인데 썸네일은 300KB 대라
+ * 원본을 쓰면 Legacy 보다 10배 무거운 화면이 된다.
+ *
+ * 이름 규칙이 Legacy 구현 세부사항이라 `src/legacy/` 안에 둔다 (AGENTS.md §2 절대 원칙 5).
+ *
+ * Legacy 는 파일을 요청 시점에 생성하므로, 아직 생성되지 않은 썸네일은 404 다.
+ * 그 경우를 위해 호출하는 쪽이 `onError` 로 원본(`legacyAssetUrl`)으로 되돌릴 수 있게
+ * 원본 URL 도 같이 돌려준다.
+ */
+export interface LegacyThumbnail {
+  /** `thumb-..._860x485.png` 절대 URL. */
+  url: string;
+  /** 썸네일이 없을 때 쓸 원본 절대 URL. */
+  originalUrl: string;
+  width: number;
+  height: number;
+}
+
+/**
+ * `shop/item.php` 의 큰 이미지 크기. Legacy `de_mimg_width`/`de_mimg_height` 값이며
+ * 운영 응답의 `<img width="860" height="485">` 로 확인했다.
+ */
+export const COURSE_IMAGE_WIDTH = 860;
+export const COURSE_IMAGE_HEIGHT = 485;
+
+export function legacyItemThumbnail(
+  image: string,
+  width: number = COURSE_IMAGE_WIDTH,
+  height: number = COURSE_IMAGE_HEIGHT,
+): LegacyThumbnail {
+  const originalUrl = legacyAssetUrl(image);
+  const slash = image.lastIndexOf('/');
+  const dir = slash === -1 ? '' : image.slice(0, slash + 1);
+  const filename = image.slice(slash + 1);
+  const dot = filename.lastIndexOf('.');
+  // 확장자가 없으면 썸네일 이름을 만들 수 없다. 원본을 쓴다.
+  if (dot <= 0) return { url: originalUrl, originalUrl, width, height };
+
+  const base = filename.slice(0, dot);
+  const extension = filename.slice(dot);
+  return {
+    url: legacyAssetUrl(`${dir}thumb-${base}_${width}x${height}${extension}`),
+    originalUrl,
+    width,
+    height,
+  };
+}

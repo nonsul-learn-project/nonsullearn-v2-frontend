@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "course-full.v1",
+  "description": "GET /v2-api/course-detail.php?id=<it_id> — shop/item.php 를 그릴 수 있는 강좌 단건. courses.php 의 course-detail.v1 과 별개 endpoint 다 (그쪽은 목록 카드용 축약형). 없는 id 는 404, 잘못된 id 는 400 이며 그 본문은 error.v1 이 아니다 (docs/decisions/bridge-course-detail.md).",
+  "type": "object",
+  "required": ["v", "item", "options", "reviewSummary", "form"],
+  "additionalProperties": false,
+  "properties": {
+    "v": { "const": 1 },
+    "item": { "$ref": "#/$defs/item" },
+    "options": { "$ref": "#/$defs/options" },
+    "reviewSummary": { "$ref": "#/$defs/reviewSummary" },
+    "form": { "$ref": "#/$defs/form" }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "basic",
+        "category",
+        "price",
+        "listPrice",
+        "priceOnInquiry",
+        "soldOut",
+        "inStock",
+        "buyMinQty",
+        "images",
+        "descriptionHtml",
+        "headHtml",
+        "tailHtml",
+        "information",
+        "extra"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,20}$" },
+        "name": { "type": "string", "minLength": 1 },
+        "basic": { "type": "string" },
+        "category": { "$ref": "#/$defs/category" },
+        "price": { "type": "integer", "minimum": 0 },
+        "listPrice": { "type": "integer", "minimum": 0 },
+        "priceOnInquiry": { "type": "boolean" },
+        "soldOut": { "type": "boolean" },
+        "inStock": { "type": "boolean" },
+        "buyMinQty": { "type": "integer", "minimum": 1 },
+        "images": { "type": "array", "items": { "$ref": "#/$defs/relativeImage" } },
+        "descriptionHtml": { "type": "string" },
+        "headHtml": { "type": "string" },
+        "tailHtml": { "type": "string" },
+        "information": { "$ref": "#/$defs/information" },
+        "extra": { "$ref": "#/$defs/extra" }
+      }
+    },
+    "relativeImage": {
+      "type": "string",
+      "pattern": "^/(?!/)",
+      "description": "Legacy DB 기준 상대 경로. 절대 URL 은 Contract 위반이며 호스트 결합은 legacyAssetUrl() 이 한다."
+    },
+    "category": {
+      "type": "object",
+      "required": ["id", "name", "requiresCertification", "requiresAdultCertification"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" },
+        "requiresCertification": { "type": "boolean" },
+        "requiresAdultCertification": { "type": "boolean" }
+      }
+    },
+    "information": {
+      "type": "object",
+      "description": "iteminfo.lib.php 의 'lecture' 그룹. product_name=수강대상, model_name=내용 및 특징. 다른 그룹은 전부 주석 처리돼 있다.",
+      "additionalProperties": false,
+      "properties": {
+        "product_name": { "type": "string" },
+        "model_name": { "type": "string" }
+      }
+    },
+    "extra": {
+      "type": "object",
+      "description": "Legacy it_1..it_5. item.form.skin.php 는 3=신청기간, 2=수강기간(일), 4=모집인원(명), 5=강의수(강) 만 쓰고 1 은 쓰지 않는다.",
+      "additionalProperties": false,
+      "properties": {
+        "1": { "type": "string" },
+        "2": { "type": "string" },
+        "3": { "type": "string" },
+        "4": { "type": "string" },
+        "5": { "type": "string" }
+      }
+    },
+    "options": {
+      "type": "object",
+      "required": ["subjects", "supplySubjects", "items"],
+      "additionalProperties": false,
+      "properties": {
+        "subjects": {
+          "type": "array",
+          "description": "it_option_subject 를 ',' 로 쪼갠 것. 선택옵션 select 하나당 하나.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "supplySubjects": {
+          "type": "array",
+          "description": "it_supply_subject. 추가옵션 주제.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/optionItem" } }
+      }
+    },
+    "optionItem": {
+      "type": "object",
+      "required": ["type", "id", "parts", "price", "available"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "description": "0=선택옵션, 1=추가옵션. shop.js 가 io_type 으로 그대로 보낸다.",
+          "enum": [0, 1]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Legacy io_id. 여러 주제면 chr(30) 으로 이어 붙어 있다. io_id 로 그대로 전송한다."
+        },
+        "parts": {
+          "type": "array",
+          "description": "id 를 chr(30) 으로 쪼갠 것. subjects 와 같은 순서로 짝지어 io_value 를 만든다.",
+          "items": { "type": "string" }
+        },
+        "price": { "type": "integer" },
+        "available": {
+          "type": "boolean",
+          "description": "io_stock_qty > 0. false 면 Legacy select 가 재고 부족으로 거부한다."
+        }
+      }
+    },
+    "reviewSummary": {
+      "type": "object",
+      "required": ["count", "averageScore"],
+      "additionalProperties": false,
+      "properties": {
+        "count": { "type": "integer", "minimum": 0 },
+        "averageScore": {
+          "oneOf": [{ "type": "number", "minimum": 0 }, { "type": "null" }]
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "description": "Legacy 장바구니 endpoint. V2 폼의 action/method 를 Bridge 가 소유한다.",
+      "required": ["action", "method"],
+      "additionalProperties": false,
+      "properties": {
+        "action": { "const": "/shop/cartupdate.php" },
+        "method": { "const": "POST" }
+      }
+    }
+  }
+}

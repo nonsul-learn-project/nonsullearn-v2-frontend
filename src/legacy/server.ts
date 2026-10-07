@@ -17,3 +17,15 @@ export {
   getCoursesState,
   type GetCourseOptions,
 } from './adapters/course';
+
+export {
+  getCourseDetail,
+  getCourseDetailState,
+  type GetCourseDetailOptions,
+} from './adapters/course-detail';
+
+export {
+  getCourseReviewsState,
+  getCourseQuestionsState,
+  type GetCourseCommunityOptions,
+} from './adapters/course-community';

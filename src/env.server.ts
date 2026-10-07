@@ -11,6 +11,15 @@ import { formatIssues } from '@/env.client';
  * source가 mock일 때 Bridge 값과 proxy secret은 읽지 않는다.
  */
 export const serverEnvSchema = z.object({
+  /**
+   * Vercel 이 자동 주입한다. `assertHostedBridgeConfigured()` 가 이 값으로
+   * "mock fallback 을 허용해도 되는 환경인가"를 판단한다.
+   * 빈 문자열은 미설정과 같게 본다 (Vercel 이 비어 있는 값을 주입할 수 있다).
+   */
+  VERCEL_ENV: z.preprocess(
+    (value) => (value === '' ? undefined : value),
+    z.enum(['development', 'preview', 'production']).default('development'),
+  ),
   COURSE_SOURCE: z.enum(['mock', 'http']).default('mock'),
   LEGACY_BRIDGE_BASE: z
     .url()
@@ -50,6 +59,7 @@ export function parseServerEnv(source: Record<string, string | undefined>): Serv
 }
 
 export const serverEnv: ServerEnv = parseServerEnv({
+  VERCEL_ENV: process.env.VERCEL_ENV,
   COURSE_SOURCE: process.env.COURSE_SOURCE,
   LEGACY_BRIDGE_BASE: process.env.LEGACY_BRIDGE_BASE,
   LEGACY_BRIDGE_TIMEOUT_MS: process.env.LEGACY_BRIDGE_TIMEOUT_MS,
@@ -69,3 +79,22 @@ export const enforceProxy: boolean = serverEnv.V2_ENFORCE_PROXY === 'true';
 
 /** AGENTS.md §6.3: 강좌 페이지 ISR 주기. */
 export const courseRevalidateSeconds: number = serverEnv.COURSE_REVALIDATE_SECONDS;
+
+/**
+ * 공개 데이터 adapter 가 mock 구현을 고르기 **전에** 부른다.
+ *
+ * Vercel Preview/Production 에서 `LEGACY_BRIDGE_BASE` 를 등록하지 않으면
+ * adapter 가 조용히 fixture 를 돌려주고, 하네스용 예시 강좌가 운영 화면에 그대로 뜬다.
+ * 그 사고는 조용히 지나가는 것보다 빌드/요청이 터지는 쪽이 낫다.
+ *
+ * 로컬과 CI(`VERCEL_ENV` 미설정 → `development`)에서는 mock fallback 이 정상 동작이다.
+ */
+export function assertHostedBridgeConfigured(): void {
+  const hosted = serverEnv.VERCEL_ENV === 'preview' || serverEnv.VERCEL_ENV === 'production';
+  if (hosted && serverEnv.LEGACY_BRIDGE_BASE === undefined) {
+    throw new Error(
+      'Vercel Preview/Production 에는 LEGACY_BRIDGE_BASE 가 필수다. ' +
+        'mock fallback 은 로컬·CI 에서만 허용된다.',
+    );
+  }
+}

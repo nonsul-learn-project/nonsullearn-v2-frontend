@@ -1,0 +1,28 @@
+{
+  "v": 1,
+  "courseId": "1001",
+  "type": "questions",
+  "page": 1,
+  "limit": 20,
+  "total": 2,
+  "items": [
+    {
+      "id": 12,
+      "authorName": "최**",
+      "subject": "교재는 언제 받나요?",
+      "questionHtml": "<p>교재 배송 일정을 알고 싶습니다.</p>",
+      "answerHtml": "<p>결제 후 2일 내 발송됩니다.</p>",
+      "createdAt": "2026-10-01 10:00:00",
+      "answered": true
+    },
+    {
+      "id": 11,
+      "authorName": "정**",
+      "subject": "답변 대기 중인 문의",
+      "questionHtml": "<p>수강기간을 연장할 수 있나요?</p>",
+      "answerHtml": "",
+      "createdAt": "2026-09-29 15:30:00",
+      "answered": false
+    }
+  ]
+}

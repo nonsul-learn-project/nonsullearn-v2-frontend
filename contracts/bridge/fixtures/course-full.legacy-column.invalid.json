@@ -1,0 +1,82 @@
+{
+  "v": 1,
+  "item": {
+    "id": "1001",
+    "name": "인문논술 기본완성 (예시)",
+    "basic": "하네스용 예시 강좌입니다. 실제 강좌가 아닙니다.",
+    "category": {
+      "id": "101060",
+      "name": "수능전 파이널",
+      "requiresCertification": false,
+      "requiresAdultCertification": false
+    },
+    "price": 264000,
+    "listPrice": 330000,
+    "priceOnInquiry": false,
+    "soldOut": false,
+    "inStock": true,
+    "buyMinQty": 1,
+    "images": [
+      "/data/item/1001/thumb.jpg",
+      "/data/item/1001/thumb2.jpg"
+    ],
+    "descriptionHtml": "<p>예시 강좌 소개입니다.</p><p><b>굵은 글씨</b>와 <a href=\"https://example.test\">링크</a>를 포함합니다.</p>",
+    "headHtml": "",
+    "tailHtml": "",
+    "information": {
+      "product_name": "논술이 처음인 예비 수험생 (예시)",
+      "model_name": "기초 개념부터 실전 답안까지 (예시)"
+    },
+    "extra": {
+      "1": "80",
+      "2": "30",
+      "3": "26.10.06 ~",
+      "4": "60",
+      "5": "4"
+    },
+    "it_name": "인문논술 기본완성 (예시)"
+  },
+  "options": {
+    "subjects": [
+      "교재비"
+    ],
+    "supplySubjects": [],
+    "items": [
+      {
+        "type": 0,
+        "id": "교재 포함",
+        "parts": [
+          "교재 포함"
+        ],
+        "price": 30000,
+        "available": true
+      },
+      {
+        "type": 0,
+        "id": "교재 미포함",
+        "parts": [
+          "교재 미포함"
+        ],
+        "price": 0,
+        "available": true
+      },
+      {
+        "type": 0,
+        "id": "품절 옵션",
+        "parts": [
+          "품절 옵션"
+        ],
+        "price": 0,
+        "available": false
+      }
+    ]
+  },
+  "reviewSummary": {
+    "count": 3,
+    "averageScore": 4.666666666666667
+  },
+  "form": {
+    "action": "/shop/cartupdate.php",
+    "method": "POST"
+  }
+}
