@@ -116,9 +116,20 @@ export function FaqContent({
   const [open, setOpen] = useState<number | null>(null);
   return (
     <>
-      <div className="position-relative overflow-hidden text-center text-white py-5 mb-5">
-        <div className="position-absolute top-50 start-50 translate-middle w-100 h-100 opacity-25 pointer-events-none" />
-        <div className="container position-relative z-1 py-4">
+      <div
+        className="position-relative overflow-hidden text-center text-white py-5 mb-5"
+        style={{
+          background: 'linear-gradient(135deg, #0b0f19 0%, #151c2c 100%)',
+          borderRadius: '0 0 24px 24px',
+        }}
+      >
+        <div
+          className="position-absolute top-50 start-50 translate-middle w-100 h-100 opacity-25 pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,183,3,0.2) 0%, rgba(0,0,0,0) 70%)',
+          }}
+        />
+        <div className="container position-relative z-1 py-4" data-aos="fade-up">
           <span className="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill fs-7 text-uppercase mb-3 shadow-sm">
             Nonsul-Learn Instructors
           </span>
@@ -128,7 +139,7 @@ export function FaqContent({
           </p>
         </div>
       </div>
-      <div className="container py-4">
+      <div className="container py-4" style={{ maxWidth: '1400px' }}>
         {faq.headerImage === null ? null : (
           <div id="faq_himg" className="faq_img mb-4 text-center">
             <Image
@@ -147,6 +158,7 @@ export function FaqContent({
           <form
             action="/bbs/faq.php"
             method="get"
+            name="faq_search_form"
             className="row g-3 justify-content-center align-items:center"
           >
             <input type="hidden" name="fm_id" value={faq.id} />
@@ -160,6 +172,7 @@ export function FaqContent({
               <input
                 type="text"
                 name="stx"
+                defaultValue=""
                 id="stx"
                 required
                 className="form-control"
@@ -168,7 +181,7 @@ export function FaqContent({
             </div>
             <div className="col-auto">
               <button type="submit" className="btn btn-success px-4">
-                검색
+                <i className="fa fa-search" aria-hidden="true" /> 검색
               </button>
             </div>
           </form>
@@ -202,6 +215,7 @@ export function FaqContent({
                       aria-expanded={isOpen}
                       aria-controls={`faq_collapse_${index}`}
                       onClick={() => setOpen(isOpen ? null : item.id)}
+                      style={{ fontSize: '1.05rem' }}
                     >
                       <span className="badge bg-success me-3 px-2 py-1">Q</span>
                       <span dangerouslySetInnerHTML={{ __html: item.questionHtml }} />
@@ -211,8 +225,12 @@ export function FaqContent({
                     id={`faq_collapse_${index}`}
                     className={`accordion-collapse collapse ${isOpen ? 'show' : ''}`}
                     aria-labelledby={`heading_${index}`}
+                    data-bs-parent="#faqAccordion"
                   >
-                    <div className="accordion-body px-4 py-4 bg-light text-secondary">
+                    <div
+                      className="accordion-body px-4 py-4 bg-light text-secondary"
+                      style={{ lineHeight: '1.7' }}
+                    >
                       <div className="d-flex align-items-start gap-3">
                         <span className="badge bg-secondary px-2 py-1 mt-1">A</span>
                         <div
