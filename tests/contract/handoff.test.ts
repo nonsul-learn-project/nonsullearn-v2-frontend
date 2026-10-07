@@ -28,9 +28,9 @@ describe('Legacy URL 지도 (docs/discovery/legacy-url-map.md)', () => {
     ],
     ['notice', legacyRoutes.notice(), `${legacyBase}/bbs/board.php?bo_table=notice`],
     ['briefing', legacyRoutes.briefing(), `${legacyBase}/bbs/board.php?bo_table=briefing`],
-    ['aboutCeo', legacyRoutes.aboutCeo(), `${legacyBase}/ceo_message`],
-    ['aboutTeacher', legacyRoutes.aboutTeacher(), `${legacyBase}/teacher`],
-    ['aboutCorrection', legacyRoutes.aboutCorrection(), `${legacyBase}/correction.php`],
+    ['aboutCeo', legacyRoutes.aboutCeo(), '/about'],
+    ['aboutTeacher', legacyRoutes.aboutTeacher(), '/teachers'],
+    ['aboutCorrection', legacyRoutes.aboutCorrection(), '/correction-system'],
     ['admin', legacyRoutes.admin(), `${legacyBase}/uAdmin`],
   ])('%s', (_name, actual, expected) => {
     expect(actual).toBe(expected);
@@ -41,7 +41,7 @@ describe('Legacy URL 지도 (docs/discovery/legacy-url-map.md)', () => {
   });
 
   it('courseDetail 은 it_id 를 붙인다', () => {
-    expect(legacyRoutes.courseDetail('1001')).toBe(`${legacyBase}/shop/item.php?it_id=1001`);
+    expect(legacyRoutes.courseDetail('1001')).toBe('/courses/1001');
   });
 });
 
@@ -62,7 +62,7 @@ describe('쿼리 인코딩', () => {
     expect(legacyRoutes.courseList('10 10&x=1')).toBe(
       `${legacyBase}/shop/list.php?ca_id=10%2010%26x%3D1`,
     );
-    expect(legacyRoutes.courseDetail('a/b')).toBe(`${legacyBase}/shop/item.php?it_id=a%2Fb`);
+    expect(legacyRoutes.courseDetail('a/b')).toBe('/courses/a%2Fb');
   });
 });
 

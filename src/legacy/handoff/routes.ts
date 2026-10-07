@@ -6,6 +6,10 @@ import { clientEnv } from '@/env.client';
  * 근거: `docs/discovery/legacy-url-map.md` (상태 DONE-BASELINE).
  * AGENTS.md §7.3: 문자열 URL 하드코딩 금지. 이 파일 밖에서 Legacy 경로를 쓰지 않는다.
  *
+ * Gate 8 에서 V2 로 이전된 페이지(`/about` `/teachers` `/correction-system` `/company`
+ * `/terms` `/privacy` `/faq/1`)는 Legacy base 를 붙이지 않고 V2 내부 경로를 그대로 돌려준다.
+ * 아직 Legacy 가 소유한 나머지는 그대로 Legacy 절대 URL 이다.
+ *
  * `NEXT_PUBLIC_LEGACY_BASE_URL`이 빈 문자열이면 결과도 상대경로가 된다.
  * 운영은 Apache 정문이 같은 도메인이므로 그게 정답이다.
  */
@@ -55,10 +59,10 @@ export const legacyRoutes = {
   correctionStatus: (): string => legacyUrl('/bbs/board.php', { bo_table: 'correcting' }),
 
   notice: (): string => legacyUrl('/bbs/board.php', { bo_table: 'notice' }),
-  learningFaq: (): string => legacyUrl('/bbs/faq.php', { fm_id: '1' }),
-  terms: (): string => legacyUrl('/bbs/content.php', { co_id: 'provision' }),
-  privacy: (): string => legacyUrl('/bbs/content.php', { co_id: 'privacy' }),
-  businessInfo: (): string => legacyUrl('/kyhinfo.php'),
+  learningFaq: (): string => '/faq/1',
+  terms: (): string => '/terms',
+  privacy: (): string => '/privacy',
+  businessInfo: (): string => '/company',
 
   /** 현장강의설명회. */
   briefing: (): string => legacyUrl('/bbs/board.php', { bo_table: 'briefing' }),
@@ -66,8 +70,17 @@ export const legacyRoutes = {
   /** 강좌 목록. `caId`는 강사별 분류 번호 (예: 인문논술 김윤환 1010). */
   courseList: (caId: string): string => legacyUrl('/shop/list.php', { ca_id: caId }),
 
-  /** 강좌 상세. */
-  courseDetail: (itId: string): string => legacyUrl('/shop/item.php', { it_id: itId }),
+  /** 강좌 상세. Gate 8 에서 V2 가 소유한다. `ca_id` 같은 다른 쿼리는 버린다. */
+  courseDetail: (itId: string): string => `/courses/${encodeURIComponent(itId)}`,
+
+  /**
+   * 같은 강좌의 **Legacy** 절대 URL.
+   *
+   * 두 곳만 이걸 쓴다:
+   *   - 인증 필요 카테고리 handoff — `courseDetail()` 로 보내면 V2 가 자기 자신으로 무한 리다이렉트한다.
+   *   - SNS 공유 링크 — 외부 서비스에 넘기므로 상대경로가 아니라 절대 URL 이어야 한다.
+   */
+  courseDetailLegacy: (itId: string): string => legacyUrl('/shop/item.php', { it_id: itId }),
 
   /**
    * 장바구니/바로구매 처리. `shop/item.php` 의 `<form action>` 과 같은 곳이다.
@@ -95,9 +108,9 @@ export const legacyRoutes = {
   courseLargeImage: (itId: string, no: number): string =>
     legacyUrl('/shop/largeimage.php', { it_id: itId, no: String(no) }),
 
-  aboutCeo: (): string => legacyUrl('/ceo_message'),
-  aboutTeacher: (): string => legacyUrl('/teacher'),
-  aboutCorrection: (): string => legacyUrl('/correction.php'),
+  aboutCeo: (): string => '/about',
+  aboutTeacher: (): string => '/teachers',
+  aboutCorrection: (): string => '/correction-system',
 
   /** 관리자. `capabilities.admin`이 true일 때만 노출한다. */
   admin: (): string => legacyUrl('/uAdmin'),

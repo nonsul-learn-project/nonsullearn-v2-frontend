@@ -119,7 +119,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
    * 보내고, 인증된 사용자에게는 정상 화면을 준다.
    */
   if (requiresLegacyCertification(course.item.category)) {
-    redirect(legacyRoutes.courseDetail(course.item.id));
+    redirect(legacyRoutes.courseDetailLegacy(course.item.id));
   }
 
   /**

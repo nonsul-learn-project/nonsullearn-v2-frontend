@@ -244,7 +244,7 @@ export function CourseOrderForm({ course, siblings }: CourseOrderFormProps) {
     track('begin_checkout', { courseId: item.id, salePrice: item.price });
   }
 
-  const shareUrl = legacyRoutes.courseDetail(item.id);
+  const shareUrl = legacyRoutes.courseDetailLegacy(item.id);
   const shareTitle = `${item.name} | 논술런`;
 
   return (

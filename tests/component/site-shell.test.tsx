@@ -41,15 +41,15 @@ describe('site shell legacy parity', () => {
 
     expect(screen.getByRole('link', { name: '[정보조회]' })).toHaveAttribute(
       'href',
-      'https://nonsul-learn.com/kyhinfo.php',
+      '/company',
     );
     expect(screen.getByRole('link', { name: '이용약관' })).toHaveAttribute(
       'href',
-      'https://nonsul-learn.com/bbs/content.php?co_id=provision',
+      '/terms',
     );
     expect(screen.getByRole('link', { name: '개인정보처리방침' })).toHaveAttribute(
       'href',
-      'https://nonsul-learn.com/bbs/content.php?co_id=privacy',
+      '/privacy',
     );
 
     await user.selectOptions(

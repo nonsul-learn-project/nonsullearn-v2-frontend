@@ -331,12 +331,8 @@ describe('형제 강좌 — Legacy sit_siblings', () => {
         siblings={{ previous: '2002', next: '1000' }}
       />,
     );
-    expect(document.querySelector('#siblings_prev')?.getAttribute('href')).toBe(
-      'https://nonsul-learn.com/shop/item.php?it_id=2002',
-    );
-    expect(document.querySelector('#siblings_next')?.getAttribute('href')).toBe(
-      'https://nonsul-learn.com/shop/item.php?it_id=1000',
-    );
+    expect(document.querySelector('#siblings_prev')?.getAttribute('href')).toBe('/courses/2002');
+    expect(document.querySelector('#siblings_next')?.getAttribute('href')).toBe('/courses/1000');
   });
 });
 
