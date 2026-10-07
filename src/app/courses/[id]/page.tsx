@@ -46,19 +46,23 @@ interface CoursePageProps {
 }
 
 /**
- * **ISR 을 켜려면 이 함수가 있어야 한다.** 없으면 Next 가 `[id]` 를 full route cache 에
- * 등록하지 않고(빌드 산출물 `prerender-manifest.json` 의 `dynamicRoutes` 가 비어 있다)
- * 응답에 `Cache-Control: no-store` 를 붙여 요청마다 다시 렌더한다.
+ * **빈 배열을 돌려주지만 함수 자체는 있어야 한다.**
  *
- * 카탈로그에 있는 강좌는 빌드 때 미리 만들고, 그 뒤에 생긴 강좌는 `dynamicParams`
- * 기본값(true)대로 첫 요청에 만들어 캐시한다.
+ * 함수가 없으면 Next 가 `[id]` 를 full route cache 에 등록하지 않고
+ * (`prerender-manifest.json` 의 `dynamicRoutes` 가 빈다) 응답에 `Cache-Control: no-store` 를
+ * 붙여 요청마다 다시 렌더한다. 그래서 ISR 을 켜는 스위치로 남겨 둔다.
  *
- * 목록 조회가 실패해도 빌드를 깨지 않는다 — 빈 배열이면 전부 on-demand 로 떨어질 뿐이다.
- * Bridge 가 잠깐 흔들릴 때 배포가 막히는 쪽이 더 나쁘다.
+ * 빈 배열인 이유: 빌드 때 Bridge 를 부르지 않기 위해서다. 카탈로그 39개를 모두 prerender 하면
+ * 빌드가 Bridge 왕복 40번에 묶이고, Vercel 빌드 환경에서 `LEGACY_BRIDGE_TIMEOUT_MS`(기본 3s)를
+ * 넘기는 순간 `AbortError`(DOMException)로 **배포 전체가 실패**했다
+ * ("Export encountered an error on /courses/[id]/page").
+ * Bridge 가 느린 것과 배포가 막히는 것은 분리해야 한다.
+ *
+ * 모든 강좌는 `dynamicParams` 기본값(true)대로 첫 요청에 렌더되고 `revalidate` 주기로
+ * 캐시된다. 첫 요청만 느리고 그 뒤는 같다.
  */
 export async function generateStaticParams(): Promise<{ id: string }[]> {
-  const courses = await getCourses().catch(() => []);
-  return courses.map((course) => ({ id: course.id }));
+  return [];
 }
 
 /**
