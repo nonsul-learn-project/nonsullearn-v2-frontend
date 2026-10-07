@@ -1,0 +1,41 @@
+{
+  "v": 1,
+  "category": {
+    "id": "10",
+    "name": "인문논술",
+    "headHtml": "",
+    "tailHtml": "",
+    "skin": "list.10.skin.php",
+    "customHeadInclude": false,
+    "customTailInclude": false
+  },
+  "pagination": {
+    "page": 1,
+    "perPage": 15,
+    "totalCount": 30,
+    "totalPages": 2,
+    "pagesShown": 10
+  },
+  "items": [
+    {
+      "id": "1791259062",
+      "name": "[시대재종생 대상] 연세대 26학년도 기출특강",
+      "basicHtml": "[시대재종생 대상] 연세대 26학년도 기출특강 ",
+      "image": "https://evil.test/data/item/1/a.png",
+      "price": 30000,
+      "listPrice": 110000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    }
+  ]
+}

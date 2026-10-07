@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "category-list.v1",
+  "description": "GET /v2-api/category-list.php?id=<ca_id>&page=<n> — Legacy shop/list.php?ca_id= 와 같은 분류 목록. 없는 분류는 404, 접근 제한 분류는 403 {error:\"restricted\"} 이다.",
+  "type": "object",
+  "required": ["v", "category", "pagination", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "v": { "const": 1 },
+    "category": { "$ref": "#/$defs/category" },
+    "pagination": { "$ref": "#/$defs/pagination" },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/item" } }
+  },
+  "$defs": {
+    "category": {
+      "type": "object",
+      "required": ["id", "name", "headHtml", "tailHtml", "skin", "customHeadInclude", "customTailInclude"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" },
+        "headHtml": { "type": "string" },
+        "tailHtml": { "type": "string" },
+        "skin": { "type": "string" },
+        "customHeadInclude": { "type": "boolean" },
+        "customTailInclude": { "type": "boolean" }
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "required": ["page", "perPage", "totalCount", "totalPages", "pagesShown"],
+      "additionalProperties": false,
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "perPage": { "type": "integer", "minimum": 1 },
+        "totalCount": { "type": "integer", "minimum": 0 },
+        "totalPages": { "type": "integer", "minimum": 0 },
+        "pagesShown": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": ["id", "name", "basicHtml", "image", "price", "listPrice", "priceOnInquiry", "soldOut", "averageScore", "star", "badges"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,20}$" },
+        "name": { "type": "string", "minLength": 1 },
+        "basicHtml": { "type": "string" },
+        "image": { "oneOf": [{ "type": "string", "pattern": "^/(?!/)" }, { "type": "null" }] },
+        "price": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
+        "listPrice": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
+        "priceOnInquiry": { "type": "boolean" },
+        "soldOut": { "type": "boolean" },
+        "averageScore": { "oneOf": [{ "type": "number", "minimum": 0 }, { "type": "null" }] },
+        "star": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
+        "badges": { "$ref": "#/$defs/badges" }
+      }
+    },
+    "badges": {
+      "type": "object",
+      "description": "Legacy item_icon() 이 it_type1~5 와 쿠폰 유무로 그리는 배지.",
+      "required": ["hit", "recommend", "new", "popular", "discount", "coupon"],
+      "additionalProperties": false,
+      "properties": {
+        "hit": { "type": "boolean" },
+        "recommend": { "type": "boolean" },
+        "new": { "type": "boolean" },
+        "popular": { "type": "boolean" },
+        "discount": { "type": "boolean" },
+        "coupon": { "type": "boolean" }
+      }
+    }
+  }
+}

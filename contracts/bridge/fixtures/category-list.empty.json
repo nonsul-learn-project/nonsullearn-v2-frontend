@@ -1,0 +1,20 @@
+{
+  "v": 1,
+  "category": {
+    "id": "99",
+    "name": "빈 분류",
+    "headHtml": "",
+    "tailHtml": "",
+    "skin": "list.10.skin.php",
+    "customHeadInclude": false,
+    "customTailInclude": false
+  },
+  "pagination": {
+    "page": 1,
+    "perPage": 15,
+    "totalCount": 0,
+    "totalPages": 0,
+    "pagesShown": 10
+  },
+  "items": []
+}

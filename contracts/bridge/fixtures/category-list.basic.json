@@ -1,0 +1,321 @@
+{
+  "v": 1,
+  "category": {
+    "id": "10",
+    "name": "\uc778\ubb38\ub17c\uc220",
+    "headHtml": "",
+    "tailHtml": "",
+    "skin": "list.10.skin.php",
+    "customHeadInclude": false,
+    "customTailInclude": false
+  },
+  "pagination": {
+    "page": 1,
+    "perPage": 15,
+    "totalCount": 30,
+    "totalPages": 2,
+    "pagesShown": 10
+  },
+  "items": [
+    {
+      "id": "1791259062",
+      "name": "[\uc2dc\ub300\uc7ac\uc885\uc0dd \ub300\uc0c1] \uc5f0\uc138\ub300 26\ud559\ub144\ub3c4 \uae30\ucd9c\ud2b9\uac15",
+      "basicHtml": "[\uc2dc\ub300\uc7ac\uc885\uc0dd \ub300\uc0c1] \uc5f0\uc138\ub300 26\ud559\ub144\ub3c4 \uae30\ucd9c\ud2b9\uac15 ",
+      "image": "/data/item/1791259062/7J2466y464W87Iig_149.png",
+      "price": 30000,
+      "listPrice": 110000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1789020094",
+      "name": "\uc778\ubb38\ub17c\uc220 \uae30\ubcf8\ubc18 \uc555\ucd95\ud2b9\uac15 4\ud68c",
+      "basicHtml": "\uae30\ucd08\uc640 \uc2e4\uc804\uc744 \ud55c\ubc29\uc5d0 \uc7a1\ub294 \uac15\uc758",
+      "image": "/data/item/1789020094/_9.png",
+      "price": 284800,
+      "listPrice": 440000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": true,
+        "new": false,
+        "popular": true,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1787805378",
+      "name": "\uc5f0\uc138\ub300 \uace0\ub09c\ub3c4 \uc218\ub9ac\uc608\uc0c1\ubb38\uc81c \ud2b9\uac15 (\ucd1d4\ud68c)",
+      "basicHtml": "\uc5f0\uc138\ub300 2-2\ubc88 \uc218\ub9ac\ub17c\uc220 \uc9d1\uc911 \ud574\uc124\uac15\uc758",
+      "image": "/data/item/1787805378/7J2466y464W87Iig_114.png",
+      "price": 297000,
+      "listPrice": 440000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1787628029",
+      "name": "\uc219\uba85\uc5ec\ub300 \ud30c\uc774\ub110 (\ucd1d2\ud68c)",
+      "basicHtml": "\uae40\uc724\ud658\ub17c\uc220\uc758 \ub178\ud558\uc6b0 \ucd1d\uc9d1\uacb0, \uc219\uba85\uc5ec\ub300 \ud569\uaca9\ub2f5\uc548 \uad6c\uc870/\ub17c\ub9ac/\ud45c\ud604 \uc9d1\uc911 \uc5f0\uc2b5",
+      "image": "/data/item/1787628029/7J2466y464W87Iig_111.png",
+      "price": 148500,
+      "listPrice": 220000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1786753309",
+      "name": "[8\uc6d4\ub2e8\uae30\ud2b9\uac15] \ub3c4\ud45c\uc790\ub8cc\ud574\uc11d 1\ud68c \ud2b9\uac15",
+      "basicHtml": "\uc778\ubb38\ub17c\uc220 \uc790\ub8cc\ubd84\uc11d \uc6d0\ud3ec\uc778\ud2b8 \uac15\uc758",
+      "image": "/data/item/1786753309/7J2466y464W87Iig_7I2464Sk7J286.png",
+      "price": 71200,
+      "listPrice": 110000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": true,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1784089868",
+      "name": "[\uc5ec\ub984\ud2b9\uac15] \uc778\ubb38\ub17c\uc220 \uc5f0\uace0\uc131\uc11c\ubc18 8\ud68c",
+      "basicHtml": "\uc5f0\uace0\uc131\uc11c\ub300 \uc911\uc2ec\uc758 \uc2e4\uc804\ubb38\ud56d\uc744 \ud3ed\ub113\uac8c \uc9c4\ud589\ud558\ub294 \uc2e4\uc804\ubc18",
+      "image": "/data/item/1784089868/_16.png",
+      "price": 569600,
+      "listPrice": 880000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": true,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1782971323",
+      "name": "[\uc5ec\ub984\ud2b9\uac15] \uc778\ubb38\ub17c\uc220 \uc5f0\uc138\ub300\ubc18 8\ud68c",
+      "basicHtml": "\uc5f0\uc138\ub300 \uc778\ubb38\ub17c\uc220 \ud569\uaca9\uc0dd\ub4e4\uc774 \uc120\ud0dd\ud55c \ud544\uc218\uac15\uc88c",
+      "image": "/data/item/1782971323/_11.png",
+      "price": 569600,
+      "listPrice": 880000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": true,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1782969513",
+      "name": "[\uc5ec\ub984\ud2b9\uac15] \uc778\ubb38\ub17c\uc220 \uc815\uaddc\uc2e4\uc804\ubc183",
+      "basicHtml": "\uc778\uc11c\uc6b8 \uc8fc\uc694 \ub300\ud559\uc758 \uc2e4\uc804 \ubb38\ud56d\ub4e4\uc744 \ud3ed\ub113\uac8c \uc5f0\uc2b5",
+      "image": "/data/item/1782969513/_10.png",
+      "price": 569600,
+      "listPrice": 880000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": true,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1779696009",
+      "name": "\uc778\ubb38\ub17c\uc220 \ub3c4\ud45c\uc790\ub8cc\ud574\uc11d \ud2b9\uac15",
+      "basicHtml": "\ub3c4\ud45c \uc790\ub8cc\ud574\uc11d\uc758 \uae30\ubcf8\uad6c\uc870 + \ubcc0\ubcc4 \ud3ec\uc778\ud2b8 + \uc228\uaca8\uc9c4 \ud568\uc815 \ucc3e\uae30",
+      "image": "/data/item/1779696009/_5.png",
+      "price": 71200,
+      "listPrice": 110000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1776821858",
+      "name": "\uc778\ubb38\ub17c\uc220 \uae30\ubcf8\ubc18 \uc555\ucd95\ud2b9\uac15 5\ud68c",
+      "basicHtml": "\uae30\ucd08\uc640 \uc2e4\uc804\uc744 \ud55c\ubc29\uc5d0 \uc7a1\ub294 \uac15\uc758",
+      "image": "/data/item/1776821858/KakaoTalk_20260519_185601209.png",
+      "price": 356000,
+      "listPrice": 550000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": true,
+        "new": true,
+        "popular": true,
+        "discount": false,
+        "coupon": true
+      }
+    },
+    {
+      "id": "1771122096",
+      "name": "[BEST\uac15\uc88c] \uc778\ubb38\ub17c\uc220 \uae30\ubcf8\ubc18 7\ud68c",
+      "basicHtml": "\uae30\ucd08\uc640 \uc2e4\uc804\uc744 \ud55c\ubc29\uc5d0 \uc7a1\ub294 \uac15\uc758",
+      "image": "/data/item/1771122096/6rCV7J2Y67Cw64SI_860x486_7ISg66qF.png",
+      "price": 498400,
+      "listPrice": 770000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": false,
+        "popular": true,
+        "discount": false,
+        "coupon": true
+      }
+    },
+    {
+      "id": "1781593666",
+      "name": "[\uc5ec\ub984\ud2b9\uac15] 3\uc8fc \uae30\ubcf8\uc644\uc131\ubc18",
+      "basicHtml": "\ub17c\uc220\uc774 \ucc98\uc74c\uc778 \ud559\uc0dd\uc744 \uc704\ud55c 3\uc8fc \uc644\uc131\uc758 \uae30\ucd08\uac15\uc758",
+      "image": "/data/item/1781593666/7J2466y464W87Iig_7I2464Sk7J285.png",
+      "price": 213600,
+      "listPrice": 330000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": true,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1781590481",
+      "name": "[\uc5ec\ub984\ud2b9\uac15] 2\ud569 \ubaa9\ud45c \uc2e4\uc804\uae30\ucd9c\ubc18 6\ud68c",
+      "basicHtml": "2\ud569 \ub77c\uc778 \ud559\uad50 \uc2e4\uc804\uae30\ucd9c \ubb38\uc81c \ud480\uc774\uc5d0 \uc8fc\ub825\ud55c \uc218\uc5c5",
+      "image": "/data/item/1781590481/7J2466y464W87Iig_7I2464Sk7J283.png",
+      "price": 427200,
+      "listPrice": 660000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1787990300",
+      "name": "\uace0\ub824\ub300 \ud30c\uc774\ub110 (\ucd1d4\ud68c)",
+      "basicHtml": "\uae40\uc724\ud658\ub17c\uc220\uc758 \ub178\ud558\uc6b0 \ucd1d\uc9d1\uacb0",
+      "image": "/data/item/1787990300/7J2466y464W87Iig_115.png",
+      "price": 297000,
+      "listPrice": 440000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    },
+    {
+      "id": "1782353970",
+      "name": "[\uc5ec\ub984\ud2b9\uac15] 3\ud569 \ubaa9\ud45c \uc2e4\uc804\uae30\ucd9c\ubc18 6\ud68c",
+      "basicHtml": "3\ud569 6~7 \ub77c\uc778 \ud639\uc740 \uadf8 \uc774\uc0c1\uc774 \ubaa9\ud45c\uc778 \ud559\uad50\uc5d0 \uc8fc\ub825\ud55c \uc218\uc5c5",
+      "image": "/data/item/1782353970/7J2466y464W87Iig_7I2464Sk7J282.png",
+      "price": 427200,
+      "listPrice": 660000,
+      "priceOnInquiry": false,
+      "soldOut": false,
+      "averageScore": null,
+      "star": 0,
+      "badges": {
+        "hit": false,
+        "recommend": false,
+        "new": true,
+        "popular": false,
+        "discount": false,
+        "coupon": false
+      }
+    }
+  ]
+}

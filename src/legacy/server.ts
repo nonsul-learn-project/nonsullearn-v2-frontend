@@ -19,6 +19,15 @@ export {
 } from './adapters/course';
 
 export { getContent, getFaq, getTeachers } from './adapters/public-pages';
+export { getCategoryList } from './adapters/category-list';
+export { categoryIdSchema } from './contracts/category-list';
+export type {
+  CategoryListResponse,
+  CategoryListItem,
+  CategoryListCategory,
+  CategoryListPagination,
+  CategoryListBadges,
+} from './contracts/category-list';
 export { faqIdSchema } from './contracts/public-pages';
 export type { Content, Faq, Teacher } from './contracts/public-pages';
 

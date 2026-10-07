@@ -59,7 +59,7 @@ export const legacyRoutes = {
   correctionStatus: (): string => legacyUrl('/bbs/board.php', { bo_table: 'correcting' }),
 
   notice: (): string => legacyUrl('/bbs/board.php', { bo_table: 'notice' }),
-  learningFaq: (): string => '/faq/1',
+  learningFaq: (masterId = 1): string => `/faq/${masterId}`,
   terms: (): string => '/terms',
   privacy: (): string => '/privacy',
   businessInfo: (): string => '/company',
@@ -69,6 +69,16 @@ export const legacyRoutes = {
 
   /** 강좌 목록. `caId`는 강사별 분류 번호 (예: 인문논술 김윤환 1010). */
   courseList: (caId: string): string => legacyUrl('/shop/list.php', { ca_id: caId }),
+
+  /**
+   * 분류 목록의 n 페이지. V2 는 1페이지만 렌더하므로 2페이지 이후는 Legacy 가 받는다.
+   * Legacy `get_paging_nn()` 이 만드는 쿼리 순서(`ca_id`, `sort`, `sortodr`, `page`)를 따른다.
+   */
+  courseListPage: (caId: string, page: number): string =>
+    legacyUrl('/shop/list.php', { ca_id: caId, sort: '', sortodr: '', page: String(page) }),
+
+  /** 강좌 검색. `list.10.skin.php` 의 검색바가 GET 으로 보낸다. */
+  courseSearch: (): string => legacyUrl('/shop/search.php'),
 
   /** 강좌 상세. Gate 8 에서 V2 가 소유한다. `ca_id` 같은 다른 쿼리는 버린다. */
   courseDetail: (itId: string): string => `/courses/${encodeURIComponent(itId)}`,

@@ -62,6 +62,14 @@ export type {
   CourseForm,
 } from './contracts/course-full';
 
+export type {
+  CategoryListResponse,
+  CategoryListItem,
+  CategoryListCategory,
+  CategoryListPagination,
+  CategoryListBadges,
+} from './contracts/category-list';
+
 export { LEGACY_COMMUNITY_ROWS } from './contracts/course-community';
 
 export type {

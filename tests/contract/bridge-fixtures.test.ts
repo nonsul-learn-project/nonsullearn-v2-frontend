@@ -4,6 +4,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
+import { categoryListResponseSchema } from '@/legacy/contracts/category-list';
 import { courseCommunityResponseSchema } from '@/legacy/contracts/course-community';
 import {
   bridgeErrorResponseSchema,
@@ -34,6 +35,7 @@ const schemas: Record<string, z.ZodType<unknown>> = {
   // Gate 8 — `/v2-api/course-detail.php` 와 `/v2-api/course-community.php`.
   'course-full': courseFullResponseSchema,
   'course-community': courseCommunityResponseSchema,
+  'category-list': categoryListResponseSchema,
   error: bridgeErrorResponseSchema,
 };
 
