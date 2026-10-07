@@ -1,0 +1,5 @@
+import type { Metadata } from 'next'; import { notFound } from 'next/navigation';
+import { SiteShell } from '@/features/site-shell/SiteShell'; import { HtmlContent } from '@/features/public-pages/PublicPages'; import { enforceProxy } from '@/env.server'; import { getContent } from '@/legacy/server'; import { sanitizeLegacyHtml } from '@/lib/sanitize-legacy-html';
+import '@/features/public-pages/legacy-public-pages.css';
+export const revalidate = 300; export const metadata: Metadata = { title: '개인정보 처리방침', description: '논술런 개인정보 처리방침', alternates: { canonical: 'https://nonsul-learn.com/privacy' }, robots: { index: enforceProxy, follow: enforceProxy } };
+export default async function PrivacyPage() { const content = await getContent('privacy'); if (!content) notFound(); return <SiteShell><HtmlContent id={content.id} title={content.title} html={sanitizeLegacyHtml(content.contentHtml)} /></SiteShell>; }

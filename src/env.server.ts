@@ -11,6 +11,7 @@ import { formatIssues } from '@/env.client';
  * source가 mock일 때 Bridge 값과 proxy secret은 읽지 않는다.
  */
 export const serverEnvSchema = z.object({
+  VERCEL_ENV: z.preprocess((value) => value === '' ? undefined : value, z.enum(['development', 'preview', 'production']).default('development')),
   COURSE_SOURCE: z.enum(['mock', 'http']).default('mock'),
   LEGACY_BRIDGE_BASE: z
     .url()
@@ -50,6 +51,7 @@ export function parseServerEnv(source: Record<string, string | undefined>): Serv
 }
 
 export const serverEnv: ServerEnv = parseServerEnv({
+  VERCEL_ENV: process.env.VERCEL_ENV,
   COURSE_SOURCE: process.env.COURSE_SOURCE,
   LEGACY_BRIDGE_BASE: process.env.LEGACY_BRIDGE_BASE,
   LEGACY_BRIDGE_TIMEOUT_MS: process.env.LEGACY_BRIDGE_TIMEOUT_MS,
@@ -69,3 +71,10 @@ export const enforceProxy: boolean = serverEnv.V2_ENFORCE_PROXY === 'true';
 
 /** AGENTS.md §6.3: 강좌 페이지 ISR 주기. */
 export const courseRevalidateSeconds: number = serverEnv.COURSE_REVALIDATE_SECONDS;
+
+/** Call from every public-data adapter before selecting a mock implementation. */
+export function assertHostedBridgeConfigured(): void {
+  if ((serverEnv.VERCEL_ENV === 'preview' || serverEnv.VERCEL_ENV === 'production') && serverEnv.LEGACY_BRIDGE_BASE === undefined) {
+    throw new Error('Vercel Preview/Production에는 LEGACY_BRIDGE_BASE가 필수다. mock fallback은 로컬·CI에서만 허용된다.');
+  }
+}

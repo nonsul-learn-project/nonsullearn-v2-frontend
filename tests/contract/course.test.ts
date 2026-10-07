@@ -93,8 +93,8 @@ describe('필수 필드', () => {
 });
 
 describe('가격', () => {
-  it('price 는 null 이 될 수 없다', () => {
-    expect(courseSchema.safeParse({ ...course, price: null }).success).toBe(false);
+  it('price 는 nullable 이다', () => {
+    expect(courseSchema.safeParse({ ...course, price: null }).success).toBe(true);
   });
 
   it('listPrice 는 nullable 이다 (할인 없음)', () => {

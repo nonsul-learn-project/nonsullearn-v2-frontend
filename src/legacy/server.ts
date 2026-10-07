@@ -17,3 +17,6 @@ export {
   getCoursesState,
   type GetCourseOptions,
 } from './adapters/course';
+export { getContent, getFaq, getTeachers } from './adapters/public-pages';
+export type { Content, Faq, Teacher } from './contracts/public-pages';
+export { faqIdSchema } from './contracts/public-pages';

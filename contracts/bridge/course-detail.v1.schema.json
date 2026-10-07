@@ -28,7 +28,7 @@
         "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,20}$" },
         "title": { "type": "string", "minLength": 1 },
         "summary": { "type": "string" },
-        "price": { "type": "integer", "minimum": 0 },
+        "price": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
         "listPrice": { "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
         "priceOnInquiry": { "type": "boolean" },
         "soldOut": { "type": "boolean" },

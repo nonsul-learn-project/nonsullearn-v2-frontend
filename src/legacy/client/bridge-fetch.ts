@@ -107,7 +107,9 @@ export async function parseBridgeResponse<T>(options: {
     throw new BridgeError(
       'contract',
       path,
-      `Contract와 맞지 않다: ${parsed.error.issues.map((issue) => issue.path.join('.')).join(', ')}`,
+      `Contract와 맞지 않다: ${parsed.error.issues
+        .map((issue) => `${issue.path.join('.') || '(root)'}: ${issue.message}`)
+        .join(', ')}`,
       { status: response.status },
     );
   }
