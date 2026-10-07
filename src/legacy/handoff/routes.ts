@@ -69,6 +69,32 @@ export const legacyRoutes = {
   /** 강좌 상세. */
   courseDetail: (itId: string): string => legacyUrl('/shop/item.php', { it_id: itId }),
 
+  /**
+   * 장바구니/바로구매 처리. `shop/item.php` 의 `<form action>` 과 같은 곳이다.
+   *
+   * **Bridge 가 이 경로를 `form.action` 으로 같이 준다.** 상세 페이지는 Bridge 값을 쓰고,
+   * 이 함수는 Bridge 를 못 받았을 때의 기준값이자 Legacy URL 단일 출처 역할이다.
+   */
+  cartUpdate: (): string => legacyUrl('/shop/cartupdate.php'),
+
+  /** 강의후기 목록. 상세 페이지의 "더 보기"가 여기로 보낸다. */
+  courseReviews: (itId: string): string => legacyUrl('/shop/itemuse.php', { it_id: itId }),
+
+  /** 강의문의 목록. */
+  courseQuestions: (itId: string): string => legacyUrl('/shop/itemqa.php', { it_id: itId }),
+
+  /** 강의후기 쓰기. Legacy 가 새 창(810x680)으로 띄우며 로그인 여부를 거기서 본다. */
+  courseReviewForm: (itId: string): string =>
+    legacyUrl('/shop/itemuseform.php', { it_id: itId }),
+
+  /** 강의문의 쓰기. */
+  courseQuestionForm: (itId: string): string =>
+    legacyUrl('/shop/itemqaform.php', { it_id: itId }),
+
+  /** 상품 원본 이미지 팝업. `no` 는 1부터 시작하는 이미지 순번이다. */
+  courseLargeImage: (itId: string, no: number): string =>
+    legacyUrl('/shop/largeimage.php', { it_id: itId, no: String(no) }),
+
   aboutCeo: (): string => legacyUrl('/ceo_message'),
   aboutTeacher: (): string => legacyUrl('/teacher'),
   aboutCorrection: (): string => legacyUrl('/correction.php'),

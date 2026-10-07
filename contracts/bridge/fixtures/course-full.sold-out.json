@@ -1,0 +1,29 @@
+{
+  "v": 1,
+  "item": {
+    "id": "1003",
+    "name": "품절 예시 강좌",
+    "basic": "하네스용 예시 강좌입니다. 실제 강좌가 아닙니다.",
+    "category": {
+      "id": "101020",
+      "name": "수리논술",
+      "requiresCertification": false,
+      "requiresAdultCertification": false
+    },
+    "price": 297000,
+    "listPrice": 440000,
+    "priceOnInquiry": false,
+    "soldOut": true,
+    "inStock": false,
+    "buyMinQty": 1,
+    "images": ["/data/item/1003/thumb.jpg"],
+    "descriptionHtml": "<p>품절된 강좌입니다.</p>",
+    "headHtml": "",
+    "tailHtml": "",
+    "information": { "product_name": "예시 수강대상", "model_name": "예시 내용 및 특징" },
+    "extra": { "1": "80", "2": "30", "3": "26.09.01 ~", "4": "40", "5": "4" }
+  },
+  "options": { "subjects": [], "supplySubjects": [], "items": [] },
+  "reviewSummary": { "count": 0, "averageScore": null },
+  "form": { "action": "/shop/cartupdate.php", "method": "POST" }
+}

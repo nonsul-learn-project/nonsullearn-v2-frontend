@@ -1,0 +1,347 @@
+/*
+ * Legacy `skin/shop/basic/style_2.css` 미러.
+ *
+ * 원본: nonsul-learn-html1 `html2/skin/shop/basic/style_2.css`
+ *       (운영 https://nonsul-learn.com/skin/shop/basic/style_2.css 와 동일)
+ * 확인: 2026-10-07
+ *
+ * `shop/item.php` 전용 CSS 다. `item.form.skin.php`/`item.info.skin.php`/`itemuse.skin.php`/
+ * `itemqa.skin.php` 가 `add_stylesheet()` 로 이 파일만 추가한다. 그래서 이 레포에서도
+ * **강좌 상세 라우트에서만** import 한다 (`src/app/courses/[id]/page.tsx`).
+ *
+ * `src/design-system/legacy/` 에 두지 않는 이유: 그쪽은 `main.css` 체크섬 동기화 전용이고
+ * (`pnpm check:legacy-css`), 전역으로 로드된다. 이 CSS 는 `#sit_*` id 선택자를 쓰므로
+ * 전역에 올려도 사고는 안 나지만, Legacy 가 페이지 전용으로 다루는 것을 그대로 따른다.
+ *
+ * 원본과 다른 점은 파일 맨 아래 "이 레포에만 필요한 보강" 블록 하나뿐이다.
+ * 그 위는 선택자·값 모두 원본과 같다.
+ */
+
+/* ==========================================================================
+   1400px 메인 컨테이너 레이아웃
+   ========================================================================== */
+.shop_list_container {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   히어로 영역 (Hero Banner Section - 최적화 통합)
+   ========================================================================== */
+.shop_hero_section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-bottom: 40px;
+  height: 280px;
+  background:
+    #121824
+      url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop')
+      no-repeat center center / cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.shop_hero_section .hero_overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.7);
+  z-index: 1;
+  border-radius: 0;
+}
+
+.shop_hero_section .hero_content {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.shop_hero_section .hero_sub_title {
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.shop_hero_section .hero_title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  letter-spacing: -1px;
+  line-height: 1.3;
+}
+
+.shop_hero_section .hero_desc {
+  font-size: 1rem;
+  color: #94a3b8;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   상품 상세(item.form) 및 요약정보 영역 레이아웃
+   ========================================================================== */
+#sit_ov_from {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+#sit_ov_wrap {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+#sit_pvi {
+  flex: 1;
+  position: sticky;
+  top: 20px;
+}
+
+#sit_pvi_big img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #eef0f3;
+  object-fit: contain;
+  height: auto;
+}
+
+.renewal_itemform {
+  flex: 1;
+  width: 100%;
+}
+
+.sit_ov_tbl {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.sit_ov_tbl th,
+.sit_ov_tbl td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f1f3f5;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.sit_ov_tbl th {
+  width: 120px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sit_btn_buy {
+  background: #2a5298;
+  color: #fff;
+  border: none;
+  padding: 16px 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sit_btn_buy:hover {
+  background: #1e3c72;
+}
+
+/* ==========================================================================
+   상품 상세 탭 메뉴 스타일
+   ========================================================================== */
+#sit_tab {
+  margin-top: 50px;
+}
+#sit_tab .tab_tit {
+  display: flex;
+  border-bottom: 2px solid #2a5298;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#sit_tab .tab_tit li {
+  flex: 1;
+  text-align: center;
+}
+#sit_tab .tab_tit li button {
+  width: 100%;
+  padding: 15px 0;
+  background: #f8f9fa;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#sit_tab .tab_tit li button.selected,
+#sit_tab .tab_tit li button:hover {
+  background: #2a5298;
+  color: #fff;
+}
+.tab_con > li {
+  padding: 30px 0;
+}
+
+/* ==========================================================================
+   강의후기 및 강의문의 아코디언 & 검색/팝업 스타일
+   ========================================================================== */
+.sit_qa_li,
+.sit_use_li {
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 20px;
+  background: #fff;
+}
+.sit_qa_con,
+.sit_use_con {
+  display: none;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #ddd;
+}
+.sit_qaa_done {
+  color: #2a5298;
+  font-weight: bold;
+}
+.sit_qaa_yet {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+#sqa_sch,
+#sps_sch {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.sch_wr {
+  display: flex;
+  flex: 1;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sch_input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+.sch_btn {
+  background: #2a5298;
+  color: #fff;
+  border: none;
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+.review_detail_cnt {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+.review_detail_in {
+  background: #fff;
+  width: 90%;
+  max-width: 600px;
+  padding: 30px;
+  border-radius: 12px;
+  position: relative;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.rd_cls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* 반응형 미디어쿼리 */
+@media (max-width: 992px) {
+  #sit_ov_wrap {
+    flex-direction: column;
+  }
+  #sit_pvi {
+    position: relative;
+    top: 0;
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   이 레포에만 필요한 보강 (원본 style_2.css 에 없는 부분)
+   ========================================================================== */
+
+/*
+ * Legacy 는 `src/nonsul-learn/css/common.css:206` 에서 `.sound_only { display: none }` 를
+ * 전역으로 깐다. 이 레포는 `main.css` 만 미러하고 있어서(`src/design-system/legacy/README.md`)
+ * 이 규칙이 없다. 없으면 `sound_only` 로 숨겨야 할 스크린리더 전용 문구가 화면에 그대로 뜬다.
+ *
+ * `common.css` 전체를 미러하면 전역 레이아웃(navbar, container)까지 들어와 홈이 바뀐다.
+ * 이 페이지가 쓰는 규칙만 가져온다.
+ */
+.sound_only {
+  display: none;
+}
+
+/*
+ * 아코디언을 React state 로 재현하므로 열린 상태를 CSS 로 표현해야 한다.
+ * Legacy 는 jQuery `slideDown()` 이 inline `display: block` 을 넣는다 — 같은 결과다.
+ */
+.sit_use_con.is_open,
+.sit_qa_con.is_open {
+  display: block;
+}
+
+/*
+ * Legacy 는 Bootstrap 과 함께 로드되고, 이 레포도 Bootstrap 5.3.2 를 전역으로 쓴다.
+ * Bootstrap reboot 가 `ol`/`ul` 에 주는 기본 padding 을 Legacy 스킨은 inline style 로
+ * 지운다(`style="list-style: none; padding: 0; margin: 0"`). 같은 값을 클래스로 둔다.
+ */
+#sit_use_ol,
+#sit_qa_ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

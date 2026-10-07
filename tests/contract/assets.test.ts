@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { COURSE_IMAGE_PLACEHOLDER, legacyAssetUrl } from '@/legacy';
+import {
+  COURSE_IMAGE_HEIGHT,
+  COURSE_IMAGE_PLACEHOLDER,
+  COURSE_IMAGE_WIDTH,
+  legacyAssetUrl,
+  legacyItemThumbnail,
+} from '@/legacy';
 
 /**
  * L1 — Legacy 자산 URL 결합.
@@ -66,5 +72,45 @@ describe('결과는 항상 렌더 가능한 값이다', () => {
     for (const input of [null, '', '/a.jpg', 'a.jpg', '//h/a.jpg', 'https://h/a.jpg']) {
       expect(legacyAssetUrl(input).length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe('legacyItemThumbnail — Legacy get_it_thumbnail()', () => {
+  it('thumb-{이름}_{너비}x{높이}{확장자} 를 만든다', () => {
+    // html2/lib/thumbnail.lib.php:277 의 이름 규칙.
+    // 운영 응답 확인: /data/item/1791259062/thumb-7J2466y464W87Iig_149_860x485.png
+    expect(legacyItemThumbnail('/data/item/1791259062/7J2466y464W87Iig_149.png').url).toBe(
+      'https://nonsul-learn.com/data/item/1791259062/thumb-7J2466y464W87Iig_149_860x485.png',
+    );
+  });
+
+  it('기본 크기는 shop/item.php 의 860x485 다', () => {
+    const thumbnail = legacyItemThumbnail('/data/item/1/a.jpg');
+    expect(thumbnail.width).toBe(COURSE_IMAGE_WIDTH);
+    expect(thumbnail.height).toBe(COURSE_IMAGE_HEIGHT);
+    expect(COURSE_IMAGE_WIDTH).toBe(860);
+    expect(COURSE_IMAGE_HEIGHT).toBe(485);
+  });
+
+  it('원본 URL 도 같이 준다 (썸네일이 아직 생성되지 않았을 때의 대안)', () => {
+    expect(legacyItemThumbnail('/data/item/1/a.jpg').originalUrl).toBe(
+      'https://nonsul-learn.com/data/item/1/a.jpg',
+    );
+  });
+
+  it('확장자가 없으면 썸네일 이름을 만들 수 없으므로 원본을 쓴다', () => {
+    const thumbnail = legacyItemThumbnail('/data/item/1/noext');
+    expect(thumbnail.url).toBe(thumbnail.originalUrl);
+  });
+
+  it('점으로 시작하는 파일명(숨김 파일)도 원본으로 떨어진다', () => {
+    const thumbnail = legacyItemThumbnail('/data/item/1/.hidden');
+    expect(thumbnail.url).toBe(thumbnail.originalUrl);
+  });
+
+  it('크기를 바꾸면 파일명도 같이 바뀐다', () => {
+    expect(legacyItemThumbnail('/data/item/1/a.png', 70, 70).url).toBe(
+      'https://nonsul-learn.com/data/item/1/thumb-a_70x70.png',
+    );
   });
 });

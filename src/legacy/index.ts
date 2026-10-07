@@ -22,6 +22,53 @@ export { BridgeError, isBridgeError, type BridgeErrorKind } from './client/bridg
 
 export { legacyAssetUrl, COURSE_IMAGE_PLACEHOLDER } from './assets';
 
+export {
+  legacyItemThumbnail,
+  COURSE_IMAGE_WIDTH,
+  COURSE_IMAGE_HEIGHT,
+  type LegacyThumbnail,
+} from './assets';
+
 export type { ViewerState, ViewerCapabilities } from './contracts/viewer';
 
 export type { Course, CourseState, CourseListState, BridgeErrorCode } from './contracts/course';
+
+export {
+  courseIdSchema,
+} from './contracts/course';
+
+/**
+ * 강좌 상세는 Contract 타입과 **Legacy 스킨의 판단**을 같이 내보낸다.
+ * `isCourseOrderable` 같은 것은 순수 함수이며, 폼을 그리는 Client Component 가 써야 한다.
+ */
+export {
+  isCourseSoldOut,
+  isCourseOrderable,
+  requiresLegacyCertification,
+  courseStarScore,
+  COURSE_INFORMATION_TITLES,
+} from './contracts/course-full';
+
+export type {
+  CourseFull,
+  CourseFullItem,
+  CourseFullState,
+  CourseCategory,
+  CourseExtra,
+  CourseInformation,
+  CourseOptions,
+  CourseOptionItem,
+  CourseReviewSummary,
+  CourseForm,
+} from './contracts/course-full';
+
+export { LEGACY_COMMUNITY_ROWS } from './contracts/course-community';
+
+export type {
+  CourseReview,
+  CourseReviewReply,
+  CourseQuestion,
+  CourseReviewsState,
+  CourseQuestionsState,
+  CourseCommunityType,
+} from './contracts/course-community';

@@ -1,4 +1,4 @@
-import { assertHostedBridgeConfigured, serverEnv } from '@/env.server';
+import { shouldUseMockBridge } from '@/env.server';
 
 import { isBridgeError } from '../../client/bridge-error';
 import type { Course, CourseListState, CourseState } from '../../contracts/course';
@@ -27,23 +27,18 @@ export interface GetCourseOptions {
   onError?: (error: unknown) => void;
 }
 
-const usingMock = (): boolean => {
-  assertHostedBridgeConfigured();
-  return serverEnv.COURSE_SOURCE === 'mock';
-};
-
 /** 없는 강좌는 `null`. 그 밖의 실패는 `BridgeError` 를 던진다. */
 export async function getCourse(
   id: string,
   options: GetCourseOptions = {},
 ): Promise<Course | null> {
-  if (usingMock()) return getCourseMock(parseCourseScenario(options.scenario));
+  if (shouldUseMockBridge()) return getCourseMock(parseCourseScenario(options.scenario));
   return getCourseHttp(id);
 }
 
 /** 강좌가 없으면 빈 배열. 실패는 `BridgeError` 를 던진다. */
 export async function getCourses(options: GetCourseOptions = {}): Promise<Course[]> {
-  if (usingMock()) return getCoursesMock(parseCourseScenario(options.scenario));
+  if (shouldUseMockBridge()) return getCoursesMock(parseCourseScenario(options.scenario));
   return getCoursesHttp();
 }
 

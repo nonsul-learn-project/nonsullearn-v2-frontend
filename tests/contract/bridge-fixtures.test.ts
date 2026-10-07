@@ -4,11 +4,13 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
+import { courseCommunityResponseSchema } from '@/legacy/contracts/course-community';
 import {
   bridgeErrorResponseSchema,
   courseItemResponseSchema,
   courseListResponseSchema,
 } from '@/legacy/contracts/course';
+import { courseFullResponseSchema } from '@/legacy/contracts/course-full';
 import { viewerResponseSchema } from '@/legacy/contracts/viewer';
 
 /**
@@ -29,6 +31,9 @@ const schemas: Record<string, z.ZodType<unknown>> = {
   viewer: viewerResponseSchema,
   'courses-list': courseListResponseSchema,
   'course-detail': courseItemResponseSchema,
+  // Gate 8 — `/v2-api/course-detail.php` 와 `/v2-api/course-community.php`.
+  'course-full': courseFullResponseSchema,
+  'course-community': courseCommunityResponseSchema,
   error: bridgeErrorResponseSchema,
 };
 
