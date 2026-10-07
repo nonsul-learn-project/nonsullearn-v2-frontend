@@ -1,4 +1,4 @@
-import { serverEnv } from '@/env.server';
+import { assertHostedBridgeConfigured, serverEnv } from '@/env.server';
 
 import { isBridgeError } from '../../client/bridge-error';
 import type { Course, CourseListState, CourseState } from '../../contracts/course';
@@ -27,7 +27,10 @@ export interface GetCourseOptions {
   onError?: (error: unknown) => void;
 }
 
-const usingMock = (): boolean => serverEnv.COURSE_SOURCE === 'mock';
+const usingMock = (): boolean => {
+  assertHostedBridgeConfigured();
+  return serverEnv.COURSE_SOURCE === 'mock';
+};
 
 /** 없는 강좌는 `null`. 그 밖의 실패는 `BridgeError` 를 던진다. */
 export async function getCourse(

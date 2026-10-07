@@ -7,7 +7,6 @@ import { serverEnv } from '@/env.server';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/design-system/legacy/main.css';
 import '@/design-system/tokens.css';
-import '@/features/static-pages/legacy-static-pages.css';
 import './globals.css';
 
 /**
