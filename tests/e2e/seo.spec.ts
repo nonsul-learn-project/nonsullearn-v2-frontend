@@ -45,3 +45,29 @@ test('홈 placeholder 에 title 과 description 이 있다', async ({ page }) =>
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /논술런/);
   await expect(page.getByRole('heading', { level: 1, name: 'V2 Foundation' })).toBeVisible();
 });
+
+test.describe('Gate 8 정적 이관 페이지', () => {
+  const pages = [
+    ['/correction-system', '첨삭 시스템 소개', '합격을 완성하는', false],
+    ['/about', '논술런 소개', '논술, 이제', false],
+    ['/company', '회사 안내', '김윤환입시연구소 사업자 정보', true],
+  ] as const;
+
+  for (const [path, title, visibleText, isImageOnly] of pages) {
+    test(`${path}는 noindex metadata와 Legacy 구조 콘텐츠를 제공한다`, async ({ page }) => {
+      const response = await page.goto(path);
+      expect(response?.status()).toBe(200);
+      await expect(page).toHaveTitle(`${title} | 논술런`);
+      await expect(page.locator('meta[name="description"]')).not.toHaveCount(0);
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+      const content = isImageOnly
+        ? page.getByRole('img', { name: visibleText })
+        : page.getByText(visibleText, { exact: false }).first();
+      await expect(content).toBeVisible();
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+        'href',
+        `https://nonsul-learn.com${path}`,
+      );
+    });
+  }
+});
