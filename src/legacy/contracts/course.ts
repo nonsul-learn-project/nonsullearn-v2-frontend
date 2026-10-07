@@ -31,8 +31,8 @@ export const courseSchema = z
     id: courseIdSchema,
     title: z.string().min(1),
     summary: z.string(),
-    /** 판매가(원 단위 정수). `priceOnInquiry` 면 0 이다. */
-    price: z.number().int().nonnegative(),
+    /** 판매가(원 단위 정수). Legacy에 값이 없으면 null이고, `priceOnInquiry` 면 0 이다. */
+    price: z.number().int().nonnegative().nullable(),
     /** 정가. 할인이 없으면 null. */
     listPrice: z.number().int().nonnegative().nullable(),
     /** 영카트 '전화문의' 상품. true 면 UI 는 가격 대신 "전화문의"를 보여준다. */

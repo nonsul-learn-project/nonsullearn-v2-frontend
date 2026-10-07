@@ -57,7 +57,11 @@ export function TeachersContent({ teachers }: { teachers: Teacher[] }) {
                       </div>
                     )}
                     <div className="teacher-content">
-                      <span className="teacher-category">{teacher.categoryName.slice(0, 20)}</span>
+                      {teacher.categoryName === null ? null : (
+                        <span className="teacher-category">
+                          {teacher.categoryName.slice(0, 20)}
+                        </span>
+                      )}
                       <h3 className="teacher-name">
                         <strong>{teacher.name}</strong> 선생님
                       </h3>

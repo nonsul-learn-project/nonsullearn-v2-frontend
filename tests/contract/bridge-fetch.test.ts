@@ -135,6 +135,13 @@ describe('잘못된 JSON → 실패', () => {
     const error = await expectKind('contract');
     expect(error.message).not.toContain('a@b.test');
   });
+
+  it('Contract 위반 에러 메시지에 Zod issue 경로와 이유를 담는다', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ v: 2, ok: true }));
+    const error = await expectKind('contract');
+    expect(error.message).toContain('v:');
+    expect(error.message).toContain('Invalid input');
+  });
 });
 
 describe('HTTP 상태', () => {
