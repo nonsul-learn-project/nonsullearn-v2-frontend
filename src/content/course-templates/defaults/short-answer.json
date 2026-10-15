@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1, "courseId": "__default__", "templateType": "short-answer",
+  "hero": { "marketingHeadline": "아는 데서 멈추지 말고, 정확한 답안으로 써보세요.", "highlight": "정확한 답안으로", "ctaLabel": "수강 신청하기" },
+  "sections": [{"id":"problem","visible":true},{"id":"outcomes","visible":true},{"id":"proof","visible":false},{"id":"method","visible":true},{"id":"curriculum","visible":false},{"id":"learning-system","visible":false},{"id":"recommend","visible":false},{"id":"course-info","visible":true},{"id":"community","visible":true},{"id":"enroll","visible":true},{"id":"faq","visible":false},{"id":"legacy-content","visible":true}],
+  "assets": { "productImagePolicy": "legacy-gallery" },
+  "contentMetadata": { "sourceDocuments": ["약술형논술 공통템플릿 copy.md", "약술형논술 공통템플릿 wireframe.md"], "legacyHtml": "visible" }
+}
