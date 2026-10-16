@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1, "courseId": "__default__", "templateType": "math",
-  "hero": { "marketingHeadline": "푸는 데서 멈추지 말고, 풀이를 답안으로 써보세요.", "highlight": "풀이를 답안으로", "ctaLabel": "수강 신청하기" },
+  "hero": { "marketingHeadline": "푸는 데서 멈추지 말고, 풀이를 답안으로 써보세요.", "highlight": "풀이를 답안으로", "ctaLabel": "강의 구성 살펴보기" },
   "sections": [{"id":"problem","visible":true},{"id":"outcomes","visible":true},{"id":"proof","visible":false},{"id":"method","visible":true},{"id":"curriculum","visible":false},{"id":"learning-system","visible":false},{"id":"recommend","visible":false},{"id":"course-info","visible":true},{"id":"community","visible":true},{"id":"enroll","visible":true},{"id":"faq","visible":false},{"id":"legacy-content","visible":true}],
   "assets": { "productImagePolicy": "legacy-gallery" },
   "contentMetadata": { "sourceDocuments": ["수리논술 공통템플릿 copy.md", "수리논술 공통템플릿 wireframe.md"], "legacyHtml": "visible" }
