@@ -3,6 +3,7 @@ import { assertHostedBridgeConfigured, serverEnv } from '@/env.server';
 import type { CategoryListResponse } from '../../contracts/category-list';
 
 import { getCategoryListHttp } from './http';
+import { getCategoryListMock } from './mock';
 
 /**
  * 분류 목록 조회. `adapters/public-pages` 와 같은 방식이다 — 서버 전용이고
@@ -24,10 +25,7 @@ export async function getCategoryList(
   page = 1,
 ): Promise<CategoryListResponse | null> {
   if (shouldUseMock()) {
-    const { categoryListResponseSchema } = await import('../../contracts/category-list');
-    const fixture = await import('../../../../contracts/bridge/fixtures/category-list.basic.json');
-    const parsed = categoryListResponseSchema.parse(fixture.default);
-    return { ...parsed, category: { ...parsed.category, id } };
+    return getCategoryListMock(id, page);
   }
   return getCategoryListHttp(id, page);
 }

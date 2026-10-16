@@ -1,0 +1,5 @@
+{
+  "v": 1,
+  "item": {"id":"mock-short-001","name":"[개발용] 약술형논술 템플릿 검증 강좌","basic":"개발 환경 전용 synthetic fixture입니다.","category":{"id":"401010","name":"약술형논술 개발용","requiresCertification":false,"requiresAdultCertification":false},"price":10000,"listPrice":10000,"priceOnInquiry":false,"soldOut":false,"inStock":true,"buyMinQty":1,"images":["/data/mock/mock-short-001/cover.png"],"descriptionHtml":"<p>개발용 synthetic 상세 설명입니다.</p>","headHtml":"","tailHtml":"","information":{"product_name":"개발 검증용","model_name":"약술형 템플릿 검증"},"extra":{"2":"30","5":"1"}},
+  "options":{"subjects":[],"supplySubjects":[],"items":[]},"reviewSummary":{"count":0,"averageScore":null},"form":{"action":"/shop/cartupdate.php","method":"POST"}
+}

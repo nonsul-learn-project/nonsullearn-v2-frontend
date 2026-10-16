@@ -2,6 +2,8 @@ import basicFixture from '../../../../contracts/bridge/fixtures/course-full.basi
 import noOptionsFixture from '../../../../contracts/bridge/fixtures/course-full.no-options.json';
 import priceOnInquiryFixture from '../../../../contracts/bridge/fixtures/course-full.price-on-inquiry.json';
 import soldOutFixture from '../../../../contracts/bridge/fixtures/course-full.sold-out.json';
+import mathFixture from '../../../../contracts/bridge/fixtures/course-full.mock-math.json';
+import shortAnswerFixture from '../../../../contracts/bridge/fixtures/course-full.mock-short-answer.json';
 import { BridgeError } from '../../client/bridge-error';
 import { courseFullResponseSchema, type CourseFull } from '../../contracts/course-full';
 
@@ -34,6 +36,10 @@ const SCENARIOS = {
   '1003': soldOutFixture,
   /** 전화문의 — 판매가격 행이 "전화문의", 주문 버튼 없음. */
   '1004': priceOnInquiryFixture,
+  /** 개발 전용 synthetic fixture — 운영 강좌가 아니다. */
+  'mock-math-001': mathFixture,
+  /** 개발 전용 synthetic fixture — 운영 강좌가 아니다. */
+  'mock-short-001': shortAnswerFixture,
 } as const;
 
 /** Bridge 장애를 눈으로 보기 위한 예약 id. 503 을 던진다. */
