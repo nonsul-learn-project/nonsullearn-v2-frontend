@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { clientEnv } from '@/env.client';
-import { enforceProxy } from '@/env.server';
-import { CourseDetail } from '@/features/course-detail/CourseDetail';
+import { courseTemplatesEnabled, enforceProxy } from '@/env.server';
+import { getCourseTemplateContent } from '@/content/course-templates/provider';
+import { CourseDetailRouter } from '@/features/course-detail/CourseDetailRouter';
+import { resolveCourseTemplate } from '@/features/course-detail/templates/resolveCourseTemplate';
 import { findCourseSiblings } from '@/features/course-detail/siblings';
 import { SiteShell } from '@/features/site-shell/SiteShell';
 import { courseIdSchema, legacyRoutes, requiresLegacyCertification } from '@/legacy';
@@ -134,11 +136,16 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   return (
     <SiteShell>
-      <CourseDetail
+      <CourseDetailRouter
         course={course}
         siblings={findCourseSiblings(courses, course.item.id, course.item.category.id)}
         reviews={reviews}
         questions={questions}
+        enabled={courseTemplatesEnabled}
+        content={(() => {
+          const templateType = resolveCourseTemplate(course.item.category.id);
+          return templateType === 'legacy' ? null : getCourseTemplateContent(course.item.id, templateType);
+        })()}
       />
     </SiteShell>
   );

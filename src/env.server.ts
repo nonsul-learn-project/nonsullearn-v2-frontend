@@ -32,6 +32,8 @@ export const serverEnvSchema = z.object({
   ),
   LEGACY_BRIDGE_TIMEOUT_MS: z.coerce.number().int().min(500).max(10_000).default(3_000),
   COURSE_REVALIDATE_SECONDS: z.coerce.number().int().min(30).default(300),
+  /** Gate 4 detail-template kill switch. Default off preserves the Legacy-parity renderer. */
+  COURSE_TEMPLATES: z.enum(['on', 'off']).default('off'),
   /** Gate 4 방법 C에서 `/_next/static/*`을 Vercel origin으로 보내는 절대 URL. */
   V2_ASSET_PREFIX: z
     .url()
@@ -69,6 +71,7 @@ export const serverEnv: ServerEnv = parseServerEnv({
   LEGACY_BRIDGE_BASE: process.env.LEGACY_BRIDGE_BASE,
   LEGACY_BRIDGE_TIMEOUT_MS: process.env.LEGACY_BRIDGE_TIMEOUT_MS,
   COURSE_REVALIDATE_SECONDS: process.env.COURSE_REVALIDATE_SECONDS,
+  COURSE_TEMPLATES: process.env.COURSE_TEMPLATES,
   V2_ASSET_PREFIX: process.env.V2_ASSET_PREFIX,
   V2_PROXY_SECRET: process.env.V2_PROXY_SECRET,
   V2_ENFORCE_PROXY: process.env.V2_ENFORCE_PROXY,
@@ -84,6 +87,7 @@ export const enforceProxy: boolean = serverEnv.V2_ENFORCE_PROXY === 'true';
 
 /** AGENTS.md §6.3: 강좌 페이지 ISR 주기. */
 export const courseRevalidateSeconds: number = serverEnv.COURSE_REVALIDATE_SECONDS;
+export const courseTemplatesEnabled: boolean = serverEnv.COURSE_TEMPLATES === 'on';
 
 /**
  * 공개 데이터 adapter 가 mock 구현을 고르기 **전에** 부른다.
